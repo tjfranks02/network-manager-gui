@@ -19,9 +19,13 @@ class View {
     this.constructElements();
   }
 
+  /**
+   * Constructs a series of elements for testing purposes.
+   */
   constructElements(): void {
     this.elements.push(new Node("my node", new Point(50, 100)));
     this.elements.push(new Node("my 2nd node", new Point(500, 100)));
+    this.elements.push(new Node("my 3rd node", new Point(750, 200)));
   }
 
   /**
@@ -43,6 +47,7 @@ class View {
         return clickedElement;
       }
     }
+
     return null;
   }
 
@@ -52,21 +57,29 @@ class View {
     }
   }
 
+  handleCanvasEvent() {
+    
+  }
+
+  /**
+   * Handle the user clicking the canvas
+   */
   handleMouseDown(ctx: CanvasRenderingContext2D | null, canvasState: CanvasState): Element | null {
     let elementUnderMouse = this.getElementAtMousePos(canvasState);
 
-    this.elements.forEach((element) => element.resetState());
+    this.resetElementStates();
 
     if (elementUnderMouse) {
-      elementUnderMouse.state = ElementStates.CLICKED;
-      this.activeElement = elementUnderMouse;
       this.processElementClick(elementUnderMouse);
       return elementUnderMouse;
     }
+    
     return null;
   }
 
   processElementClick(clickedElement: Element): void {
+    clickedElement.state = ElementStates.CLICKED;
+
     switch (clickedElement.constructor) {
       case ConnectionPoint:
         this.processConnectionPointClick(<ConnectionPoint>clickedElement);
@@ -75,8 +88,17 @@ class View {
         this.processNodeClick(<Node>clickedElement);
         break;
     }
+
+    this.activeElement = clickedElement;
   }
 
+  /**
+   * This function is called when a connection point associated with a node is clicked. Connection
+   * points establish connections between nodes and so clicking one creates a connection.
+   * 
+   * Parameters:
+   *   connectionPoint: The connection point that was clicked.
+   */
   processConnectionPointClick(connectionPoint: ConnectionPoint): void {
     if (this.activeElement instanceof Connection && 
         this.activeElement.isIncomplete()) {
@@ -91,7 +113,19 @@ class View {
   }
 
   handleMouseUp(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
+    if (this.activeElement) {
+      this.processElementUnclick();
+    }
 
+    this.draw(ctx, canvasState);
+  }
+
+  processElementUnclick(activeElement: Element, canvasState: CanvasState): void {
+    switch(activeElement.constructor) {
+      case ConnectionPoint:
+        handler
+      break;
+    }
   }
 
   handleMouseMove(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
