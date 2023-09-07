@@ -1,6 +1,9 @@
 import CanvasEventHandler from "./CanvasEventHandler";
 import View from "../View";
 import { CanvasState } from "../../types";
+import { ElementStates } from "../../constants/canvasConstants";
+import Node from "../elements/Node";
+import Connection from "../elements/Connection";
 
 class CanvasClickEventHandler extends CanvasEventHandler {
   constructor() {
@@ -12,11 +15,15 @@ class CanvasClickEventHandler extends CanvasEventHandler {
   }
 
   static handleConnectionEvent(viewController: View, canvasState: CanvasState): void {
-    throw new Error("Method should be implemented by subclass.");
+    let clickedElement: Connection = <Connection>viewController.viewState.lastClicked;
   }
 
   static handleNodeEvent(viewController: View, canvasState: CanvasState): void {
-    throw new Error("Method should be implemented by subclass.");
+    let clickedElement: Node = <Node>viewController.viewState.activeElement!;
+    viewController.resetElementStates();
+
+    clickedElement.state = ElementStates.CLICKED;
+    clickedElement.pos = canvasState.mousePos;
   }
 }
 

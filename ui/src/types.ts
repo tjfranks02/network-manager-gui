@@ -7,5 +7,6 @@ export interface CanvasState {
 
 export interface ViewState {
   lastClicked: Element | null,
-  activeElement: Element | null
+  activeElement: Element | null,
+  prevActiveElement: Element | null
 }

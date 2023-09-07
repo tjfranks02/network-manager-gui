@@ -9,7 +9,9 @@ class CanvasEventHandler {
   }
 
   static handle(viewController: View, canvasState: CanvasState) : void {
-    switch (viewController.viewState.lastClicked!.constructor) {
+
+
+    switch (viewController.viewState.activeElement!.constructor) {
       case ConnectionPoint:
         this.handleConnectionPointEvent(viewController, canvasState);
         break;
