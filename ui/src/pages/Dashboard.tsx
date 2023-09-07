@@ -1,14 +1,15 @@
 import React, { useState, useRef, useEffect, MouseEvent } from 'react';
 import Point from "../utils/Point";
 import View from "../view/View";
+import { CanvasState } from '../types';
 
 const defaultCanvasState = {
-  mousePos: new Point(0, 0)
+  mousePos: new Point(0, 0),
 };
 
 const CanvasController = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [canvasState, setCanvasState] = useState(defaultCanvasState);
+  const [canvasState, setCanvasState] = useState<CanvasState>(defaultCanvasState);
 
   const [view, setView] = useState<View | null>(new View());
 

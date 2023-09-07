@@ -4,18 +4,19 @@ import Connection from "./elements/Connection";
 import ConnectionPoint from "./elements/ConnectionPoint";
 import { ElementStates } from "../constants/canvasConstants";
 import Element from "./elements/Element";
-import { CanvasState } from "../types";
+import { CanvasState, ViewState } from "../types";
+import CanvasClickEventHandler from "./events/CanvasClickEventHandler";
 
 /**
  * Wrapper class around view elements in the canvas
  */
 class View {
-  activeElement: Element | null;
   elements: Array<Element>;
+  viewState: ViewState;
 
   constructor() {
-    this.activeElement= null;
     this.elements = [];
+    this.viewState = { lastClicked: null, activeElement: null }
     this.constructElements();
   }
 
@@ -57,39 +58,20 @@ class View {
     }
   }
 
-  handleCanvasEvent() {
-    
-  }
-
   /**
    * Handle the user clicking the canvas
    */
   handleMouseDown(ctx: CanvasRenderingContext2D | null, canvasState: CanvasState): Element | null {
     let elementUnderMouse = this.getElementAtMousePos(canvasState);
-
+    this.viewState.lastClicked = elementUnderMouse;
     this.resetElementStates();
 
     if (elementUnderMouse) {
-      this.processElementClick(elementUnderMouse);
+      CanvasClickEventHandler.handle(this, canvasState);
       return elementUnderMouse;
     }
     
     return null;
-  }
-
-  processElementClick(clickedElement: Element): void {
-    clickedElement.state = ElementStates.CLICKED;
-
-    switch (clickedElement.constructor) {
-      case ConnectionPoint:
-        this.processConnectionPointClick(<ConnectionPoint>clickedElement);
-        break;
-      case Node:
-        this.processNodeClick(<Node>clickedElement);
-        break;
-    }
-
-    this.activeElement = clickedElement;
   }
 
   /**
@@ -100,9 +82,9 @@ class View {
    *   connectionPoint: The connection point that was clicked.
    */
   processConnectionPointClick(connectionPoint: ConnectionPoint): void {
-    if (this.activeElement instanceof Connection && 
-        this.activeElement.isIncomplete()) {
-      this.activeElement.dest = connectionPoint.owner;
+    if (this.viewState.activeElement instanceof Connection && 
+        this.viewState.activeElement.isIncomplete()) {
+      this.viewState.activeElement.dest = connectionPoint.owner;
     } else {
       connectionPoint.owner.connections.push(new Connection(connectionPoint.owner));
     }
@@ -113,8 +95,8 @@ class View {
   }
 
   handleMouseUp(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
-    if (this.activeElement) {
-      this.processElementUnclick();
+    if (this.viewState.activeElement) {
+      this.processElementUnclick(this.viewState.activeElement, canvasState);
     }
 
     this.draw(ctx, canvasState);
@@ -123,13 +105,12 @@ class View {
   processElementUnclick(activeElement: Element, canvasState: CanvasState): void {
     switch(activeElement.constructor) {
       case ConnectionPoint:
-        handler
       break;
     }
   }
 
   handleMouseMove(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
-    if (this.activeElement) {
+    if (this.viewState.activeElement) {
       this.processElementMove(ctx, canvasState);
     }
 
@@ -137,12 +118,12 @@ class View {
   }
 
   processElementMove(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
-    switch (this.activeElement!.constructor) {
+    switch (this.viewState.activeElement!.constructor) {
       case ConnectionPoint:
         // this.processConnectionPointMove(clickedElement);
         break;
       case Node:
-        this.processNodeMove(<Node>this.activeElement, ctx, canvasState);
+        this.processNodeMove(<Node>this.viewState.activeElement, ctx, canvasState);
         break;
     }
   }
