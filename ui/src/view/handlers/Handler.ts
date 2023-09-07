@@ -1,4 +1,4 @@
-class CanvasEvent {
+class Handler {
   constructor() {
 
   }
@@ -8,4 +8,4 @@ class CanvasEvent {
   }
 }
 
-export default CanvasEvent;
+export default Handler;
