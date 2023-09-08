@@ -1,6 +1,7 @@
 import CanvasEventHandler from "./CanvasEventHandler";
 import View from "../View";
 import { CanvasState } from "../../types";
+import { ElementStates } from "../../constants/canvasConstants";
 
 class CanvasUnclickEventHandler extends CanvasEventHandler {
   constructor() {
@@ -16,7 +17,7 @@ class CanvasUnclickEventHandler extends CanvasEventHandler {
   }
 
   static handleNodeEvent(viewController: View, canvasState: CanvasState): void {
-    throw new Error("Method should be implemented by subclass.");
+    viewController.viewState.activeElement!.state = ElementStates.ACTIVE;
   }
 }
 

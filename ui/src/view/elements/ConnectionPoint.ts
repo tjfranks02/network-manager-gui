@@ -1,9 +1,9 @@
-import CanvasUtils from "../../utils/canvasUtils";
+import CanvasUtils from "../utils/canvasUtils";
 import { ElementStates } from "../../constants/canvasConstants";
 import Element from "./Element";
-import Point from "../../utils/Point";
+import Point from "../utils/Point";
 import { CanvasState } from "../../types";
-import Node from "./Node";
+import Node from "./Node/Node";
 
 class ConnectionPoint extends Element {
 

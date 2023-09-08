@@ -1,11 +1,10 @@
-export const ViewStates = {
-  IDLE: "idle",
-}
-
 export enum ElementStates {
-  IDLE,
+  IDLE = 1,
   ACTIVE,
   FOLLOW_MOUSE,
   CLICKED,
   INCOMPLETE
+};
+
+export enum ConnectionStates {
 };

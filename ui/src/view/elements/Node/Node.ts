@@ -1,9 +1,9 @@
-import ConnectionPoint from "./ConnectionPoint";
-import Connection from "./Connection";
-import { ElementStates } from "../../constants/canvasConstants";
+import ConnectionPoint from "../ConnectionPoint";
+import Connection from "../Connection";
+import { ElementStates } from "../../../constants/canvasConstants";
 import Point from "../../utils/Point";
-import Element from "./Element";
-import { CanvasState } from "../../types";
+import Element from "../Element";
+import { CanvasState } from "../../../types";
 
 const NODE_WIDTH = 50;
 const NODE_HEIGHT = 50;
@@ -120,6 +120,11 @@ class Node extends Element {
 
   handleMouseUp(canvasState: CanvasState): void {
 
+  }
+
+  moveNodeToPos(pos: Point) {
+    this.pos = pos;
+    this.setConnectorPositions();
   }
 }
 

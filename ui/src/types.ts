@@ -1,4 +1,4 @@
-import Point from "./utils/Point"
+import Point from "./view/utils/Point"
 import Element from "./view/elements/Element"
 
 export interface CanvasState {
