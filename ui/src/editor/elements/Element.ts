@@ -1,5 +1,5 @@
 import { ElementStates } from "../../constants/canvasConstants";
-import Point from "../utils/Point";
+import Point from "../../model/utils/Point";
 import { CanvasState } from "../../types";
 
 interface Drawable {

@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import Element from '../../editor/elements/Element';
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import Element from "../../model/elements/Element";
 
 export interface ActiveElementState {
   element: Element | null

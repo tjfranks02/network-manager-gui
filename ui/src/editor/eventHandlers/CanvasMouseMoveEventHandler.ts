@@ -1,8 +1,8 @@
 import CanvasEventHandler from "./CanvasEventHandler";
 import { CanvasState } from "../../types";
-import View from "../ViewController/View";
+import EditorView from "../EditorView";
 import { ElementStates } from "../../constants/canvasConstants";
-import Node from "../elements/Node/Node";
+import Node from "../elements/Node";
 
 class CanvasMouseMoveEventHandler extends CanvasEventHandler {
   constructor() {
@@ -18,7 +18,7 @@ class CanvasMouseMoveEventHandler extends CanvasEventHandler {
   }
 
   static handleNodeEvent(canvasState: CanvasState): void {
-    let activeNode: Node = <Node>View.viewState.activeElement!;
+    let activeNode: Node = <Node>EditorView.viewState.activeElement!;
 
     switch (activeNode.state) {
       case ElementStates.CLICKED:

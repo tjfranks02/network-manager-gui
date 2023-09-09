@@ -1,8 +1,8 @@
 import { CanvasState } from "../../types";
-import View from "../ViewController/View";
+import EditorView from "../EditorView";
 import ConnectionPoint from "../elements/ConnectionPoint";
 import Connection from "../elements/Connection";
-import Node from "../elements/Node/Node";
+import Node from "../elements/Node";
 
 class CanvasEventHandler {
   constructor() {
@@ -10,7 +10,7 @@ class CanvasEventHandler {
   }
 
   static handle(canvasState: CanvasState) : void {
-    switch (View.viewState.activeElement!.constructor) {
+    switch (EditorView.viewState.activeElement!.constructor) {
       case ConnectionPoint:
         this.handleConnectionPointEvent(canvasState);
         break;

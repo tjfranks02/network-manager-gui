@@ -1,6 +1,6 @@
 import { ElementStates } from "../../constants/canvasConstants";
 import Element from "./Element";
-import Point from "../utils/Point";
+import Point from "../../model/utils/Point";
 import { CanvasState } from "../../types";
 
 class Connection extends Element {

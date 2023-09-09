@@ -1,8 +1,8 @@
 import CanvasEventHandler from "./CanvasEventHandler";
-import View from "../ViewController/View";
+import EditorView from "../EditorView";
 import { CanvasState } from "../../types";
 import { ElementStates } from "../../constants/canvasConstants";
-import Node from "../elements/Node/Node";
+import Node from "../elements/Node";
 import Connection from "../elements/Connection";
 import ConnectionPoint from "../elements/ConnectionPoint";
 
@@ -13,26 +13,26 @@ class CanvasClickEventHandler extends CanvasEventHandler {
 
   static handleConnectionPointEvent(canvasState: CanvasState): void {
     let clickedConnectionPoint: ConnectionPoint = 
-      <ConnectionPoint>View.viewState.activeElement;
+      <ConnectionPoint>EditorView.viewState.activeElement;
 
-    if (View.viewState.prevActiveElement instanceof Connection) {
-      View.viewState.prevActiveElement.dest = clickedConnectionPoint.owner;
+    if (EditorView.viewState.prevActiveElement instanceof Connection) {
+      EditorView.viewState.prevActiveElement.dest = clickedConnectionPoint.owner;
     } else {
       let newConnection = new Connection(
         clickedConnectionPoint.owner, null, ElementStates.INCOMPLETE
       );
       clickedConnectionPoint.owner.connections.push(newConnection);
-      View.assignNewActiveElement(newConnection);
+      EditorView.assignNewActiveElement(newConnection);
     }
   }
 
   static handleConnectionEvent(canvasState: CanvasState): void {
-    let clickedConnection: Connection = <Connection>View.viewState.lastClicked;
+    let clickedConnection: Connection = <Connection>EditorView.viewState.lastClicked;
   }
 
   static handleNodeEvent(canvasState: CanvasState): void {
-    let clickedElement: Node = <Node>View.viewState.activeElement!;
-    View.resetElementStates();
+    let clickedElement: Node = <Node>EditorView.viewState.activeElement!;
+    EditorView.resetElementStates();
     clickedElement.state = ElementStates.CLICKED;
   }
 }

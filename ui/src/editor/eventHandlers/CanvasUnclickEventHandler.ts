@@ -1,5 +1,5 @@
 import CanvasEventHandler from "./CanvasEventHandler";
-import View from "../ViewController/View";
+import EditorView from "../EditorView";
 import { CanvasState } from "../../types";
 import { ElementStates } from "../../constants/canvasConstants";
 
@@ -17,7 +17,7 @@ class CanvasUnclickEventHandler extends CanvasEventHandler {
   }
 
   static handleNodeEvent(canvasState: CanvasState): void {
-    View.viewState.activeElement!.state = ElementStates.ACTIVE;
+    EditorView.viewState.activeElement!.state = ElementStates.ACTIVE;
   }
 }
 

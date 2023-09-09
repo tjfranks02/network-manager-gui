@@ -1,6 +1,6 @@
 import { useState, useRef, MouseEvent } from 'react';
-import Point from "../editor/utils/Point";
-import View from "../editor/ViewController/View";
+import Point from "../model/utils/Point";
+import EditorController from "../editor/EditorController";
 import { CanvasState } from '../types';
 
 const defaultCanvasState = {
@@ -31,7 +31,7 @@ const Canvas = () => {
     
     setCanvasState(newCanvasState);
 
-    View.handleMouseMove(getContext(), newCanvasState);
+    EditorController.handleMouseMove(getContext(), newCanvasState);
   };
 
   const handleMouseDown = (event: MouseEvent<HTMLCanvasElement>): void => {
@@ -39,14 +39,14 @@ const Canvas = () => {
     let newCanvasState = {...canvasState, mousePos};
     
     clearCanvas();
-    View.handleMouseDown(getContext(), newCanvasState);
+    EditorController.handleMouseDown(getContext(), newCanvasState);
   };
 
   const handleMouseUp = (event: MouseEvent<HTMLCanvasElement>): void => {
     let mousePos = mapClientCoordsToMouse(event);
     let newCanvasState = {...canvasState, mousePos};
 
-    View.handleMouseUp(getContext(), newCanvasState);
+    EditorController.handleMouseUp(getContext(), newCanvasState);
   };
 
   const clearCanvas = (): void => {
