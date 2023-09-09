@@ -1,5 +1,5 @@
-import Point from "./view/utils/Point"
-import Element from "./view/elements/Element"
+import Point from "./editor/utils/Point"
+import Element from "./editor/elements/Element"
 
 export interface CanvasState {
   mousePos: Point,

@@ -1,6 +1,6 @@
 import type { RootState } from '../redux/store';
 import { useSelector, useDispatch } from "react-redux";
-import { increment } from '../redux/slices/counter';
+import { increment } from '../redux/reducers/counter';
 
 import Canvas from '../components/Canvas';
 

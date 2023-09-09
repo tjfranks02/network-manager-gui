@@ -6,6 +6,10 @@ import CanvasClickEventHandler from "../eventHandlers/CanvasClickEventHandler";
 import CanvasMouseMoveEventHandler from "../eventHandlers/CanvasMouseMoveEventHandler";
 import CanvasUnclickEventHandler from "../eventHandlers/CanvasUnclickEventHandler";
 
+// Redux
+import store from "../../redux/store";
+import { setActiveElement } from "../../redux/reducers/activeElement";
+
 /**
  * Wrapper class around view elements in the canvas
  */
@@ -94,6 +98,7 @@ class View {
     this.viewState.lastClicked = newActiveElem;
     this.viewState.prevActiveElement = this.viewState.activeElement;
     this.viewState.activeElement = newActiveElem;
+    store.dispatch(setActiveElement(newActiveElem));
   }
 
   draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {

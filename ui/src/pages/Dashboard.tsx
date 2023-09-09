@@ -1,15 +1,15 @@
 import type { RootState } from '../redux/store';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Canvas from '../components/Canvas';
 
 const Dashboard = () => {
-  const activeElement = useSelector((state: RootState) => state.activeElement.activeElement);
-  
+  const activeElement = useSelector((state: RootState) => state.activeElement.element);
+  console.log(activeElement);
   return (
     <div>
       <Canvas />
-      {activeElement}
+      {activeElement ? activeElement.id : null}
     </div>
   );
 };

@@ -1,15 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 
-import counterReducer from "./slices/counter";
-import activeElementReducer from "./slices/activeElement";
+import counterReducer from "./reducers/counter";
+import activeElementReducer from "./reducers/activeElement";
 
 // Redux initialisation
 const store: ToolkitStore = configureStore({
   reducer: {
     counter: counterReducer,
     activeElement: activeElementReducer
-  }
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
