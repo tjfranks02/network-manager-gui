@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, MouseEvent } from 'react';
 import Point from "../view/utils/Point";
-import View from "../view/View";
+import View from "../view/ViewController/View";
 import { CanvasState } from '../types';
 
 const defaultCanvasState = {

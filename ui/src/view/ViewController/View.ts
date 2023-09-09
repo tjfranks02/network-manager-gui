@@ -1,10 +1,10 @@
-import Point from "./utils/Point";
-import Node from "./elements/Node/Node";
-import Element from "./elements/Element";
-import { CanvasState, ViewState } from "../types";
-import CanvasClickEventHandler from "./eventHandlers/CanvasClickEventHandler";
-import CanvasMouseMoveEventHandler from "./eventHandlers/CanvasMouseMoveEventHandler";
-import CanvasUnclickEventHandler from "./eventHandlers/CanvasUnclickEventHandler";
+import Point from "../utils/Point";
+import Node from "../elements/Node/Node";
+import Element from "../elements/Element";
+import { CanvasState, ViewState } from "../../types";
+import CanvasClickEventHandler from "../eventHandlers/CanvasClickEventHandler";
+import CanvasMouseMoveEventHandler from "../eventHandlers/CanvasMouseMoveEventHandler";
+import CanvasUnclickEventHandler from "../eventHandlers/CanvasUnclickEventHandler";
 
 /**
  * Wrapper class around view elements in the canvas
@@ -62,12 +62,10 @@ class View {
    */
   handleMouseDown(ctx: CanvasRenderingContext2D, canvasState: CanvasState): Element | null {
     let elementUnderMouse = this.getElementAtMousePos(canvasState);
-    this.viewState.lastClicked = elementUnderMouse;
-    this.viewState.prevActiveElement = this.viewState.activeElement;
-    this.viewState.activeElement = elementUnderMouse;
     this.resetElementStates();
 
     if (elementUnderMouse) {
+      this.assignNewActiveElement(elementUnderMouse);
       CanvasClickEventHandler.handle(this, canvasState);
     }
 
@@ -89,6 +87,12 @@ class View {
     }
 
     this.draw(ctx, canvasState);
+  }
+
+  assignNewActiveElement(newActiveElem: Element) {
+    this.viewState.lastClicked = newActiveElem;
+    this.viewState.prevActiveElement = this.viewState.activeElement;
+    this.viewState.activeElement = newActiveElem;
   }
 
   draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {

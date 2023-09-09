@@ -46,9 +46,10 @@ class Node extends Element {
     ctx.closePath();
 
     // Draw 'Add connection circle'
-    this.connectionPoints.forEach(
-      (connector) => connector.draw(ctx, canvasState)
-    );
+    this.connectionPoints.forEach((connector) => connector.draw(ctx, canvasState));
+
+    // Draw connections
+    this.connections.forEach((connection) => connection.draw(ctx, canvasState));
   }
 
   setConnectorPositions(): void {

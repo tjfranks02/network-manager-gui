@@ -1,5 +1,5 @@
 import { CanvasState } from "../../types";
-import View from "../View";
+import View from "../ViewController/View";
 import ConnectionPoint from "../elements/ConnectionPoint";
 import Connection from "../elements/Connection";
 import Node from "../elements/Node/Node";

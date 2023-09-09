@@ -1,5 +1,5 @@
 import CanvasEventHandler from "./CanvasEventHandler";
-import View from "../View";
+import View from "../ViewController/View";
 import { CanvasState } from "../../types";
 import { ElementStates } from "../../constants/canvasConstants";
 
@@ -9,11 +9,11 @@ class CanvasUnclickEventHandler extends CanvasEventHandler {
   }
 
   static handleConnectionPointEvent(viewController: View, canvasState: CanvasState): void {
-    throw new Error("Method should be implemented by subclass.");
+    
   }
 
   static handleConnectionEvent(viewController: View, canvasState: CanvasState): void {
-    throw new Error("Method should be implemented by subclass.");
+
   }
 
   static handleNodeEvent(viewController: View, canvasState: CanvasState): void {
