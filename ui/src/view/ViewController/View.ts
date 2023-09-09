@@ -26,6 +26,7 @@ class View {
     this.elements.push(new Node("my node", new Point(50, 100)));
     this.elements.push(new Node("my 2nd node", new Point(500, 100)));
     this.elements.push(new Node("my 3rd node", new Point(750, 200)));
+    this.elements.push(new Node("my 4th node", new Point(250, 250)));
   }
 
   /**
