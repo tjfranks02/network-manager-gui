@@ -1,13 +1,20 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
   RouterProvider
-} from 'react-router-dom'
+} from 'react-router-dom';
 
-import './styles/index.module.css'
+// Redux
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
-import Dashboard from './pages/Dashboard'
+// React components
+import Dashboard from './pages/Dashboard';
+import Counter from './pages/Counter';
+
+// CSS stylings
+import './styles/index.module.css';
 
 const router = createBrowserRouter([
   {
@@ -15,12 +22,15 @@ const router = createBrowserRouter([
     element: <Dashboard />,
   },
   {
-
+    path: '/counter',
+    element: <Counter />
   }
-])
+]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>,
 )
