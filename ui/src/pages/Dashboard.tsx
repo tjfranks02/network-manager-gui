@@ -11,14 +11,6 @@ const CanvasController = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvasState, setCanvasState] = useState<CanvasState>(defaultCanvasState);
 
-  const [view, setView] = useState<View | null>(new View());
-
-  useEffect(() => {
-    if (view) {
-      view.draw(canvasRef.current!.getContext('2d')!, canvasState); 
-    }
-  }, [view]);
-
   const getContext = (): CanvasRenderingContext2D => {
     return canvasRef.current!.getContext('2d')!;
   };
@@ -39,9 +31,7 @@ const CanvasController = () => {
     
     setCanvasState(newCanvasState);
 
-    if (view) {
-      view.handleMouseMove(getContext(), newCanvasState);
-    }
+    View.handleMouseMove(getContext(), newCanvasState);
   };
 
   const handleMouseDown = (event: MouseEvent<HTMLCanvasElement>): void => {
@@ -49,19 +39,14 @@ const CanvasController = () => {
     let newCanvasState = {...canvasState, mousePos};
     
     clearCanvas();
-
-    if (view) {
-      view.handleMouseDown(getContext(), newCanvasState);
-    }
+    View.handleMouseDown(getContext(), newCanvasState);
   };
 
   const handleMouseUp = (event: MouseEvent<HTMLCanvasElement>): void => {
     let mousePos = mapClientCoordsToMouse(event);
     let newCanvasState = {...canvasState, mousePos};
 
-    if (view) {
-      view.handleMouseUp(getContext(), newCanvasState);
-    }
+    View.handleMouseUp(getContext(), newCanvasState);
   };
 
   const clearCanvas = (): void => {

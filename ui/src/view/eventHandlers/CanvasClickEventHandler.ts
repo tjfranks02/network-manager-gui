@@ -12,15 +12,15 @@ class CanvasClickEventHandler extends CanvasEventHandler {
     super();
   }
 
-  static handleConnectionPointEvent(viewController: View, canvasState: CanvasState): void {
+  static handleConnectionPointEvent(canvasState: CanvasState): void {
     let clickedConnectionPoint: ConnectionPoint = 
-      <ConnectionPoint>viewController.viewState.activeElement;
+      <ConnectionPoint>View.viewState.activeElement;
 
     // If we click a connection point there are a few conditions
     // 1. If the PREVIOUSLY active element is NOT a connection => create a new connection and make it active
     // 2. If active element IS a connection => set the destination of the active connection as this connection point
     
-    let prevActiveElement: Element | null = viewController.viewState.prevActiveElement;
+    let prevActiveElement: Element | null = View.viewState.prevActiveElement;
 
     if (prevActiveElement instanceof Connection) {
       
@@ -29,17 +29,17 @@ class CanvasClickEventHandler extends CanvasEventHandler {
         clickedConnectionPoint.owner, null, ElementStates.INCOMPLETE
       );
       clickedConnectionPoint.owner.connections.push(newConnection);
-      viewController.assignNewActiveElement(newConnection);
+      View.assignNewActiveElement(newConnection);
     }
   }
 
-  static handleConnectionEvent(viewController: View, canvasState: CanvasState): void {
-    let clickedConnection: Connection = <Connection>viewController.viewState.lastClicked;
+  static handleConnectionEvent(canvasState: CanvasState): void {
+    let clickedConnection: Connection = <Connection>View.viewState.lastClicked;
   }
 
-  static handleNodeEvent(viewController: View, canvasState: CanvasState): void {
-    let clickedElement: Node = <Node>viewController.viewState.activeElement!;
-    viewController.resetElementStates();
+  static handleNodeEvent(canvasState: CanvasState): void {
+    let clickedElement: Node = <Node>View.viewState.activeElement!;
+    View.resetElementStates();
     clickedElement.state = ElementStates.CLICKED;
   }
 }

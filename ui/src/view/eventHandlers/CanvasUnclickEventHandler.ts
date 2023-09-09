@@ -8,16 +8,16 @@ class CanvasUnclickEventHandler extends CanvasEventHandler {
     super();
   }
 
-  static handleConnectionPointEvent(viewController: View, canvasState: CanvasState): void {
+  static handleConnectionPointEvent(canvasState: CanvasState): void {
     
   }
 
-  static handleConnectionEvent(viewController: View, canvasState: CanvasState): void {
+  static handleConnectionEvent(canvasState: CanvasState): void {
 
   }
 
-  static handleNodeEvent(viewController: View, canvasState: CanvasState): void {
-    viewController.viewState.activeElement!.state = ElementStates.ACTIVE;
+  static handleNodeEvent(canvasState: CanvasState): void {
+    View.viewState.activeElement!.state = ElementStates.ACTIVE;
   }
 }
 

@@ -66,7 +66,7 @@ class View {
 
     if (elementUnderMouse) {
       this.assignNewActiveElement(elementUnderMouse);
-      CanvasClickEventHandler.handle(this, canvasState);
+      CanvasClickEventHandler.handle(canvasState);
     }
 
     this.draw(ctx, canvasState);
@@ -75,7 +75,7 @@ class View {
 
   handleMouseUp(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
     if (this.viewState.activeElement) {
-      CanvasUnclickEventHandler.handle(this, canvasState);
+      CanvasUnclickEventHandler.handle(canvasState);
     }
 
     this.draw(ctx, canvasState);
@@ -83,7 +83,7 @@ class View {
 
   handleMouseMove(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
     if (this.viewState.activeElement) {
-      CanvasMouseMoveEventHandler.handle(this, canvasState);
+      CanvasMouseMoveEventHandler.handle(canvasState);
     }
 
     this.draw(ctx, canvasState);
@@ -109,4 +109,7 @@ class View {
   }
 }
 
-export default View;
+const singletonInstance: View = new View();
+Object.freeze(singletonInstance);
+
+export default singletonInstance;

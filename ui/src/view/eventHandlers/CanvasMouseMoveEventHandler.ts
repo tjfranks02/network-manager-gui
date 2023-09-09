@@ -9,16 +9,16 @@ class CanvasMouseMoveEventHandler extends CanvasEventHandler {
     super();
   }
 
-  static handleConnectionPointEvent(viewController: View, canvasState: CanvasState): void {
+  static handleConnectionPointEvent(canvasState: CanvasState): void {
     
   }
 
-  static handleConnectionEvent(viewController: View, canvasState: CanvasState): void {
+  static handleConnectionEvent(canvasState: CanvasState): void {
     
   }
 
-  static handleNodeEvent(viewController: View, canvasState: CanvasState): void {
-    let activeNode: Node = <Node>viewController.viewState.activeElement!;
+  static handleNodeEvent(canvasState: CanvasState): void {
+    let activeNode: Node = <Node>View.viewState.activeElement!;
 
     switch (activeNode.state) {
       case ElementStates.CLICKED:

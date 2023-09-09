@@ -9,31 +9,31 @@ class CanvasEventHandler {
 
   }
 
-  static handle(viewController: View, canvasState: CanvasState) : void {
-    switch (viewController.viewState.activeElement!.constructor) {
+  static handle(canvasState: CanvasState) : void {
+    switch (View.viewState.activeElement!.constructor) {
       case ConnectionPoint:
-        this.handleConnectionPointEvent(viewController, canvasState);
+        this.handleConnectionPointEvent(canvasState);
         break;
 
       case Node:
-        this.handleNodeEvent(viewController, canvasState);
+        this.handleNodeEvent(canvasState);
         break;
 
       case Connection:
-        this.handleConnectionEvent(viewController, canvasState);
+        this.handleConnectionEvent(canvasState);
         break;
     }
   }
 
-  static handleConnectionPointEvent(viewController: View, canvasState: CanvasState): void {
+  static handleConnectionPointEvent(canvasState: CanvasState): void {
     throw new Error("Method should be implemented by subclass.");
   }
 
-  static handleConnectionEvent(viewController: View, canvasState: CanvasState): void {
+  static handleConnectionEvent(canvasState: CanvasState): void {
     throw new Error("Method should be implemented by subclass.");
   }
 
-  static handleNodeEvent(viewController: View, canvasState: CanvasState): void {
+  static handleNodeEvent(canvasState: CanvasState): void {
     throw new Error("Method should be implemented by subclass.");
   }
 }
