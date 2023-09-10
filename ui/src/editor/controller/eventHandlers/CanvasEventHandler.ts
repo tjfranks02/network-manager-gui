@@ -1,8 +1,8 @@
-import { CanvasState } from "../../types";
-import EditorView from "../EditorView";
-import ConnectionPoint from "../elements/ConnectionPoint";
-import Connection from "../elements/Connection";
-import Node from "../elements/Node";
+import { CanvasState } from "../../../types";
+import EditorView from "../../view/EditorView";
+import ConnectionPoint from "../../../model/elements/ConnectionPoint";
+import Connection from "../../../model/elements/Connection";
+import Node from "../../../model/elements/Node";
 
 class CanvasEventHandler {
   constructor() {
@@ -10,6 +10,8 @@ class CanvasEventHandler {
   }
 
   static handle(canvasState: CanvasState) : void {
+    // console.log(EditorView.viewState.activeElement!);
+
     switch (EditorView.viewState.activeElement!.constructor) {
       case ConnectionPoint:
         this.handleConnectionPointEvent(canvasState);

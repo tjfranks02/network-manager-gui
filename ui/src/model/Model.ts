@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import Node from "./elements/Node";
 import Element from "./elements/Element";
-import Point from "./utils/Point";
+import Point from "../editor/utils/Point";
 import { ElementStates } from "../constants/canvasConstants";
 
 /**

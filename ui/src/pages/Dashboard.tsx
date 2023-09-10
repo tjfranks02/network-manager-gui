@@ -5,7 +5,7 @@ import Canvas from '../components/Canvas';
 
 const Dashboard = () => {
   const activeElement = useSelector((state: RootState) => state.activeElement.element);
-  console.log(activeElement);
+  
   return (
     <div>
       <Canvas />

@@ -1,7 +1,7 @@
 import CanvasEventHandler from "./CanvasEventHandler";
-import EditorView from "../EditorView";
-import { CanvasState } from "../../types";
-import { ElementStates } from "../../constants/canvasConstants";
+import EditorView from "../../view/EditorView";
+import { CanvasState } from "../../../types";
+import { ElementStates } from "../../../constants/canvasConstants";
 
 class CanvasUnclickEventHandler extends CanvasEventHandler {
   constructor() {
@@ -17,7 +17,7 @@ class CanvasUnclickEventHandler extends CanvasEventHandler {
   }
 
   static handleNodeEvent(canvasState: CanvasState): void {
-    EditorView.viewState.activeElement!.state = ElementStates.ACTIVE;
+    EditorView.viewState.activeElement!.viewData.state = ElementStates.ACTIVE;
   }
 }
 

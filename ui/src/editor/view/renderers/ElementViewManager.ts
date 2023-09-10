@@ -1,5 +1,5 @@
-import { CanvasState } from "../../types";
-import Element from "../../model/elements/Element";
+import { CanvasState } from "../../../types";
+import Element from "../../../model/elements/Element";
 
 abstract class ElementViewManager {
   abstract elementUnderMouse(canvasState: CanvasState): Element | null;

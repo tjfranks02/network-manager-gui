@@ -1,4 +1,4 @@
-import Point from "./model/utils/Point";
+import Point from "./editor/utils/Point";
 import Element from "./model/elements/Element";
 import { ElementStates } from "./constants/canvasConstants";
 
@@ -15,4 +15,5 @@ export interface ViewState {
 export interface ElementViewData {
   pos: Point,
   state: ElementStates,
+  [key: string]: any
 }

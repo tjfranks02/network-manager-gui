@@ -1,8 +1,8 @@
-import Point from "../../model/utils/Point";
-import Connection from "../../model/elements/Connection";
-import { CanvasState } from "../../types";
+import Point from "../../utils/Point";
+import Connection from "../../../model/elements/Connection";
+import { CanvasState } from "../../../types";
 import ElementViewManager from "./ElementViewManager";
-import Element from "../../model/elements/Element";
+import Element from "../../../model/elements/Element";
 
 class ConnectionViewManager extends ElementViewManager {
   connection: Connection;

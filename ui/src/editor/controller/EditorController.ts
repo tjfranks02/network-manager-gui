@@ -1,15 +1,13 @@
-import Element from "../model/elements/Element";
-import Model from "../model/Model";
-import { CanvasState, ViewState } from "../types";
-import CanvasClickEventHandler from "./eventHandlers/CanvasClickEventHandler";
-import CanvasMouseMoveEventHandler from "./eventHandlers/CanvasMouseMoveEventHandler";
-import CanvasUnclickEventHandler from "./eventHandlers/CanvasUnclickEventHandler";
-import EditorView from "./EditorView";
-import { ElementStates } from "../constants/canvasConstants";
+import Element from "../../model/elements/Element";
+import Model from "../../model/Model";
+import { CanvasState } from "../../types";
+import EditorView from "../view/EditorView";
+import { ElementStates } from "../../constants/canvasConstants";
 
-// Redux
-import store from "../redux/store";
-import { setActiveElement } from "../redux/reducers/activeElement";
+// Event handlers
+import CanvasClickEventHandler from "./eventHandlers/CanvasClickEventHandler";
+import CanvasUnclickEventHandler from "./eventHandlers/CanvasUnclickEventHandler";
+import CanvasMouseMoveEventHandler from "./eventHandlers/CanvasMouseMoveEventHandler";
 
 /**
  * Wrapper class around view elements in the canvas
@@ -28,7 +26,7 @@ class EditorController {
 
     if (elementUnderMouse) {
       EditorView.assignNewActiveElement(elementUnderMouse);
-      // CanvasClickEventHandler.handle(canvasState);
+      CanvasClickEventHandler.handle(canvasState);
     }
 
     EditorView.draw(ctx, canvasState);
