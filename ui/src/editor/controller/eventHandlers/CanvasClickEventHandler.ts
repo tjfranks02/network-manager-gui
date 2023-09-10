@@ -35,7 +35,6 @@ class CanvasClickEventHandler extends CanvasEventHandler {
   }
 
   static handleNodeEvent(canvasState: CanvasState): void {
-    console.log("CLICKED NODE");
     let clickedElement: Node = <Node>EditorView.viewState.activeElement!;
     EditorView.resetElementStates();
     clickedElement.viewData.state = ElementStates.CLICKED;
