@@ -20,17 +20,22 @@ class ConnectionViewManager extends ElementViewManager {
     
     ctx.moveTo(originPos.x, originPos.y);
     ctx.lineTo(destPos.x, destPos.y);
-    ctx.stroke();
     
-    ctx.fillStyle = 'green';
+    if (this.isMouseWithinThreshold(canvasState)) {
+      ctx.strokeStyle = 'red';
+    } else {
+      ctx.strokeStyle = 'green';
+    }
+
     ctx.fill();
+    ctx.stroke();
     
     ctx.closePath();
   }
 
-  elementUnderMouse(canvasState: CanvasState): Element | null {
+  isMouseWithinThreshold(canvasState: CanvasState): boolean {
     if (!(this.connection.dest)) {
-      return null;
+      return false;
     }
 
     let originPos: Point = this.connection.origin.viewData.pos;
@@ -39,8 +44,12 @@ class ConnectionViewManager extends ElementViewManager {
     let m: number = (destPos.y - originPos.y) / (destPos.x - originPos.x);
     let c: number = originPos.y - m * originPos.x;
     let connectionY: number = m * canvasState.mousePos.x + c
+    
+    return Math.abs(connectionY - canvasState.mousePos.y) < 8;
+  }
 
-    return Math.abs(connectionY - canvasState.mousePos.y) ? this.connection : null;
+  elementUnderMouse(canvasState: CanvasState): Element | null {
+    return this.isMouseWithinThreshold(canvasState) ? this.connection : null;
   }
 
   handleMouseDown(canvasState: CanvasState): void {
