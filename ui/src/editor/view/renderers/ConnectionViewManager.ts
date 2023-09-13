@@ -29,11 +29,18 @@ class ConnectionViewManager extends ElementViewManager {
   }
 
   elementUnderMouse(canvasState: CanvasState): Element | null {
-    return null;
-  }
+    if (!(this.connection.dest)) {
+      return null;
+    }
 
-  isMouseOverElement(mousePos: Point): boolean {
-    return false;
+    let originPos: Point = this.connection.origin.viewData.pos;
+    let destPos: Point = this.connection.dest!.viewData.pos;
+
+    let m: number = (destPos.y - originPos.y) / (destPos.x - originPos.x);
+    let c: number = originPos.y - m * originPos.x;
+    let connectionY: number = m * canvasState.mousePos.x + c
+
+    return Math.abs(connectionY - canvasState.mousePos.y) ? this.connection : null;
   }
 
   handleMouseDown(canvasState: CanvasState): void {

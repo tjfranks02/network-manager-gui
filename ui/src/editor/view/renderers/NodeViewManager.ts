@@ -30,6 +30,14 @@ class NodeViewManager extends ElementViewManager {
         return subElement;
       }
     }
+
+    for (let connection of this.node.connections) {
+      let subElement = connection.renderer.elementUnderMouse(canvasState);
+
+      if (subElement) {
+        return subElement;
+      }
+    }
     
     if (this.isMouseOverElement(canvasState.mousePos)) {
       return this.node;

@@ -32,6 +32,8 @@ class CanvasClickEventHandler extends CanvasEventHandler {
 
   static handleConnectionEvent(canvasState: CanvasState): void {
     let clickedConnection: Connection = <Connection>EditorView.viewState.lastClicked;
+
+    
   }
 
   static handleNodeEvent(canvasState: CanvasState): void {
