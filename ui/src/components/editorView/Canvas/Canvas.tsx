@@ -1,7 +1,7 @@
 import { useState, useRef, MouseEvent } from 'react';
-import Point from "../editor/utils/Point";
-import EditorController from "../editor/controller/EditorController";
-import { CanvasState } from '../types';
+import Point from "../../../editor/utils/Point";
+import EditorController from "../../../editor/controller/EditorController";
+import { CanvasState } from '../../../types';
 
 const defaultCanvasState = {
   mousePos: new Point(0, 0),

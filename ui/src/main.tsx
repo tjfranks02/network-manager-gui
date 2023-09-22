@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 
 // React components
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard';
 import Counter from './pages/Counter';
 
 // CSS stylings
