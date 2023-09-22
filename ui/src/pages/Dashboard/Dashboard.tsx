@@ -10,10 +10,9 @@ const Dashboard = () => {
   const activeElement = useSelector((state: RootState) => state.activeElement.element);
   
   return (
-    <div>
+    <div className={css.container}>
       <Canvas />
-      <ActiveElementPanel />
-      {activeElement ? activeElement.id : null}
+      <ActiveElementPanel activeElement={activeElement} />
     </div>
   );
 };

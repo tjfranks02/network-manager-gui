@@ -1,6 +1,13 @@
-const ActiveElementPanel = () => {
+import Element from "../../../model/elements/Element";
+
+import css from "./styles.module.css";
+
+const ActiveElementPanel = ({ activeElement }: { activeElement: Element }) => {
   return (
-    <div>Active element pane</div>
+    <div className={css.container}>
+      <h3>Active element panel</h3>
+      {activeElement ? activeElement.id : null}
+    </div>
   );
 };
 

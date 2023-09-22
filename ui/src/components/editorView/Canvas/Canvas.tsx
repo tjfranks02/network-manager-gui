@@ -3,6 +3,8 @@ import Point from "../../../editor/utils/Point";
 import EditorController from "../../../editor/controller/EditorController";
 import { CanvasState } from '../../../types';
 
+import css from "./styles.module.css";
+
 const defaultCanvasState = {
   mousePos: new Point(0, 0),
 };
@@ -57,11 +59,7 @@ const Canvas = () => {
   
   return (
     <canvas 
-      style={{ 
-        border: "2px solid #0000ff", 
-        borderRadius: 10, 
-        margin: 10
-      }} 
+      className={css.canvas}
       ref={canvasRef} 
       width={900}
       height={375}
