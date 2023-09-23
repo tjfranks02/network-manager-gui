@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import Element from "../../model/elements/Element";
 
 export interface ActiveElementState {
-  element: Element | null
+  element: string | null
 };
 
 const initialState: ActiveElementState = {
@@ -11,14 +10,14 @@ const initialState: ActiveElementState = {
 };
 
 export const activeElementSlice = createSlice({
-  name: 'counter',
+  name: 'activeElement',
   initialState,
   reducers: {
-    setActiveElement: (state, action: PayloadAction<Element | null>) => {
+    setActiveElement: (state, action: PayloadAction<string | null>) => {
       state.element = action.payload;
     }
   },
-})
+});
 
 // Action creators are generated for each case reducer function
 export const { setActiveElement } = activeElementSlice.actions

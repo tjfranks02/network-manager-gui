@@ -20,7 +20,7 @@ class EditorView {
     this.viewState.lastClicked = newActiveElem;
     this.viewState.prevActiveElement = this.viewState.activeElement;
     this.viewState.activeElement = newActiveElem;
-    store.dispatch(setActiveElement(newActiveElem));
+    store.dispatch(setActiveElement(newActiveElem.id));
   }
 
   getElementUnderMouse(canvasState: CanvasState): Element | null {

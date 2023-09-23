@@ -1,0 +1,9 @@
+.container {
+  border: 1px solid blue;
+  -webkit-user-select: none; /* Safari */
+         user-select: none;
+}
+
+.element:hover {
+  background-color: green;
+}

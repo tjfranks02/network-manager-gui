@@ -10,7 +10,7 @@ import { ElementStates } from "../../../constants/canvasConstants";
 const NODE_WIDTH: number = 50;
 const NODE_HEIGHT: number = 50;
 
-class NodeViewManager extends ElementViewManager {
+class NodeRenderer extends ElementViewManager {
 
   node: Node;
 
@@ -148,4 +148,4 @@ class NodeViewManager extends ElementViewManager {
   }
 }
 
-export default NodeViewManager;
+export default NodeRenderer;

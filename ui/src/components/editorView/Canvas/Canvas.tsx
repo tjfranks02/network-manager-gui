@@ -66,6 +66,8 @@ const Canvas = () => {
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={(e) => console.log(e)}
     />
   );
 }

@@ -3,7 +3,7 @@ import { CanvasState } from "../../../types";
 import EditorView from "../../view/EditorView";
 import { ElementStates } from "../../../constants/canvasConstants";
 import Node from "../../../model/elements/Node";
-import NodeViewManager from "../../view/renderers/NodeViewManager";
+import NodeViewManager from "../../view/renderers/NodeRenderer";
 
 class CanvasMouseMoveEventHandler extends CanvasEventHandler {
   constructor() {
