@@ -1,5 +1,5 @@
 import { ElementViewData } from "../../types";
-import ElementRenderer from "../../editor/view/renderers/ElementViewManager";
+import ElementRenderer from "../../editor/view/renderers/ElementRenderer";
 
 class Element {
   id: string;

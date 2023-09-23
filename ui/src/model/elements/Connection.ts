@@ -1,6 +1,6 @@
 import Element from "./Element";
 import { ElementViewData } from "../../types";
-import ConnectionViewManager from "../../editor/view/renderers/ConnectionViewManager";
+import ConnectionRenderer from "../../editor/view/renderers/ConnectionRenderer";
 import Node from "./Node";
 
 class Connection extends Element {
@@ -9,7 +9,7 @@ class Connection extends Element {
 
   constructor(id: string, origin: Node, dest: Node | null=null, viewData: ElementViewData) {
     super(id, viewData);
-    this.renderer = new ConnectionViewManager(this);
+    this.renderer = new ConnectionRenderer(this);
     this.origin = origin;
     this.dest = dest;
   }

@@ -1,10 +1,11 @@
 import Point from "../../utils/Point";
 import Connection from "../../../model/elements/Connection";
 import { CanvasState } from "../../../types";
-import ElementViewManager from "./ElementViewManager";
+import ElementRenderer from "./ElementRenderer";
 import Element from "../../../model/elements/Element";
+import EditorView from "../EditorView";
 
-class ConnectionViewManager extends ElementViewManager {
+class ConnectionRenderer extends ElementRenderer {
   connection: Connection;
 
   constructor(connection: Connection) {
@@ -52,13 +53,18 @@ class ConnectionViewManager extends ElementViewManager {
     return this.isMouseWithinThreshold(canvasState) ? this.connection : null;
   }
 
-  handleMouseDown(canvasState: CanvasState): void {
+  handleClick(): void {
+    let clickedConnection: Connection = <Connection>EditorView.viewState.lastClicked;
 
   }
 
-  handleMouseMove(canvasState: CanvasState): void {
-    
+  handleUnclick(): void {
+
+  }
+
+  handleMouseMove(): void {
+
   }
 }
 
-export default ConnectionViewManager;
+export default ConnectionRenderer;

@@ -4,11 +4,6 @@ import { CanvasState } from "../../types";
 import EditorView from "../view/EditorView";
 import { ElementStates } from "../../constants/canvasConstants";
 
-// Event handlers
-import CanvasClickEventHandler from "./eventHandlers/CanvasClickEventHandler";
-import CanvasUnclickEventHandler from "./eventHandlers/CanvasUnclickEventHandler";
-import CanvasMouseMoveEventHandler from "./eventHandlers/CanvasMouseMoveEventHandler";
-
 /**
  * Wrapper class around view elements in the canvas
  */
@@ -26,7 +21,7 @@ class EditorController {
 
     if (elementUnderMouse) {
       EditorView.assignNewActiveElement(elementUnderMouse);
-      CanvasClickEventHandler.handle(canvasState);
+      elementUnderMouse.renderer.handleClick(canvasState);
     }
 
     EditorView.draw(ctx, canvasState);
@@ -41,7 +36,7 @@ class EditorController {
 
   handleMouseUp(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
     if (EditorView.viewState.activeElement) {
-      CanvasUnclickEventHandler.handle(canvasState);
+      EditorView.viewState.activeElement.renderer.handleUnclick(canvasState);
     }
 
     EditorView.draw(ctx, canvasState);
@@ -49,7 +44,7 @@ class EditorController {
 
   handleMouseMove(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
     if (EditorView.viewState.activeElement) {
-      CanvasMouseMoveEventHandler.handle(canvasState);
+      EditorView.viewState.activeElement.renderer.handleMouseMove(canvasState);
     }
 
     EditorView.draw(ctx, canvasState);
@@ -60,6 +55,10 @@ class EditorController {
    */
   constructViewFromSpec(): EditorController {
     return new EditorController();
+  }
+
+  async createElement(elementClassName: string): Promise<void> {
+    EditorView.createElement(elementClassName);
   }
 }
 

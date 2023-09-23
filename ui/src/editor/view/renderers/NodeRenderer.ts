@@ -1,17 +1,17 @@
 import Node from "../../../model/elements/Node";
 import { CanvasState } from "../../../types";
-import ElementViewManager from "./ElementViewManager";
+import ElementRenderer from "./ElementRenderer";
 import Element from "../../../model/elements/Element";
 import Point from "../../utils/Point";
 import ConnectionPoint from "../../../model/elements/ConnectionPoint";
 import { v4 as uuidv4 } from "uuid";
 import { ElementStates } from "../../../constants/canvasConstants";
+import EditorView from "../EditorView";
 
 const NODE_WIDTH: number = 50;
 const NODE_HEIGHT: number = 50;
 
-class NodeRenderer extends ElementViewManager {
-
+class NodeRenderer extends ElementRenderer {
   node: Node;
 
   constructor(node: Node) {
@@ -145,6 +145,36 @@ class NodeRenderer extends ElementViewManager {
   moveNodeToPos(pos: Point): void {
     this.node.viewData.pos = pos;
     this.setConnectorPositions();
+  }
+
+  handleNodeEvent(canvasState: CanvasState): void {
+    let clickedElement: Node = <Node>EditorView.viewState.activeElement!;
+    EditorView.resetElementStates();
+    clickedElement.viewData.state = ElementStates.CLICKED;
+  }
+
+  handleClick(canvasState: CanvasState): void {
+    let clickedElement: Node = <Node>EditorView.viewState.activeElement!;
+    EditorView.resetElementStates();
+    clickedElement.viewData.state = ElementStates.CLICKED;
+  }
+  
+  handleUnclick(canvasState: CanvasState): void {
+    EditorView.viewState.activeElement!.viewData.state = ElementStates.ACTIVE;
+  }
+
+  handleMouseMove(canvasState: CanvasState): void {
+    let activeNode: Node = <Node>EditorView.viewState.activeElement!;
+    let nodeRenderer: NodeRenderer = <NodeRenderer>activeNode.renderer;
+
+    switch (activeNode.viewData.state) {
+      case ElementStates.CLICKED:
+        nodeRenderer.moveNodeToPos(canvasState.mousePos);
+        break;
+
+      case ElementStates.ACTIVE:
+        break;
+    }
   }
 }
 

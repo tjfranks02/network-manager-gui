@@ -1,7 +1,7 @@
 import Connection from "./Connection";
 import Element from "./Element";
 import { ElementViewData } from "../../types";
-import ConnectionPointViewManager from "../../editor/view/renderers/ConnectionPointViewManager";
+import ConnectionPointRenderer from "../../editor/view/renderers/ConnectionPointRenderer";
 import Node from "./Node";
 
 class ConnectionPoint extends Element {
@@ -10,7 +10,7 @@ class ConnectionPoint extends Element {
 
   constructor(id: string, viewData: ElementViewData, owner: Node) {
     super(id, viewData);
-    this.renderer = new ConnectionPointViewManager(this);
+    this.renderer = new ConnectionPointRenderer(this);
     this.owner = owner;
 
     // Connections from this node to others
