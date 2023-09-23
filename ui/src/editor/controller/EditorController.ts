@@ -61,6 +61,10 @@ class EditorController {
   constructViewFromSpec(): EditorController {
     return new EditorController();
   }
+
+  async createElement(elementClassName: string): Promise<void> {
+    EditorView.createElement(elementClassName);
+  }
 }
 
 const singletonInstance: EditorController = new EditorController();

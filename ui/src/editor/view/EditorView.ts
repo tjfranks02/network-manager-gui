@@ -43,6 +43,13 @@ class EditorView {
   resetElementStates() {
     Model.elements.forEach((element) => element.viewData.state = ElementStates.IDLE);
   }
+
+  async createElement(elementClassName: string) {
+    let elementModule = await import(`../../model/elements/${elementClassName}`);
+      
+    Model.elements.push(new (elementModule.default)())
+    elementModule.default();
+  }
 }
 
 const singletonInstance: EditorView = new EditorView();

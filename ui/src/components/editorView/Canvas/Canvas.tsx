@@ -1,4 +1,4 @@
-import { useState, useRef, MouseEvent } from 'react';
+import { useState, useRef, MouseEvent, DragEvent } from 'react';
 import Point from "../../../editor/utils/Point";
 import EditorController from "../../../editor/controller/EditorController";
 import { CanvasState } from '../../../types';
@@ -56,6 +56,10 @@ const Canvas = () => {
     ctx.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
     ctx.beginPath();
   };
+
+  const onDraggedElementDrop = (event: DragEvent<HTMLCanvasElement>) => {
+    EditorController.createElement("Node");
+  };  
   
   return (
     <canvas 
@@ -67,7 +71,7 @@ const Canvas = () => {
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
       onDragOver={(e) => e.preventDefault()}
-      onDrop={(e) => console.log(e)}
+      onDrop={(e) => onDraggedElementDrop(e)}
     />
   );
 }
