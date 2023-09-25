@@ -8,3 +8,8 @@ export enum ElementStates {
 
 export enum ConnectionStates {
 };
+
+export enum ElementTypes {
+  NODE = "node",
+  Connection = "connection",
+};

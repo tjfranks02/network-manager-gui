@@ -1,10 +1,10 @@
-import Model from "../../model/Model";
-import { CanvasState } from "../../types";
-import Element from "../../model/elements/Element";
-import { ViewState } from "../../types";
+import Model from "../model/Model";
+import { CanvasState } from "../types";
+import Element from "../model/elements/Element";
+import { ViewState } from "../types";
 import store from "../../redux/store";
 import { setActiveElement } from "../../redux/reducers/activeElement";
-import { ElementStates } from "../../constants/canvasConstants";
+import { ElementStates } from "../editorConstants";
 
 /**
  * Wrapper class around view elements in the canvas
@@ -42,13 +42,6 @@ class EditorView {
 
   resetElementStates() {
     Model.elements.forEach((element) => element.viewData.state = ElementStates.IDLE);
-  }
-
-  async createElement(elementClassName: string) {
-    let elementModule = await import(`../../model/elements/${elementClassName}`);
-      
-    Model.elements.push(new (elementModule.default)())
-    elementModule.default();
   }
 }
 

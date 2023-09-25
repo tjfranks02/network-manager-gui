@@ -1,6 +1,6 @@
 import Element from "./Element";
 import { ElementViewData } from "../../types";
-import ConnectionRenderer from "../../editor/view/renderers/ConnectionRenderer";
+import ConnectionRenderer from "../../../editor/view/renderers/ConnectionRenderer";
 import Node from "./Node";
 
 class Connection extends Element {

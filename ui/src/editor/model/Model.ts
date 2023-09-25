@@ -2,8 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import Node from "./elements/Node";
 import Element from "./elements/Element";
-import Point from "../editor/utils/Point";
-import { ElementStates } from "../constants/canvasConstants";
+import Point from "../../editor/utils/Point";
+import { ElementStates } from "../editorConstants";
 
 /**
  * Wrapper class around view elements in the canvas

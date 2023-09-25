@@ -1,6 +1,6 @@
-import Point from "./editor/utils/Point";
+import Point from "./utils/Point";
 import Element from "./model/elements/Element";
-import { ElementStates } from "./constants/canvasConstants";
+import { ElementStates } from "./editorConstants";
 
 export interface CanvasState {
   mousePos: Point,

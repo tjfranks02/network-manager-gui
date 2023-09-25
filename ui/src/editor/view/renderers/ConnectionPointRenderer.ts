@@ -1,12 +1,12 @@
-import CanvasUtils from "../../../model/utils/canvasUtils";
-import { CanvasState } from "../../../types";
+import CanvasUtils from "../../model/utils/canvasUtils";
+import { CanvasState } from "../../types";
 import ElementRenderer from "./ElementRenderer";
-import Element from "../../../model/elements/Element";
-import ConnectionPoint from "../../../model/elements/ConnectionPoint";
+import Element from "../../model/elements/Element";
+import ConnectionPoint from "../../model/elements/ConnectionPoint";
 import EditorView from "../EditorView";
-import Connection from "../../../model/elements/Connection";
-import { ElementStates } from "../../../constants/canvasConstants";
-import ModelUtils from "../../../model/utils/modelUtils";
+import Connection from "../../model/elements/Connection";
+import { ElementStates } from "../../editorConstants";
+import ModelUtils from "../../model/utils/modelUtils";
 
 const CONNECTION_POINT_RADIUS: number = 5;
 

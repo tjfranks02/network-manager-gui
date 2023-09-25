@@ -1,7 +1,7 @@
 import Connection from "./Connection";
 import Element from "./Element";
 import { ElementViewData } from "../../types";
-import ConnectionPointRenderer from "../../editor/view/renderers/ConnectionPointRenderer";
+import ConnectionPointRenderer from "../../../editor/view/renderers/ConnectionPointRenderer";
 import Node from "./Node";
 
 class ConnectionPoint extends Element {

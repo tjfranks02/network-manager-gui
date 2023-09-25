@@ -1,8 +1,13 @@
-import Element from "../../model/elements/Element";
-import Model from "../../model/Model";
-import { CanvasState } from "../../types";
+import Element from "../model/elements/Element";
+import EditorModel from "../model/Model";
+import { CanvasState } from "../types";
 import EditorView from "../view/EditorView";
-import { ElementStates } from "../../constants/canvasConstants";
+import { ElementStates } from "../editorConstants";
+import ModelUtils from "../model/utils/modelUtils";
+
+// Elements
+import Node from "../model/elements/Node";
+import Connection from "../model/elements/Connection";
 
 /**
  * Wrapper class around view elements in the canvas
@@ -29,7 +34,7 @@ class EditorController {
   }
 
   resetElementStates() {
-    for (let element of Model.elements) {
+    for (let element of EditorModel.elements) {
       element.viewData.state = ElementStates.IDLE;
     }
   }
@@ -57,8 +62,27 @@ class EditorController {
     return new EditorController();
   }
 
-  async createElement(elementClassName: string): Promise<void> {
-    EditorView.createElement(elementClassName);
+  createElement(elementClassName: string, canvasState: CanvasState): void {
+    //Model.elements.push(new (elementModule.default)())
+    //elementModule.default();
+
+    console.log(elementClassName);
+    let newElement: Element | null = null;
+    let id: string = ModelUtils.generateUUID();
+
+    switch (elementClassName) {
+      case Node.name:
+        newElement = new Node(id, { pos: canvasState.mousePos, state: ElementStates.IDLE });
+        break;
+    }
+
+    if (newElement) {
+      EditorModel.elements.push(newElement);
+    }
+  }
+
+  draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
+    EditorView.draw(ctx, canvasState);
   }
 }
 

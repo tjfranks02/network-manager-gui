@@ -1,11 +1,11 @@
-import Node from "../../../model/elements/Node";
-import { CanvasState } from "../../../types";
+import Node from "../../model/elements/Node";
+import { CanvasState } from "../../types";
 import ElementRenderer from "./ElementRenderer";
-import Element from "../../../model/elements/Element";
+import Element from "../../model/elements/Element";
 import Point from "../../utils/Point";
-import ConnectionPoint from "../../../model/elements/ConnectionPoint";
+import ConnectionPoint from "../../model/elements/ConnectionPoint";
 import { v4 as uuidv4 } from "uuid";
-import { ElementStates } from "../../../constants/canvasConstants";
+import { ElementStates } from "../../editorConstants";
 import EditorView from "../EditorView";
 
 const NODE_WIDTH: number = 50;

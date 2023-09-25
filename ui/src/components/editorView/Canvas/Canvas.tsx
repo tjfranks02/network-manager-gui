@@ -1,7 +1,9 @@
-import { useState, useRef, MouseEvent, DragEvent } from 'react';
+import { useState, useRef, MouseEvent, DragEvent, useEffect } from 'react';
 import Point from "../../../editor/utils/Point";
 import EditorController from "../../../editor/controller/EditorController";
-import { CanvasState } from '../../../types';
+import { CanvasState } from '../../../editor/types';
+import { useSelector } from "react-redux";
+import { RootState } from '../../../redux/store';
 
 import css from "./styles.module.css";
 
@@ -12,6 +14,12 @@ const defaultCanvasState = {
 const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvasState, setCanvasState] = useState<CanvasState>(defaultCanvasState);
+
+  const currDraggedElem = useSelector((state: RootState) => state.currentDraggedElement.element);
+
+  useEffect(() => {
+    EditorController.draw(getContext(), canvasState);
+  }, []);
 
   const getContext = (): CanvasRenderingContext2D => {
     return canvasRef.current!.getContext('2d')!;
@@ -51,15 +59,23 @@ const Canvas = () => {
     EditorController.handleMouseUp(getContext(), newCanvasState);
   };
 
+  const onDraggedElementDrop = (event: DragEvent<HTMLCanvasElement>) => {
+    EditorController.createElement(currDraggedElem, canvasState);
+  };
+
   const clearCanvas = (): void => {
     let ctx = getContext();
     ctx.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
     ctx.beginPath();
   };
 
-  const onDraggedElementDrop = (event: DragEvent<HTMLCanvasElement>) => {
-    EditorController.createElement("Node");
-  };  
+  const handleDragOver = (event: DragEvent<HTMLCanvasElement>) => {
+    event.preventDefault();
+
+    let mousePos = mapClientCoordsToMouse(event);
+    let newCanvasState = {...canvasState, mousePos};
+    setCanvasState(newCanvasState);
+  };
   
   return (
     <canvas 
@@ -70,7 +86,7 @@ const Canvas = () => {
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
-      onDragOver={(e) => e.preventDefault()}
+      onDragOver={(e) => handleDragOver(e)}
       onDrop={(e) => onDraggedElementDrop(e)}
     />
   );

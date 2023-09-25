@@ -1,8 +1,8 @@
 import Point from "../../utils/Point";
-import Connection from "../../../model/elements/Connection";
-import { CanvasState } from "../../../types";
+import Connection from "../../model/elements/Connection";
+import { CanvasState } from "../../types";
 import ElementRenderer from "./ElementRenderer";
-import Element from "../../../model/elements/Element";
+import Element from "../../model/elements/Element";
 import EditorView from "../EditorView";
 
 class ConnectionRenderer extends ElementRenderer {
