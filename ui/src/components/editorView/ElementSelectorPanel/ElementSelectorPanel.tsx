@@ -4,9 +4,18 @@ import { ReactElement, DragEvent } from "react";
 import css from "./styles.module.css";
 
 const ELEMENTS = [
-  "Node",
-  "Node group",
-  "Connection"
+  {
+    displayName: "Node",
+    className: "Node",
+  },
+  {
+    displayName: "Node Group",
+    className: "NodeGroup"
+  },
+  {
+    displayName: "Connection",
+    className: "Connection"
+  }
 ];
 
 const ElementSelectorPanel = () => {
@@ -19,12 +28,12 @@ const ElementSelectorPanel = () => {
     return ELEMENTS.map((element) => {
       return(
         <li
-          key={element}
+          key={element.className}
           className={css.element}
           draggable={true}
-          onDragStart={(event) => handleDragStart(element, event)}
+          onDragStart={(event) => handleDragStart(element.className, event)}
         >
-          {element}
+          {element.displayName}
         </li>
       );
     });

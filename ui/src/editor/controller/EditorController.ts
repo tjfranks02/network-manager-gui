@@ -8,6 +8,7 @@ import ModelUtils from "../model/utils/modelUtils";
 // Elements
 import Node from "../model/elements/Node";
 import Connection from "../model/elements/Connection";
+import NodeGroup from "../model/elements/NodeGroup";
 
 /**
  * Wrapper class around view elements in the canvas
@@ -63,10 +64,6 @@ class EditorController {
   }
 
   createElement(elementClassName: string, canvasState: CanvasState): void {
-    //Model.elements.push(new (elementModule.default)())
-    //elementModule.default();
-
-    console.log(elementClassName);
     let newElement: Element | null = null;
     let id: string = ModelUtils.generateUUID();
 
@@ -74,6 +71,9 @@ class EditorController {
       case Node.name:
         newElement = new Node(id, { pos: canvasState.mousePos, state: ElementStates.IDLE });
         break;
+
+      case NodeGroup.name:
+        newElement = new NodeGroup(id, { pos: canvasState.mousePos, state: ElementStates.IDLE });
     }
 
     if (newElement) {
