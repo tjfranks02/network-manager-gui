@@ -20,10 +20,15 @@ class Model {
    * Constructs a series of elements for testing purposes.
    */
   constructElements(): void {
-    this.elements.push(new Node(uuidv4(), { pos: new Point(50, 100), state: ElementStates.IDLE }));
-    this.elements.push(new Node(uuidv4(), { pos: new Point(500, 100), state: ElementStates.IDLE }));
-    this.elements.push(new Node(uuidv4(), { pos: new Point(750, 200), state: ElementStates.IDLE }));
-    this.elements.push(new Node(uuidv4(), { pos: new Point(250, 250), state: ElementStates.IDLE }));
+    this.elements.push(new Node(uuidv4(), { pos: new Point(50, 100), state: ElementStates.IDLE, zIndex: 1 }));
+    this.elements.push(new Node(uuidv4(), { pos: new Point(500, 100), state: ElementStates.IDLE, zIndex: 1 }));
+    this.elements.push(new Node(uuidv4(), { pos: new Point(750, 200), state: ElementStates.IDLE, zIndex: 1 }));
+    this.elements.push(new Node(uuidv4(), { pos: new Point(250, 250), state: ElementStates.IDLE, zIndex: 1 }));
+  }
+
+  removeElementById(id: string): void {
+    let index = this.elements.findIndex((element) => element.id === id);
+    this.elements.splice(index, 1);
   }
 }
 

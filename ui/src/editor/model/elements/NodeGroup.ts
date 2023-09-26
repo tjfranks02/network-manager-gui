@@ -11,6 +11,10 @@ class NodeGroup extends Element {
     this.renderer = new NodeGroupRenderer(this);
     this.nodes = [];
   }
+
+  addNode(node: Node): void {
+    this.nodes.push(node);
+  }
 }
 
 export default NodeGroup;

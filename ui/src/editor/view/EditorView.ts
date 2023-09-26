@@ -1,4 +1,4 @@
-import Model from "../model/Model";
+import EditorModel from "../model/Model";
 import { CanvasState } from "../types";
 import Element from "../model/elements/Element";
 import { ViewState } from "../types";
@@ -24,24 +24,48 @@ class EditorView {
   }
 
   getElementUnderMouse(canvasState: CanvasState): Element | null {
-    for (let element of Model.elements) {
+    let elementWithMaxZIndex: Element | null = null;
+
+    for (let element of EditorModel.elements) {
       let elementUnderMouse: Element | null = element.renderer.elementUnderMouse(canvasState);
       
-      if (elementUnderMouse) {
-        return elementUnderMouse;
+      if (!elementWithMaxZIndex) {
+        elementWithMaxZIndex = elementUnderMouse;
+      } else if (elementUnderMouse && 
+          elementUnderMouse.viewData.zIndex > elementWithMaxZIndex.viewData.zIndex) {
+        elementWithMaxZIndex = elementUnderMouse;
       }
     }
-    return null;
+
+    return elementWithMaxZIndex;
+  }
+
+  getElementWithMaxZIndex() {
+
+  }
+
+  getElementsUnderMouse(canvasState: CanvasState): Array<Element> {
+    let elementsUnderMouse: Array<Element> = [];
+    
+    for (let element of EditorModel.elements) {
+      let elementUnderMouse: Element | null = element.renderer.elementUnderMouse(canvasState);
+
+      if (elementUnderMouse) {
+        elementsUnderMouse.push(elementUnderMouse);
+      } 
+    }
+
+    return elementsUnderMouse;
   }
 
   draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
-    for (let element of Model.elements) {
+    for (let element of EditorModel.elements) {
       element.renderer.draw(ctx, canvasState);
     }
   }
 
   resetElementStates() {
-    Model.elements.forEach((element) => element.viewData.state = ElementStates.IDLE);
+    EditorModel.elements.forEach((element) => element.viewData.state = ElementStates.IDLE);
   }
 }
 

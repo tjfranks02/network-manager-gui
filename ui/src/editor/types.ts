@@ -15,5 +15,6 @@ export interface ViewState {
 export interface ElementViewData {
   pos: Point,
   state: ElementStates,
+  zIndex: Number,
   [key: string]: any
 }

@@ -89,7 +89,7 @@ class NodeRenderer extends ElementRenderer {
     this.node.viewData.connectionPoints.push(
       new ConnectionPoint(
         uuidv4(), 
-        { pos: defaultPoint, state: ElementStates.IDLE }, 
+        { pos: defaultPoint, state: ElementStates.IDLE, zIndex: 1 }, 
         this.node
       )
     );
@@ -97,7 +97,7 @@ class NodeRenderer extends ElementRenderer {
     this.node.viewData.connectionPoints.push(
       new ConnectionPoint(
         uuidv4(), 
-        { pos: defaultPoint, state: ElementStates.IDLE }, 
+        { pos: defaultPoint, state: ElementStates.IDLE, zIndex: 1 }, 
         this.node
       )
     );
@@ -105,7 +105,7 @@ class NodeRenderer extends ElementRenderer {
     this.node.viewData.connectionPoints.push(
       new ConnectionPoint(
         uuidv4(), 
-        { pos: defaultPoint, state: ElementStates.IDLE }, 
+        { pos: defaultPoint, state: ElementStates.IDLE, zIndex: 1}, 
         this.node
       )
     );
@@ -113,7 +113,7 @@ class NodeRenderer extends ElementRenderer {
     this.node.viewData.connectionPoints.push(
       new ConnectionPoint(
         uuidv4(), 
-        { pos: defaultPoint, state: ElementStates.IDLE }, 
+        { pos: defaultPoint, state: ElementStates.IDLE, zIndex: 1 }, 
         this.node
       )
     );

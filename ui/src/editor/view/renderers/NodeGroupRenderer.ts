@@ -14,14 +14,15 @@ class NodeGroupRenderer extends ElementRenderer {
 
   draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
     ctx.beginPath();
-    ctx.fillStyle = 'red';
+    
+    ctx.fillStyle = this.isMouseOverElement(canvasState.mousePos) ? 'green' : 'red';
     ctx.roundRect(this.nodeGroup.viewData.pos.x, this.nodeGroup.viewData.pos.y, 50, 50, 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
     ctx.fillText(this.nodeGroup.id.substring(0, 5), this.nodeGroup.viewData.pos.x, 
       this.nodeGroup.viewData.pos.y + 50 + 10);
-
+    
     ctx.closePath();
   }
 
