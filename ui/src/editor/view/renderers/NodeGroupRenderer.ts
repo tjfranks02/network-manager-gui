@@ -1,10 +1,14 @@
 import Element from "../../model/elements/Element";
 import { CanvasState } from "../../types";
 import ElementRenderer from "./ElementRenderer";
+import NodeRenderer from "./NodeRenderer";
 import NodeGroup from "../../model/elements/NodeGroup";
 import Point from "../../utils/Point";
 import { ElementStates } from "../../editorConstants";
-import { NodeGroupViewConstants as Constants } from "./constants/rendererConstants";
+import { 
+  NodeGroupViewConstants as Constants, 
+  NodeViewConstants as NodeConstants 
+} from "./constants/rendererConstants";
 
 class NodeGroupRenderer extends ElementRenderer {
   nodeGroup: NodeGroup;
@@ -20,7 +24,8 @@ class NodeGroupRenderer extends ElementRenderer {
     ctx.beginPath();
     
     ctx.fillStyle = this.isMouseOverElement(canvasState.mousePos) ? 'green' : 'red';
-    ctx.roundRect(this.nodeGroup.viewData.pos.x, this.nodeGroup.viewData.pos.y, Constants.WIDTH, Constants.HEIGHT, 5);
+    ctx.roundRect(this.nodeGroup.viewData.pos.x, this.nodeGroup.viewData.pos.y, Constants.WIDTH, 
+      Constants.HEIGHT, 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
@@ -28,6 +33,10 @@ class NodeGroupRenderer extends ElementRenderer {
       this.nodeGroup.viewData.pos.y + Constants.HEIGHT + 10);
     
     ctx.closePath();
+
+    for (let node of this.nodeGroup.nodes) {
+      node.renderer.draw(ctx, canvasState);
+    }
   }
 
   /**
@@ -36,14 +45,17 @@ class NodeGroupRenderer extends ElementRenderer {
    */
   updateViewData() {
     let numNodes: number = this.nodeGroup.nodes.length;
-    let numRows: number = Math.floor(numNodes / Constants.NUM_NODES_IN_ROW);
-
     this.nodeGroup.viewData
 
-    for (let i = 0; i < numRows; i++) {
-      for (let j = 0; j < Constants.NUM_NODES_IN_ROW; j++) {
-        
-      }
+    for (let nodeIndex = 0; nodeIndex < numNodes; nodeIndex++) {
+      let i: number = Math.floor(nodeIndex / Constants.NUM_NODES_IN_ROW);
+      let j: number = nodeIndex % Constants.NUM_NODES_IN_ROW;
+
+      let nodeX: number = this.nodeGroup.viewData.pos.x + (j * NodeConstants.WIDTH);
+      let nodeY: number = this.nodeGroup.viewData.pos.y + (i * NodeConstants.HEIGHT);
+
+      let newNodePos = new Point(nodeX, nodeY);
+      (<NodeRenderer>this.nodeGroup.nodes[nodeIndex].renderer).moveNodeToPos(newNodePos);
     }
   }
 
