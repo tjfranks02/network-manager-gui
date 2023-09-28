@@ -147,29 +147,18 @@ class NodeRenderer extends ElementRenderer {
     this.setConnectorPositions();
   }
 
-  handleNodeEvent(canvasState: CanvasState): void {
-    let clickedElement: Node = <Node>EditorView.viewState.activeElement!;
-    EditorView.resetElementStates();
-    clickedElement.viewData.state = ElementStates.CLICKED;
-  }
-
   handleClick(canvasState: CanvasState): void {
-    let clickedElement: Node = <Node>EditorView.viewState.activeElement!;
-    EditorView.resetElementStates();
-    clickedElement.viewData.state = ElementStates.CLICKED;
+    this.node.viewData.state = ElementStates.CLICKED;
   }
   
   handleUnclick(canvasState: CanvasState): void {
-    EditorView.viewState.activeElement!.viewData.state = ElementStates.ACTIVE;
+    this.node.viewData.state = ElementStates.ACTIVE;
   }
 
   handleMouseMove(canvasState: CanvasState): void {
-    let activeNode: Node = <Node>EditorView.viewState.activeElement!;
-    let nodeRenderer: NodeRenderer = <NodeRenderer>activeNode.renderer;
-
-    switch (activeNode.viewData.state) {
+    switch (this.node.viewData.state) {
       case ElementStates.CLICKED:
-        nodeRenderer.moveNodeToPos(canvasState.mousePos);
+        this.moveNodeToPos(canvasState.mousePos);
         break;
 
       case ElementStates.ACTIVE:

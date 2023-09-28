@@ -54,19 +54,16 @@ class ConnectionPointRenderer extends ElementRenderer {
   } 
 
   handleClick(): void {
-    let clickedConnectionPoint: ConnectionPoint = 
-      <ConnectionPoint>EditorView.viewState.activeElement;
-
     if (EditorView.viewState.prevActiveElement instanceof Connection) {
-      EditorView.viewState.prevActiveElement.dest = clickedConnectionPoint.owner;
+      EditorView.viewState.prevActiveElement.dest = this.connectionPoint.owner;
     } else {
       let newConnection = new Connection(
         ModelUtils.generateUUID(),
-        clickedConnectionPoint.owner, 
+        this.connectionPoint.owner, 
         null,
-        { pos: clickedConnectionPoint.owner.viewData.pos, state: ElementStates.INCOMPLETE }
+        { pos: this.connectionPoint.owner.viewData.pos, state: ElementStates.INCOMPLETE, zIndex: -1 }
       );
-      clickedConnectionPoint.owner.connections.push(newConnection);
+      this.connectionPoint.owner.connections.push(newConnection);
       EditorView.assignNewActiveElement(newConnection);
     }
   }

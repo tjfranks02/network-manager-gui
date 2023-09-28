@@ -27,7 +27,7 @@ class NodeGroupRenderer extends ElementRenderer {
   }
 
   handleClick(canvasState: CanvasState): void {
-    throw new Error("Method not implemented.");
+    // No additional action required
   }
 
   handleUnclick(canvasState: CanvasState): void {

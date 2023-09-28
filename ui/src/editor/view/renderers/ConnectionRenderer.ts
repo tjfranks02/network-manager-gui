@@ -4,6 +4,7 @@ import { CanvasState } from "../../types";
 import ElementRenderer from "./ElementRenderer";
 import Element from "../../model/elements/Element";
 import EditorView from "../EditorView";
+import { ElementStates } from "../../editorConstants";
 
 class ConnectionRenderer extends ElementRenderer {
   connection: Connection;
@@ -54,12 +55,11 @@ class ConnectionRenderer extends ElementRenderer {
   }
 
   handleClick(): void {
-    let clickedConnection: Connection = <Connection>EditorView.viewState.lastClicked;
-
+    this.connection.viewData.state = ElementStates.CLICKED;
   }
 
   handleUnclick(): void {
-
+    this.connection.viewData.state = ElementStates.ACTIVE;
   }
 
   handleMouseMove(): void {
