@@ -7,9 +7,7 @@ import ConnectionPoint from "../../model/elements/ConnectionPoint";
 import { v4 as uuidv4 } from "uuid";
 import { ElementStates } from "../../editorConstants";
 import EditorView from "../EditorView";
-
-const NODE_WIDTH: number = 50;
-const NODE_HEIGHT: number = 50;
+import { NodeViewConstants as Constants } from "./constants/rendererConstants";
 
 class NodeRenderer extends ElementRenderer {
   node: Node;
@@ -51,8 +49,8 @@ class NodeRenderer extends ElementRenderer {
     let mouseY = mousePos.y; 
     let bbTopLeftX = this.node.viewData.pos.x;
     let bbTopLeftY = this.node.viewData.pos.y;
-    let bbBottomRightX = this.node.viewData.pos.x + NODE_WIDTH;
-    let bbBottomRightY = this.node.viewData.pos.y + NODE_HEIGHT;
+    let bbBottomRightX = this.node.viewData.pos.x + Constants.WIDTH;
+    let bbBottomRightY = this.node.viewData.pos.y + Constants.HEIGHT;
 
     if (bbTopLeftX <= mouseX && mouseX <= bbBottomRightX
         && bbTopLeftY <= mouseY && mouseY <= bbBottomRightY) {
@@ -64,12 +62,12 @@ class NodeRenderer extends ElementRenderer {
   draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
     ctx.beginPath();
     ctx.fillStyle = 'blue';
-    ctx.roundRect(this.node.viewData.pos.x, this.node.viewData.pos.y, NODE_WIDTH, NODE_HEIGHT, 5);
+    ctx.roundRect(this.node.viewData.pos.x, this.node.viewData.pos.y, Constants.WIDTH, Constants.HEIGHT, 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
     ctx.fillText(this.node.id.substring(0, 5), this.node.viewData.pos.x, 
-      this.node.viewData.pos.y + NODE_HEIGHT + 10);
+      this.node.viewData.pos.y + Constants.HEIGHT + 10);
 
     ctx.closePath();
 
@@ -124,16 +122,16 @@ class NodeRenderer extends ElementRenderer {
   setConnectorPositions(): void {
 
     let topConnectorPos = new Point(
-      this.node.viewData.pos.x + (NODE_WIDTH / 2), this.node.viewData.pos.y
+      this.node.viewData.pos.x + (Constants.WIDTH / 2), this.node.viewData.pos.y
     );
     let rightConnectorPos = new Point(
-      this.node.viewData.pos.x + NODE_WIDTH, this.node.viewData.pos.y + (NODE_HEIGHT / 2)
+      this.node.viewData.pos.x + Constants.WIDTH, this.node.viewData.pos.y + (Constants.HEIGHT / 2)
     );
     let bottomConnectorPos = new Point(
-      this.node.viewData.pos.x + (NODE_WIDTH / 2), this.node.viewData.pos.y + NODE_HEIGHT
+      this.node.viewData.pos.x + (Constants.WIDTH / 2), this.node.viewData.pos.y + Constants.HEIGHT
     );
     let leftConnectorPos = new Point(
-      this.node.viewData.pos.x, this.node.viewData.pos.y + (NODE_HEIGHT / 2)
+      this.node.viewData.pos.x, this.node.viewData.pos.y + (Constants.HEIGHT / 2)
     );
 
     this.node.viewData.connectionPoints[0].viewData.pos = topConnectorPos;
