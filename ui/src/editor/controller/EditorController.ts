@@ -43,6 +43,7 @@ class EditorController {
   handleMouseUp(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
     let elementUnderMouse: Element | null = EditorView.getElementUnderMouse(canvasState);   
     let activeElement: Element | null = EditorView.viewState.activeElement;
+
     // Add active Node to NodeGroup
     if (activeElement instanceof Node && elementUnderMouse instanceof NodeGroup) {
       elementUnderMouse.addNode(activeElement);
@@ -77,11 +78,11 @@ class EditorController {
 
     switch (elementClassName) {
       case Node.name:
-        newElement = new Node(id, { pos: canvasState.mousePos, state: ElementStates.IDLE, zIndex: 1 });
+        newElement = new Node(id, { pos: canvasState.mousePos, state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
         break;
 
       case NodeGroup.name:
-        newElement = new NodeGroup(id, { pos: canvasState.mousePos, state: ElementStates.IDLE, zIndex: 2 });
+        newElement = new NodeGroup(id, { pos: canvasState.mousePos, state: ElementStates.IDLE, zIndex: 2, margin: 0, padding: 8 });
     }
 
     if (newElement) {

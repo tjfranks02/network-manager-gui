@@ -19,13 +19,14 @@ class NodeGroupRenderer extends ElementRenderer {
   }
 
   draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
-    this.updateViewData();
+    this.updateNodeGrid();
+    this.updateNodeGroupDimensions();
 
     ctx.beginPath();
     
-    ctx.fillStyle = this.isMouseOverElement(canvasState.mousePos) ? 'green' : 'red';
-    ctx.roundRect(this.nodeGroup.viewData.pos.x, this.nodeGroup.viewData.pos.y, Constants.WIDTH, 
-      Constants.HEIGHT, 5);
+    ctx.fillStyle = this.isMouseOverElement(canvasState.mousePos) ? "green" : "red";
+    ctx.roundRect(this.nodeGroup.viewData.pos.x, this.nodeGroup.viewData.pos.y, 
+      this.nodeGroup.viewData.width, this.nodeGroup.viewData.height, 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
@@ -39,24 +40,49 @@ class NodeGroupRenderer extends ElementRenderer {
     }
   }
 
-  /**
-   * Before drawing, update the dimensions, state and positioning of this node group and its 
-   * sub-elements in case of changes since the last render.
-   */
-  updateViewData() {
+  updateNodeGroupDimensions() {
+    let totalPadding = 2 * this.nodeGroup.viewData.padding;
+
+    // Calculate and set width
+    let totalHorizontalMargin: number = this.nodeGroup.nodes.length > 0 ? 
+      this.nodeGroup.nodes[0].viewData.margin * (Constants.NUM_NODES_IN_ROW - 1) : 0;
+
+    let width: number = Math.max(Constants.WIDTH, Constants.NUM_NODES_IN_ROW + 
+      totalPadding + Constants.NUM_NODES_IN_ROW * NodeConstants.WIDTH + totalHorizontalMargin);
+
+    this.nodeGroup.viewData.width = width;
+
+    // Calculate and set height
+    let numRows: number = Math.ceil(this.nodeGroup.nodes.length / Constants.NUM_NODES_IN_ROW);
+
+    let totalVerticalMargin: number = this.nodeGroup.nodes.length > 0 ? 
+      this.nodeGroup.nodes[0].viewData.margin * numRows : 0;
+    let nodeHeights: number = numRows * NodeConstants.HEIGHT;
+
+    let height: number = Math.max(Constants.HEIGHT, totalPadding + totalVerticalMargin + nodeHeights);
+    this.nodeGroup.viewData.height = height;
+  }
+
+  updateNodeGrid() {
     let numNodes: number = this.nodeGroup.nodes.length;
-    this.nodeGroup.viewData
 
     for (let nodeIndex = 0; nodeIndex < numNodes; nodeIndex++) {
-      let i: number = Math.floor(nodeIndex / Constants.NUM_NODES_IN_ROW);
-      let j: number = nodeIndex % Constants.NUM_NODES_IN_ROW;
-
-      let nodeX: number = this.nodeGroup.viewData.pos.x + (j * NodeConstants.WIDTH);
-      let nodeY: number = this.nodeGroup.viewData.pos.y + (i * NodeConstants.HEIGHT);
-
-      let newNodePos = new Point(nodeX, nodeY);
-      (<NodeRenderer>this.nodeGroup.nodes[nodeIndex].renderer).moveNodeToPos(newNodePos);
+      this.updateNodeInGrid(nodeIndex);
     }
+  }
+
+  updateNodeInGrid(nodeIndex: number) {
+    let i: number = Math.floor(nodeIndex / Constants.NUM_NODES_IN_ROW);
+    let j: number = nodeIndex % Constants.NUM_NODES_IN_ROW;
+
+    let nodeX: number = this.nodeGroup.viewData.padding + this.nodeGroup.viewData.pos.x + 
+      (j * NodeConstants.WIDTH) + (j * this.nodeGroup.nodes[nodeIndex].viewData.margin);
+    
+    let nodeY: number = this.nodeGroup.viewData.padding + this.nodeGroup.viewData.pos.y + 
+      (i * NodeConstants.HEIGHT) + (i * this.nodeGroup.nodes[nodeIndex].viewData.margin);
+
+    let newNodePos = new Point(nodeX, nodeY);
+    (<NodeRenderer>this.nodeGroup.nodes[nodeIndex].renderer).moveNodeToPos(newNodePos);
   }
 
   handleClick(canvasState: CanvasState): void {
@@ -87,8 +113,8 @@ class NodeGroupRenderer extends ElementRenderer {
     let mouseY = mousePos.y; 
     let bbTopLeftX = this.nodeGroup.viewData.pos.x;
     let bbTopLeftY = this.nodeGroup.viewData.pos.y;
-    let bbBottomRightX = this.nodeGroup.viewData.pos.x + Constants.WIDTH;
-    let bbBottomRightY = this.nodeGroup.viewData.pos.y + Constants.HEIGHT;
+    let bbBottomRightX = this.nodeGroup.viewData.pos.x + this.nodeGroup.viewData.width;
+    let bbBottomRightY = this.nodeGroup.viewData.pos.y + this.nodeGroup.viewData.height;
 
     if (bbTopLeftX <= mouseX && mouseX <= bbBottomRightX
         && bbTopLeftY <= mouseY && mouseY <= bbBottomRightY) {
