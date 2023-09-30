@@ -1,4 +1,4 @@
-import Point from "../../../editor/utils/Point";
+import Point from "./Point";
 
 class CanvasUtils {
   static isMouseInRangeOfPoint(mousePoint: Point, targetPoint: Point, threshold: number): boolean {

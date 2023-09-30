@@ -1,4 +1,4 @@
-import CanvasUtils from "../../model/utils/canvasUtils";
+import CanvasUtils from "../../utils/canvasUtils";
 import { CanvasState } from "../../types";
 import ElementRenderer from "./ElementRenderer";
 import Element from "../../model/elements/Element";
@@ -61,7 +61,7 @@ class ConnectionPointRenderer extends ElementRenderer {
         ModelUtils.generateUUID(),
         this.connectionPoint.owner, 
         null,
-        { pos: this.connectionPoint.owner.viewData.pos, state: ElementStates.INCOMPLETE, zIndex: -1 }
+        { pos: this.connectionPoint.owner.viewData.pos, state: ElementStates.INCOMPLETE, zIndex: -1, margin: 0, padding: 0 }
       );
       this.connectionPoint.owner.connections.push(newConnection);
       EditorView.assignNewActiveElement(newConnection);
