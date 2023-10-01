@@ -10,6 +10,9 @@ import Node from "../model/elements/Node";
 import Connection from "../model/elements/Connection";
 import NodeGroup from "../model/elements/NodeGroup";
 
+// Constants
+import { MIN_SCALE, MAX_SCALE, SCALE_DELTA } from "../editorConstants";
+
 /**
  * Wrapper class around view elements in the canvas
  */
@@ -63,6 +66,14 @@ class EditorController {
     }
 
     EditorView.draw(ctx, canvasState);
+  }
+
+  handleMouseWheelScroll(deltaY: number) {
+    if (deltaY < 0) { // Up
+      EditorView.viewState.scale = Math.max(EditorView.viewState.scale - SCALE_DELTA, MIN_SCALE);
+    } else { // Down
+      EditorView.viewState.scale = Math.min(EditorView.viewState.scale + SCALE_DELTA, MAX_SCALE);
+    }
   }
 
   /**

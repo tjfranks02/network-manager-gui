@@ -1,4 +1,4 @@
-import CanvasUtils from "../../utils/canvasUtils";
+import CanvasUtils from "../../utils/CanvasUtils";
 import { CanvasState } from "../../types";
 import ElementRenderer from "./ElementRenderer";
 import Element from "../../model/elements/Element";

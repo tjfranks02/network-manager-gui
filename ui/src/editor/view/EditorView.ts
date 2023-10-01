@@ -6,6 +6,13 @@ import store from "../../redux/store";
 import { setActiveElement } from "../../redux/reducers/activeElement";
 import { ElementStates } from "../editorConstants";
 
+const DEFAULT_VIEW_STATE: ViewState = {
+  lastClicked: null,
+  activeElement: null,
+  prevActiveElement: null,
+  scale: 1
+};
+
 /**
  * Wrapper class around view elements in the canvas
  */
@@ -13,7 +20,7 @@ class EditorView {
   viewState!: ViewState;
 
   constructor() {
-    this.viewState = { lastClicked: null, activeElement: null, prevActiveElement: null };
+    this.viewState = DEFAULT_VIEW_STATE;
   }
 
   assignNewActiveElement(newActiveElem: Element) {
@@ -57,6 +64,8 @@ class EditorView {
 
     return elementsUnderMouse;
   }
+
+  transformDimension
 
   draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
     for (let element of EditorModel.elements) {

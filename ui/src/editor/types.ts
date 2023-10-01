@@ -9,7 +9,8 @@ export interface CanvasState {
 export interface ViewState {
   lastClicked: Element | null,
   activeElement: Element | null,
-  prevActiveElement: Element | null
+  prevActiveElement: Element | null,
+  scale: number;
 }
 
 export interface ElementViewData {

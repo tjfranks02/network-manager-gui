@@ -1,4 +1,4 @@
-import { useState, useRef, MouseEvent, DragEvent, useEffect } from 'react';
+import { useState, useRef, MouseEvent, WheelEvent, DragEvent, useEffect } from 'react';
 import Point from "../../../editor/utils/Point";
 import EditorController from "../../../editor/controller/EditorController";
 import { CanvasState } from '../../../editor/types';
@@ -76,6 +76,10 @@ const Canvas = () => {
     let newCanvasState = {...canvasState, mousePos};
     setCanvasState(newCanvasState);
   };
+
+  const handleMouseWheelMove = (event: WheelEvent<HTMLCanvasElement>): void => {
+    EditorController.handleMouseWheelScroll(event.deltaY);
+  };
   
   return (
     <canvas 
@@ -88,6 +92,7 @@ const Canvas = () => {
       onMouseMove={handleMouseMove}
       onDragOver={(e) => handleDragOver(e)}
       onDrop={(e) => onDraggedElementDrop(e)}
+      onWheel={(e) => handleMouseWheelMove(e)}
     />
   );
 }
