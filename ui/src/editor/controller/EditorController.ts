@@ -31,6 +31,8 @@ class EditorController {
     if (elementUnderMouse) {
       EditorView.assignNewActiveElement(elementUnderMouse);
       elementUnderMouse.renderer.handleClick(canvasState);
+    } else {
+      EditorView.assignNewActiveElement(null);
     }
 
     EditorView.draw(ctx, canvasState);

@@ -23,13 +23,28 @@ class EditorView {
     this.viewState = DEFAULT_VIEW_STATE;
   }
 
-  assignNewActiveElement(newActiveElem: Element) {
+  /**
+   * After the user clicks the canvas, assign the active element as the element they clicked on.
+   * 
+   * Params:
+   *   newActiveElem: Element | null - the element the user clicked on if any
+   */
+  assignNewActiveElement(newActiveElem: Element | null): void {
     this.viewState.lastClicked = newActiveElem;
     this.viewState.prevActiveElement = this.viewState.activeElement;
     this.viewState.activeElement = newActiveElem;
-    store.dispatch(setActiveElement(newActiveElem.id));
+    store.dispatch(setActiveElement(newActiveElem ? newActiveElem.id : null));
   }
 
+  /**
+   * Get the element under the mouse with the highest z-index.
+   * 
+   * Params:
+   *   canvasState: CanvasState - the current state of the editor canvas
+   * 
+   * Returns:
+   *   Element | null - the element under the mouse with the highest z-index
+   */
   getElementUnderMouse(canvasState: CanvasState): Element | null {
     let elementWithMaxZIndex: Element | null = null;
 
@@ -64,8 +79,6 @@ class EditorView {
 
     return elementsUnderMouse;
   }
-
-  transformDimension
 
   draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
     for (let element of EditorModel.elements) {
