@@ -1,3 +1,5 @@
+import Point from "./utils/Point";
+
 export enum ElementStates {
   IDLE = 1,
   ACTIVE,
@@ -13,6 +15,8 @@ export enum ElementTypes {
   NODE = "node",
   Connection = "connection",
 };
+
+export const DEFAULT_ORIGIN = new Point(0, 0);
 
 /**
  * Constants relating to the scale value in the view

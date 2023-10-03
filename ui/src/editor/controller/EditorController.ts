@@ -7,7 +7,6 @@ import ModelUtils from "../model/utils/modelUtils";
 
 // Elements
 import Node from "../model/elements/Node";
-import Connection from "../model/elements/Connection";
 import NodeGroup from "../model/elements/NodeGroup";
 
 // Constants
@@ -22,21 +21,23 @@ class EditorController {
   }
   
   /**
-   * Handle the user clicking the canvas
+   * Handle the user clicking the canvas.
+   * 
+   * Params:
+   *   ctx: CanvasRenderingContext2D - the canvas context
+   *   canvasState: CanvasState - the current state of the editor canvas
    */
-  handleMouseDown(ctx: CanvasRenderingContext2D, canvasState: CanvasState): Element | null {
+  handleMouseDown(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
     let elementUnderMouse = EditorView.getElementUnderMouse(canvasState);
     this.resetElementStates();
 
+    EditorView.assignNewActiveElement(elementUnderMouse);
+
     if (elementUnderMouse) {
-      EditorView.assignNewActiveElement(elementUnderMouse);
       elementUnderMouse.renderer.handleClick(canvasState);
-    } else {
-      EditorView.assignNewActiveElement(null);
     }
 
     EditorView.draw(ctx, canvasState);
-    return elementUnderMouse;
   }
 
   resetElementStates() {
@@ -65,6 +66,9 @@ class EditorController {
   handleMouseMove(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
     if (EditorView.viewState.activeElement) {
       EditorView.viewState.activeElement.renderer.handleMouseMove(canvasState);
+    } else {
+      // No active element selected, pan the canvas
+      
     }
 
     EditorView.draw(ctx, canvasState);

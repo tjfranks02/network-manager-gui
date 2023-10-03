@@ -10,7 +10,8 @@ export interface ViewState {
   lastClicked: Element | null,
   activeElement: Element | null,
   prevActiveElement: Element | null,
-  scale: number;
+  scale: number,
+  topLeftPos: Point
 }
 
 export interface ElementViewData {

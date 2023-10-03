@@ -4,20 +4,21 @@ import Element from "../model/elements/Element";
 import { ViewState } from "../types";
 import store from "../../redux/store";
 import { setActiveElement } from "../../redux/reducers/activeElement";
-import { ElementStates } from "../editorConstants";
+import { ElementStates, DEFAULT_ORIGIN } from "../editorConstants";
 
 const DEFAULT_VIEW_STATE: ViewState = {
   lastClicked: null,
   activeElement: null,
   prevActiveElement: null,
-  scale: 1
+  scale: 1,
+  topLeftPos: DEFAULT_ORIGIN
 };
 
 /**
  * Wrapper class around view elements in the canvas
  */
 class EditorView {
-  viewState!: ViewState;
+  viewState: ViewState;
 
   constructor() {
     this.viewState = DEFAULT_VIEW_STATE;
@@ -88,6 +89,11 @@ class EditorView {
 
   resetElementStates() {
     EditorModel.elements.forEach((element) => element.viewData.state = ElementStates.IDLE);
+  }
+
+  panCanvas(canvasState: CanvasState, dx: number, dy: number) {
+    this.viewState.topLeftPos.x += dx;
+    this.viewState.topLeftPos.y += dy;
   }
 }
 
