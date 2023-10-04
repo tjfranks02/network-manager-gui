@@ -9,7 +9,6 @@ import {
   DEFAULT_CANVAS_WIDTH, 
   DEFAULT_CANVAS_HEIGHT 
 } from "../editorConstants";
-import Point from "../utils/Point";
 
 const DEFAULT_VIEW_STATE: ViewState = {
   lastClicked: null,
@@ -98,10 +97,6 @@ class EditorView {
 
     this.viewState.panVector.x += deltaX;
     this.viewState.panVector.y += deltaY;
-
-    for (let element of EditorModel.elements) {
-      element.renderer.mapElementCoordsToCanvasCoords();
-    }
   }
 }
 

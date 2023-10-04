@@ -15,7 +15,6 @@ export interface ViewState {
 
 export interface ElementViewData {
   pos: Point,
-  canvasPos: Point,
   state: ElementStates,
   zIndex: number,
   margin: number,

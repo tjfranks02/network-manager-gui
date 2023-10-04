@@ -9,7 +9,7 @@ import EditorView from "../EditorView";
 import { NodeViewConstants as Constants } from "./constants/rendererConstants";
 import { ElementViewData } from "../../types";
 
-// To be deleted later
+
 const DEFAULT_CONNECTION_POINT_DATA: ElementViewData = {
   pos: DEFAULT_ORIGIN,
   canvasPos: DEFAULT_ORIGIN,
@@ -69,16 +69,15 @@ class NodeRenderer extends ElementRenderer {
     return false;
   }
 
-  draw(ctx: CanvasRenderingContext2D): void {
-    let canvasPos = this.node.viewData.pos;
-
+  draw(ctx: CanvasRenderingContext2D, ): void {
     ctx.beginPath();
     ctx.fillStyle = 'blue';
-    ctx.roundRect(canvasPos.x, canvasPos.y, Constants.WIDTH, Constants.HEIGHT, 5);
+    ctx.roundRect(this.node.viewData.pos.x, this.node.viewData.pos.y, Constants.WIDTH, Constants.HEIGHT, 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
-    ctx.fillText(this.node.id.substring(0, 5), canvasPos.x, canvasPos.y + Constants.HEIGHT + 10);
+    ctx.fillText(this.node.id.substring(0, 5), this.node.viewData.pos.x, 
+      this.node.viewData.pos.y + Constants.HEIGHT + 10);
 
     ctx.closePath();
 
@@ -92,31 +91,37 @@ class NodeRenderer extends ElementRenderer {
   }
 
   setupConnectionPoints(): void {
+    let defaultPoint = new Point(0, 0);
+
     this.node.viewData.connectionPoints = [];
-    this.node.viewData.connectionPoints.push(new ConnectionPoint(
+    this.node.viewData.connectionPoints.push(
+      new ConnectionPoint(
         uuidv4(), 
-        DEFAULT_CONNECTION_POINT_DATA, 
+        {...DEFAULT_CONNECTION_POINT_DATA}, 
         this.node
       )
     );
 
-    this.node.viewData.connectionPoints.push(new ConnectionPoint(
+    this.node.viewData.connectionPoints.push(
+      new ConnectionPoint(
         uuidv4(), 
-        DEFAULT_CONNECTION_POINT_DATA, 
+        {...DEFAULT_CONNECTION_POINT_DATA}, 
         this.node
       )
     );
 
-    this.node.viewData.connectionPoints.push(new ConnectionPoint(
+    this.node.viewData.connectionPoints.push(
+      new ConnectionPoint(
         uuidv4(), 
-        DEFAULT_CONNECTION_POINT_DATA, 
+        {...DEFAULT_CONNECTION_POINT_DATA}, 
         this.node
       )
     );
 
-    this.node.viewData.connectionPoints.push(new ConnectionPoint(
+    this.node.viewData.connectionPoints.push(
+      new ConnectionPoint(
         uuidv4(), 
-        DEFAULT_CONNECTION_POINT_DATA, 
+        {...DEFAULT_CONNECTION_POINT_DATA}, 
         this.node
       )
     );
@@ -125,6 +130,7 @@ class NodeRenderer extends ElementRenderer {
   }
 
   setConnectorPositions(): void {
+
     let topConnectorPos = new Point(
       this.node.viewData.pos.x + (Constants.WIDTH / 2), this.node.viewData.pos.y
     );
@@ -165,21 +171,6 @@ class NodeRenderer extends ElementRenderer {
 
       case ElementStates.ACTIVE:
         break;
-    }
-  }
-
-  /**
-   * Map the node's coordinates to the canvas coordinates based on pan and scale values.
-   */
-  mapElementCoordsToCanvasCoords(): void {
-    // Apply pan
-    let newX: number = this.node.viewData.pos.x + EditorView.viewState.panVector.x;
-    let newY: number = this.node.viewData.pos.y + EditorView.viewState.panVector.y;
-
-    this.node.viewData.pos = new Point(newX, newY);
-    
-    for (let connectionPoint of this.node.viewData.connectionPoints) {
-      connectionPoint.renderer.mapElementCoordsToCanvasCoords();
     }
   }
 }

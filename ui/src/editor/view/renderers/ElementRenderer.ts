@@ -14,11 +14,6 @@ abstract class ElementRenderer {
   abstract handleClick(): void;
   abstract handleUnclick(): void;
   abstract handleMouseMove(): void;
-
-  /**
-   * Transform Element's coordinates into canvas coords.
-   */
-  abstract mapElementCoordsToCanvasCoords(): void;
 }
 
 export default ElementRenderer;

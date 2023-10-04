@@ -1,4 +1,4 @@
-import CanvasUtils from "../../utils/CanvasUtils";
+import CanvasUtils from "../../utils/canvasUtils";
 import ElementRenderer from "./ElementRenderer";
 import Element from "../../model/elements/Element";
 import ConnectionPoint from "../../model/elements/ConnectionPoint";
@@ -81,14 +81,6 @@ class ConnectionPointRenderer extends ElementRenderer {
 
   handleMouseMove(): void {
 
-  }
-
-  mapElementCoordsToCanvasCoords(): void {
-    let newX: number = this.connectionPoint.viewData.pos.x + EditorView.viewState.panVector.x;
-    let newY: number = this.connectionPoint.viewData.pos.y + EditorView.viewState.panVector.y;
-
-    this.connectionPoint.viewData.pos.x = newX;
-    this.connectionPoint.viewData.pos.y = newY;
   }
 }
 
