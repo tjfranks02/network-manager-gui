@@ -1,5 +1,4 @@
 import CanvasUtils from "../../utils/CanvasUtils";
-import { CanvasState } from "../../types";
 import ElementRenderer from "./ElementRenderer";
 import Element from "../../model/elements/Element";
 import ConnectionPoint from "../../model/elements/ConnectionPoint";
@@ -19,10 +18,10 @@ class ConnectionPointRenderer extends ElementRenderer {
     this.connectionPoint = connectionPoint;
   }
 
-  draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
+  draw(ctx: CanvasRenderingContext2D): void {
     let connectionPointPos = this.connectionPoint.viewData.pos;
 
-    let shouldDisplay = CanvasUtils.isMouseInRangeOfPoint(canvasState.mousePos, 
+    let shouldDisplay = CanvasUtils.isMouseInRangeOfPoint(EditorView.viewState.mousePos, 
       connectionPointPos, 5);
 
     if (shouldDisplay) {
@@ -37,17 +36,17 @@ class ConnectionPointRenderer extends ElementRenderer {
     }
   }
 
-  elementUnderMouse(canvasState: CanvasState): Element | null {
-    if (this.isMouseOverElement(canvasState)) {
+  elementUnderMouse(): Element | null {
+    if (this.isMouseOverElement()) {
       return this.connectionPoint;
     } 
     
     return null;
   }
 
-  isMouseOverElement(canvasState: CanvasState): boolean {
+  isMouseOverElement(): boolean {
     return CanvasUtils.isMouseInRangeOfPoint(
-      canvasState.mousePos, 
+      EditorView.viewState.mousePos, 
       this.connectionPoint.viewData.pos,
       5
     );

@@ -1,6 +1,5 @@
 import Point from "../../utils/Point";
 import Connection from "../../model/elements/Connection";
-import { CanvasState } from "../../types";
 import ElementRenderer from "./ElementRenderer";
 import Element from "../../model/elements/Element";
 import EditorView from "../EditorView";
@@ -14,16 +13,16 @@ class ConnectionRenderer extends ElementRenderer {
     this.connection = connection;
   }
 
-  draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
+  draw(ctx: CanvasRenderingContext2D): void {
     let originPos = this.connection.origin.viewData.pos;
-    let destPos = this.connection.dest ? this.connection.dest.viewData.pos : canvasState.mousePos;
+    let destPos = this.connection.dest ? this.connection.dest.viewData.pos : EditorView.viewState.mousePos;
 
     ctx.beginPath();
     
     ctx.moveTo(originPos.x, originPos.y);
     ctx.lineTo(destPos.x, destPos.y);
     
-    if (this.isMouseWithinThreshold(canvasState)) {
+    if (this.isMouseWithinThreshold()) {
       ctx.strokeStyle = 'red';
     } else {
       ctx.strokeStyle = 'green';
@@ -35,7 +34,7 @@ class ConnectionRenderer extends ElementRenderer {
     ctx.closePath();
   }
 
-  isMouseWithinThreshold(canvasState: CanvasState): boolean {
+  isMouseWithinThreshold(): boolean {
     if (!(this.connection.dest)) {
       return false;
     }
@@ -45,13 +44,13 @@ class ConnectionRenderer extends ElementRenderer {
 
     let m: number = (destPos.y - originPos.y) / (destPos.x - originPos.x);
     let c: number = originPos.y - m * originPos.x;
-    let connectionY: number = m * canvasState.mousePos.x + c
+    let connectionY: number = m * EditorView.viewState.mousePos.x + c
     
-    return Math.abs(connectionY - canvasState.mousePos.y) < 8;
+    return Math.abs(connectionY - EditorView.viewState.mousePos.y) < 8;
   }
 
-  elementUnderMouse(canvasState: CanvasState): Element | null {
-    return this.isMouseWithinThreshold(canvasState) ? this.connection : null;
+  elementUnderMouse(): Element | null {
+    return this.isMouseWithinThreshold() ? this.connection : null;
   }
 
   handleClick(): void {

@@ -11,7 +11,9 @@ const DEFAULT_VIEW_STATE: ViewState = {
   activeElement: null,
   prevActiveElement: null,
   scale: 1,
-  topLeftPos: DEFAULT_ORIGIN
+  topLeftPos: DEFAULT_ORIGIN,
+  mousePos: DEFAULT_ORIGIN,
+  oldMousePos: DEFAULT_ORIGIN
 };
 
 /**
@@ -40,17 +42,14 @@ class EditorView {
   /**
    * Get the element under the mouse with the highest z-index.
    * 
-   * Params:
-   *   canvasState: CanvasState - the current state of the editor canvas
-   * 
    * Returns:
    *   Element | null - the element under the mouse with the highest z-index
    */
-  getElementUnderMouse(canvasState: CanvasState): Element | null {
+  getElementUnderMouse(): Element | null {
     let elementWithMaxZIndex: Element | null = null;
 
     for (let element of EditorModel.elements) {
-      let elementUnderMouse: Element | null = element.renderer.elementUnderMouse(canvasState);
+      let elementUnderMouse: Element | null = element.renderer.elementUnderMouse();
       
       if (!elementWithMaxZIndex) {
         elementWithMaxZIndex = elementUnderMouse;
@@ -67,11 +66,11 @@ class EditorView {
 
   }
 
-  getElementsUnderMouse(canvasState: CanvasState): Array<Element> {
+  getElementsUnderMouse(): Array<Element> {
     let elementsUnderMouse: Array<Element> = [];
     
     for (let element of EditorModel.elements) {
-      let elementUnderMouse: Element | null = element.renderer.elementUnderMouse(canvasState);
+      let elementUnderMouse: Element | null = element.renderer.elementUnderMouse();
 
       if (elementUnderMouse) {
         elementsUnderMouse.push(elementUnderMouse);
@@ -81,9 +80,9 @@ class EditorView {
     return elementsUnderMouse;
   }
 
-  draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
+  draw(ctx: CanvasRenderingContext2D): void {
     for (let element of EditorModel.elements) {
-      element.renderer.draw(ctx, canvasState);
+      element.renderer.draw(ctx);
     }
   }
 
@@ -91,7 +90,7 @@ class EditorView {
     EditorModel.elements.forEach((element) => element.viewData.state = ElementStates.IDLE);
   }
 
-  panCanvas(canvasState: CanvasState, dx: number, dy: number) {
+  panCanvas(dx: number, dy: number) {
     this.viewState.topLeftPos.x += dx;
     this.viewState.topLeftPos.y += dy;
   }

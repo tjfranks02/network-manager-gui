@@ -1,24 +1,24 @@
-import { useState, useRef, MouseEvent, WheelEvent, DragEvent, useEffect } from 'react';
+import { useRef, MouseEvent, WheelEvent, DragEvent, useEffect } from 'react';
 import Point from "../../../editor/utils/Point";
 import EditorController from "../../../editor/controller/EditorController";
-import { CanvasState } from '../../../editor/types';
+import EditorView from "../../../editor/view/EditorView";
 import { useSelector } from "react-redux";
 import { RootState } from '../../../redux/store';
 
 import css from "./styles.module.css";
 
-const defaultCanvasState = {
-  mousePos: new Point(0, 0),
-};
+const setNewMousePos = (newMousePos: Point): void => {
+  EditorView.viewState.oldMousePos = EditorView.viewState.mousePos;
+  EditorView.viewState.mousePos = newMousePos;
+}
 
 const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [canvasState, setCanvasState] = useState<CanvasState>(defaultCanvasState);
 
   const currDraggedElem = useSelector((state: RootState) => state.currentDraggedElement.element);
 
   useEffect(() => {
-    EditorController.draw(getContext(), canvasState);
+    EditorController.draw(getContext());
   }, []);
 
   const getContext = (): CanvasRenderingContext2D => {
@@ -37,30 +37,28 @@ const Canvas = () => {
     clearCanvas();
 
     let mousePos = mapClientCoordsToMouse(event);
-    let newCanvasState = {...canvasState, mousePos};
-    
-    setCanvasState(newCanvasState);
+    setNewMousePos(mousePos);
 
-    EditorController.handleMouseMove(getContext(), newCanvasState);
+    EditorController.handleMouseMove(getContext());
   };
 
   const handleMouseDown = (event: MouseEvent<HTMLCanvasElement>): void => {
     let mousePos = mapClientCoordsToMouse(event);
-    let newCanvasState = {...canvasState, mousePos};
+    setNewMousePos(mousePos);
     
     clearCanvas();
-    EditorController.handleMouseDown(getContext(), newCanvasState);
+    EditorController.handleMouseDown(getContext());
   };
 
   const handleMouseUp = (event: MouseEvent<HTMLCanvasElement>): void => {
     let mousePos = mapClientCoordsToMouse(event);
-    let newCanvasState = {...canvasState, mousePos};
+    setNewMousePos(mousePos);
 
-    EditorController.handleMouseUp(getContext(), newCanvasState);
+    EditorController.handleMouseUp(getContext());
   };
 
   const onDraggedElementDrop = (event: DragEvent<HTMLCanvasElement>) => {
-    EditorController.createElement(currDraggedElem, canvasState);
+    EditorController.createElement(currDraggedElem);
   };
 
   const clearCanvas = (): void => {
@@ -73,8 +71,7 @@ const Canvas = () => {
     event.preventDefault();
 
     let mousePos = mapClientCoordsToMouse(event);
-    let newCanvasState = {...canvasState, mousePos};
-    setCanvasState(newCanvasState);
+    setNewMousePos(mousePos);
   };
 
   const handleMouseWheelMove = (event: WheelEvent<HTMLCanvasElement>): void => {

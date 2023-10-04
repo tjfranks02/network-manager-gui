@@ -4,6 +4,7 @@ import { ElementStates } from "./editorConstants";
 
 export interface CanvasState {
   mousePos: Point,
+  oldMousePos: Point | null
 };
 
 export interface ViewState {
@@ -11,8 +12,10 @@ export interface ViewState {
   activeElement: Element | null,
   prevActiveElement: Element | null,
   scale: number,
-  topLeftPos: Point
-}
+  topLeftPos: Point,
+  mousePos: Point,
+  oldMousePos: Point
+};
 
 export interface ElementViewData {
   pos: Point,
@@ -21,4 +24,4 @@ export interface ElementViewData {
   margin: number,
   padding: number,
   [key: string]: any
-}
+};

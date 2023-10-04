@@ -1,6 +1,6 @@
 import Element from "../model/elements/Element";
 import EditorModel from "../model/Model";
-import { CanvasState } from "../types";
+import {  } from "../types";
 import EditorView from "../view/EditorView";
 import { ElementStates } from "../editorConstants";
 import ModelUtils from "../model/utils/modelUtils";
@@ -25,19 +25,18 @@ class EditorController {
    * 
    * Params:
    *   ctx: CanvasRenderingContext2D - the canvas context
-   *   canvasState: CanvasState - the current state of the editor canvas
    */
-  handleMouseDown(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
-    let elementUnderMouse = EditorView.getElementUnderMouse(canvasState);
+  handleMouseDown(ctx: CanvasRenderingContext2D): void {
+    let elementUnderMouse = EditorView.getElementUnderMouse();
     this.resetElementStates();
 
     EditorView.assignNewActiveElement(elementUnderMouse);
 
     if (elementUnderMouse) {
-      elementUnderMouse.renderer.handleClick(canvasState);
+      elementUnderMouse.renderer.handleClick();
     }
 
-    EditorView.draw(ctx, canvasState);
+    EditorView.draw(ctx, );
   }
 
   resetElementStates() {
@@ -46,8 +45,8 @@ class EditorController {
     }
   }
 
-  handleMouseUp(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
-    let elementUnderMouse: Element | null = EditorView.getElementUnderMouse(canvasState);   
+  handleMouseUp(ctx: CanvasRenderingContext2D): void {
+    let elementUnderMouse: Element | null = EditorView.getElementUnderMouse();   
     let activeElement: Element | null = EditorView.viewState.activeElement;
 
     // Add active Node to NodeGroup
@@ -57,21 +56,20 @@ class EditorController {
     }
     
     if (EditorView.viewState.activeElement) {
-      EditorView.viewState.activeElement.renderer.handleUnclick(canvasState);
+      EditorView.viewState.activeElement.renderer.handleUnclick();
     }
 
-    EditorView.draw(ctx, canvasState);
+    EditorView.draw(ctx, );
   }
 
-  handleMouseMove(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
+  handleMouseMove(ctx: CanvasRenderingContext2D): void {
     if (EditorView.viewState.activeElement) {
-      EditorView.viewState.activeElement.renderer.handleMouseMove(canvasState);
+      EditorView.viewState.activeElement.renderer.handleMouseMove();
     } else {
       // No active element selected, pan the canvas
-      
     }
 
-    EditorView.draw(ctx, canvasState);
+    EditorView.draw(ctx);
   }
 
   handleMouseWheelScroll(deltaY: number) {
@@ -89,17 +87,30 @@ class EditorController {
     return new EditorController();
   }
 
-  createElement(elementClassName: string, canvasState: CanvasState): void {
+  createElement(elementClassName: string): void {
     let newElement: Element | null = null;
     let id: string = ModelUtils.generateUUID();
 
     switch (elementClassName) {
       case Node.name:
-        newElement = new Node(id, { pos: canvasState.mousePos, state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
+        newElement = new Node(id, { 
+          pos: EditorView.viewState.mousePos, 
+          state: ElementStates.IDLE, 
+          zIndex: 1, 
+          margin: 12, 
+          padding: 0 
+        });
         break;
 
       case NodeGroup.name:
-        newElement = new NodeGroup(id, { pos: canvasState.mousePos, state: ElementStates.IDLE, zIndex: 2, margin: 0, padding: 8 });
+        newElement = new NodeGroup(id, { 
+          pos: EditorView.viewState.mousePos, 
+          state: ElementStates.IDLE, 
+          zIndex: 2, 
+          margin: 0, 
+          padding: 8 
+        });
+        break;
     }
 
     if (newElement) {
@@ -107,8 +118,8 @@ class EditorController {
     }
   }
 
-  draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
-    EditorView.draw(ctx, canvasState);
+  draw(ctx: CanvasRenderingContext2D): void {
+    EditorView.draw(ctx);
   }
 }
 

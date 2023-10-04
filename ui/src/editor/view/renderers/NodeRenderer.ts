@@ -19,10 +19,10 @@ class NodeRenderer extends ElementRenderer {
     this.setupConnectionPoints();
   }
 
-  elementUnderMouse(canvasState: CanvasState): Element | null {
+  elementUnderMouse(): Element | null {
     // Check if mouse is over any sub-elements
     for (let connPoint of this.node.viewData.connectionPoints) {
-      let subElement = connPoint.renderer.elementUnderMouse(canvasState);
+      let subElement = connPoint.renderer.elementUnderMouse();
 
       if (subElement) {
         return subElement;
@@ -30,14 +30,14 @@ class NodeRenderer extends ElementRenderer {
     }
 
     for (let connection of this.node.connections) {
-      let subElement = connection.renderer.elementUnderMouse(canvasState);
+      let subElement = connection.renderer.elementUnderMouse();
 
       if (subElement) {
         return subElement;
       }
     }
     
-    if (this.isMouseOverElement(canvasState.mousePos)) {
+    if (this.isMouseOverElement(EditorView.viewState.mousePos)) {
       return this.node;
     }
 
@@ -59,7 +59,7 @@ class NodeRenderer extends ElementRenderer {
     return false;
   }
 
-  draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
+  draw(ctx: CanvasRenderingContext2D): void {
     ctx.beginPath();
     ctx.fillStyle = 'blue';
     ctx.roundRect(this.node.viewData.pos.x, this.node.viewData.pos.y, Constants.WIDTH, Constants.HEIGHT, 5);
@@ -72,11 +72,11 @@ class NodeRenderer extends ElementRenderer {
     ctx.closePath();
 
     // Draw connections
-    this.node.connections.forEach((connection) => connection.renderer.draw(ctx, canvasState));
+    this.node.connections.forEach((connection) => connection.renderer.draw(ctx));
 
     // Draw connection points
     this.node.viewData.connectionPoints.forEach(
-      (connectionPoint: ConnectionPoint) => connectionPoint.renderer.draw(ctx, canvasState)
+      (connectionPoint: ConnectionPoint) => connectionPoint.renderer.draw(ctx)
     );
   }
 
@@ -145,18 +145,18 @@ class NodeRenderer extends ElementRenderer {
     this.setConnectorPositions();
   }
 
-  handleClick(canvasState: CanvasState): void {
+  handleClick(): void {
     this.node.viewData.state = ElementStates.CLICKED;
   }
   
-  handleUnclick(canvasState: CanvasState): void {
+  handleUnclick(): void {
     this.node.viewData.state = ElementStates.ACTIVE;
   }
 
-  handleMouseMove(canvasState: CanvasState): void {
+  handleMouseMove(): void {
     switch (this.node.viewData.state) {
       case ElementStates.CLICKED:
-        this.moveNodeToPos(canvasState.mousePos);
+        this.moveNodeToPos(EditorView.viewState.mousePos);
         break;
 
       case ElementStates.ACTIVE:

@@ -1,5 +1,4 @@
 import Element from "../../model/elements/Element";
-import { CanvasState } from "../../types";
 import ElementRenderer from "./ElementRenderer";
 import NodeRenderer from "./NodeRenderer";
 import NodeGroup from "../../model/elements/NodeGroup";
@@ -9,6 +8,7 @@ import {
   NodeGroupViewConstants as Constants, 
   NodeViewConstants as NodeConstants 
 } from "./constants/rendererConstants";
+import EditorView from "../EditorView";
 
 class NodeGroupRenderer extends ElementRenderer {
   nodeGroup: NodeGroup;
@@ -18,13 +18,13 @@ class NodeGroupRenderer extends ElementRenderer {
     this.nodeGroup = nodeGroup;
   }
 
-  draw(ctx: CanvasRenderingContext2D, canvasState: CanvasState): void {
+  draw(ctx: CanvasRenderingContext2D): void {
     this.updateNodeGrid();
     this.updateNodeGroupDimensions();
 
     ctx.beginPath();
     
-    ctx.fillStyle = this.isMouseOverElement(canvasState.mousePos) ? "green" : "red";
+    ctx.fillStyle = this.isMouseOverElement(EditorView.viewState.mousePos) ? "green" : "red";
     ctx.roundRect(this.nodeGroup.viewData.pos.x, this.nodeGroup.viewData.pos.y, 
       this.nodeGroup.viewData.width, this.nodeGroup.viewData.height, 5);
     ctx.fill();
@@ -36,7 +36,7 @@ class NodeGroupRenderer extends ElementRenderer {
     ctx.closePath();
 
     for (let node of this.nodeGroup.nodes) {
-      node.renderer.draw(ctx, canvasState);
+      node.renderer.draw(ctx);
     }
   }
 
@@ -85,18 +85,18 @@ class NodeGroupRenderer extends ElementRenderer {
     (<NodeRenderer>this.nodeGroup.nodes[nodeIndex].renderer).moveNodeToPos(newNodePos);
   }
 
-  handleClick(canvasState: CanvasState): void {
+  handleClick(): void {
     this.nodeGroup.viewData.state = ElementStates.CLICKED;
   }
 
-  handleUnclick(canvasState: CanvasState): void {
+  handleUnclick(): void {
     this.nodeGroup.viewData.state = ElementStates.ACTIVE;
   }
 
-  handleMouseMove(canvasState: CanvasState): void {
+  handleMouseMove(): void {
     switch (this.nodeGroup.viewData.state) {
       case ElementStates.CLICKED:
-        this.moveNodeGroupToPos(canvasState.mousePos);
+        this.moveNodeGroupToPos(EditorView.viewState.mousePos);
         break;
 
       case ElementStates.ACTIVE:
@@ -123,8 +123,8 @@ class NodeGroupRenderer extends ElementRenderer {
     return false;
   }
 
-  elementUnderMouse(canvasState: CanvasState): Element | null {
-    if (this.isMouseOverElement(canvasState.mousePos)) {
+  elementUnderMouse(): Element | null {
+    if (this.isMouseOverElement(EditorView.viewState.mousePos)) {
       return this.nodeGroup;
     }
 
