@@ -58,10 +58,18 @@ class ConnectionPointRenderer extends ElementRenderer {
     } else {
       let newConnection = new Connection(
         ModelUtils.generateUUID(),
-        this.connectionPoint.owner, 
+        this.connectionPoint.owner,
         null,
-        { pos: this.connectionPoint.owner.viewData.pos, state: ElementStates.INCOMPLETE, zIndex: -1, margin: 0, padding: 0 }
+        { 
+          pos: this.connectionPoint.owner.viewData.pos,
+          state: ElementStates.INCOMPLETE, 
+          zIndex: -1, 
+          margin: 0, 
+          padding: 0,
+          canvasPos: this.connectionPoint.owner.viewData.canvasPos
+        }
       );
+
       this.connectionPoint.owner.connections.push(newConnection);
       EditorView.assignNewActiveElement(newConnection);
     }
@@ -73,6 +81,14 @@ class ConnectionPointRenderer extends ElementRenderer {
 
   handleMouseMove(): void {
 
+  }
+
+  mapElementCoordsToCanvasCoords(): void {
+    let newX: number = this.connectionPoint.viewData.pos.x + EditorView.viewState.panVector.x;
+    let newY: number = this.connectionPoint.viewData.pos.y + EditorView.viewState.panVector.y;
+
+    this.connectionPoint.viewData.pos.x = newX;
+    this.connectionPoint.viewData.pos.y = newY;
   }
 }
 

@@ -4,6 +4,7 @@ import EditorController from "../../../editor/controller/EditorController";
 import EditorView from "../../../editor/view/EditorView";
 import { useSelector } from "react-redux";
 import { RootState } from '../../../redux/store';
+import { DEFAULT_CANVAS_HEIGHT, DEFAULT_CANVAS_WIDTH } from '../../../editor/editorConstants';
 
 import css from "./styles.module.css";
 
@@ -82,8 +83,8 @@ const Canvas = () => {
     <canvas 
       className={css.canvas}
       ref={canvasRef} 
-      width={900}
-      height={375}
+      width={DEFAULT_CANVAS_WIDTH}
+      height={DEFAULT_CANVAS_HEIGHT}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}

@@ -2,23 +2,20 @@ import Point from "./utils/Point";
 import Element from "./model/elements/Element";
 import { ElementStates } from "./editorConstants";
 
-export interface CanvasState {
-  mousePos: Point,
-  oldMousePos: Point | null
-};
-
 export interface ViewState {
   lastClicked: Element | null,
   activeElement: Element | null,
   prevActiveElement: Element | null,
   scale: number,
-  topLeftPos: Point,
+  panVector: Point,
   mousePos: Point,
-  oldMousePos: Point
+  oldMousePos: Point,
+  canvasSize: { width: number, height: number }
 };
 
 export interface ElementViewData {
   pos: Point,
+  canvasPos: Point,
   state: ElementStates,
   zIndex: number,
   margin: number,

@@ -64,6 +64,14 @@ class ConnectionRenderer extends ElementRenderer {
   handleMouseMove(): void {
 
   }
+
+  mapElementCoordsToCanvasCoords(): void {
+    let newX: number = this.connection.viewData.pos.x + EditorView.viewState.panVector.x;
+    let newY: number = this.connection.viewData.pos.y + EditorView.viewState.panVector.y;
+
+    this.connection.viewData.pos.x = newX;
+    this.connection.viewData.pos.y = newY;
+  }
 }
 
 export default ConnectionRenderer;

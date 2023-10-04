@@ -36,7 +36,7 @@ class EditorController {
       elementUnderMouse.renderer.handleClick();
     }
 
-    EditorView.draw(ctx, );
+    EditorView.draw(ctx);
   }
 
   resetElementStates() {
@@ -59,14 +59,15 @@ class EditorController {
       EditorView.viewState.activeElement.renderer.handleUnclick();
     }
 
-    EditorView.draw(ctx, );
+    EditorView.draw(ctx);
   }
 
   handleMouseMove(ctx: CanvasRenderingContext2D): void {
     if (EditorView.viewState.activeElement) {
       EditorView.viewState.activeElement.renderer.handleMouseMove();
-    } else {
+    } else if (EditorView.viewState.prevActiveElement) {
       // No active element selected, pan the canvas
+      EditorView.panCanvas();
     }
 
     EditorView.draw(ctx);
@@ -94,21 +95,23 @@ class EditorController {
     switch (elementClassName) {
       case Node.name:
         newElement = new Node(id, { 
-          pos: EditorView.viewState.mousePos, 
+          pos: EditorView.viewState.mousePos,
           state: ElementStates.IDLE, 
           zIndex: 1, 
           margin: 12, 
-          padding: 0 
+          padding: 0,
+          canvasPos: EditorView.viewState.mousePos
         });
         break;
 
       case NodeGroup.name:
         newElement = new NodeGroup(id, { 
-          pos: EditorView.viewState.mousePos, 
+          pos: EditorView.viewState.mousePos,
           state: ElementStates.IDLE, 
           zIndex: 2, 
           margin: 0, 
-          padding: 8 
+          padding: 8,
+          canvasPos: EditorView.viewState.mousePos 
         });
         break;
     }

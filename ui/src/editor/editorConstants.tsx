@@ -19,6 +19,12 @@ export enum ElementTypes {
 export const DEFAULT_ORIGIN = new Point(0, 0);
 
 /**
+ * Default values for canvas sizing
+ */
+export const DEFAULT_CANVAS_WIDTH = 900;
+export const DEFAULT_CANVAS_HEIGHT = 375;
+
+/**
  * Constants relating to the scale value in the view
  */
 // Bounds for scale

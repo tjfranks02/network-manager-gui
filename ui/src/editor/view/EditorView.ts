@@ -1,19 +1,25 @@
 import EditorModel from "../model/Model";
-import { CanvasState } from "../types";
 import Element from "../model/elements/Element";
 import { ViewState } from "../types";
 import store from "../../redux/store";
 import { setActiveElement } from "../../redux/reducers/activeElement";
-import { ElementStates, DEFAULT_ORIGIN } from "../editorConstants";
+import { 
+  ElementStates, 
+  DEFAULT_ORIGIN, 
+  DEFAULT_CANVAS_WIDTH, 
+  DEFAULT_CANVAS_HEIGHT 
+} from "../editorConstants";
+import Point from "../utils/Point";
 
 const DEFAULT_VIEW_STATE: ViewState = {
   lastClicked: null,
   activeElement: null,
   prevActiveElement: null,
   scale: 1,
-  topLeftPos: DEFAULT_ORIGIN,
+  panVector: DEFAULT_ORIGIN,
   mousePos: DEFAULT_ORIGIN,
-  oldMousePos: DEFAULT_ORIGIN
+  oldMousePos: DEFAULT_ORIGIN,
+  canvasSize: { width: DEFAULT_CANVAS_WIDTH, height: DEFAULT_CANVAS_HEIGHT }
 };
 
 /**
@@ -62,10 +68,6 @@ class EditorView {
     return elementWithMaxZIndex;
   }
 
-  getElementWithMaxZIndex() {
-
-  }
-
   getElementsUnderMouse(): Array<Element> {
     let elementsUnderMouse: Array<Element> = [];
     
@@ -90,9 +92,16 @@ class EditorView {
     EditorModel.elements.forEach((element) => element.viewData.state = ElementStates.IDLE);
   }
 
-  panCanvas(dx: number, dy: number) {
-    this.viewState.topLeftPos.x += dx;
-    this.viewState.topLeftPos.y += dy;
+  panCanvas() {
+    let deltaX: number = this.viewState.mousePos.x - this.viewState.oldMousePos.x;
+    let deltaY: number = this.viewState.mousePos.y - this.viewState.oldMousePos.y;
+
+    this.viewState.panVector.x += deltaX;
+    this.viewState.panVector.y += deltaY;
+
+    for (let element of EditorModel.elements) {
+      element.renderer.mapElementCoordsToCanvasCoords();
+    }
   }
 }
 

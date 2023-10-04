@@ -130,6 +130,18 @@ class NodeGroupRenderer extends ElementRenderer {
 
     return null;
   }
+
+  mapElementCoordsToCanvasCoords(): void {
+    let newX: number = this.nodeGroup.viewData.pos.x + EditorView.viewState.panVector.x;
+    let newY: number = this.nodeGroup.viewData.pos.y + EditorView.viewState.panVector.y;
+
+    this.nodeGroup.viewData.pos.x = newX;
+    this.nodeGroup.viewData.pos.y = newY;
+    
+    for (let node of this.nodeGroup.nodes) {
+      node.renderer.mapElementCoordsToCanvasCoords();
+    }
+  }
 }
 
 export default NodeGroupRenderer;
