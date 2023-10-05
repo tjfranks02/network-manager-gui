@@ -70,14 +70,15 @@ class NodeRenderer extends ElementRenderer {
   }
 
   draw(ctx: CanvasRenderingContext2D, ): void {
+    let canvasPos: Point = EditorView.mapPointToCanvas(this.node.viewData.pos);
+
     ctx.beginPath();
     ctx.fillStyle = 'blue';
-    ctx.roundRect(this.node.viewData.pos.x, this.node.viewData.pos.y, Constants.WIDTH, Constants.HEIGHT, 5);
+    ctx.roundRect(canvasPos.x, canvasPos.y, Constants.WIDTH, Constants.HEIGHT, 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
-    ctx.fillText(this.node.id.substring(0, 5), this.node.viewData.pos.x, 
-      this.node.viewData.pos.y + Constants.HEIGHT + 10);
+    ctx.fillText(this.node.id.substring(0, 5), canvasPos.x, canvasPos.y + Constants.HEIGHT + 10);
 
     ctx.closePath();
 

@@ -19,19 +19,21 @@ class NodeGroupRenderer extends ElementRenderer {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
+    let canvasPos: Point = EditorView.mapPointToCanvas(this.nodeGroup.viewData.pos);
+
     this.updateNodeGrid();
     this.updateNodeGroupDimensions();
 
     ctx.beginPath();
     
     ctx.fillStyle = this.isMouseOverElement(EditorView.viewState.mousePos) ? "green" : "red";
-    ctx.roundRect(this.nodeGroup.viewData.pos.x, this.nodeGroup.viewData.pos.y, 
+    ctx.roundRect(canvasPos.x, canvasPos.y, 
       this.nodeGroup.viewData.width, this.nodeGroup.viewData.height, 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
-    ctx.fillText(this.nodeGroup.id.substring(0, 5), this.nodeGroup.viewData.pos.x, 
-      this.nodeGroup.viewData.pos.y + Constants.HEIGHT + 10);
+    ctx.fillText(this.nodeGroup.id.substring(0, 5), canvasPos.x, 
+      canvasPos.y + Constants.HEIGHT + 10);
     
     ctx.closePath();
 

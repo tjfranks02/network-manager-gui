@@ -1,6 +1,6 @@
 import EditorModel from "../model/Model";
 import Element from "../model/elements/Element";
-import { ViewState } from "../types";
+import { ViewState, ViewStates } from "../types";
 import store from "../../redux/store";
 import { setActiveElement } from "../../redux/reducers/activeElement";
 import { 
@@ -9,6 +9,7 @@ import {
   DEFAULT_CANVAS_WIDTH, 
   DEFAULT_CANVAS_HEIGHT 
 } from "../editorConstants";
+import Point from "../utils/Point";
 
 const DEFAULT_VIEW_STATE: ViewState = {
   lastClicked: null,
@@ -18,7 +19,8 @@ const DEFAULT_VIEW_STATE: ViewState = {
   panVector: DEFAULT_ORIGIN,
   mousePos: DEFAULT_ORIGIN,
   oldMousePos: DEFAULT_ORIGIN,
-  canvasSize: { width: DEFAULT_CANVAS_WIDTH, height: DEFAULT_CANVAS_HEIGHT }
+  canvasSize: { width: DEFAULT_CANVAS_WIDTH, height: DEFAULT_CANVAS_HEIGHT },
+  state: ViewStates.IDLE
 };
 
 /**
@@ -97,6 +99,15 @@ class EditorView {
 
     this.viewState.panVector.x += deltaX;
     this.viewState.panVector.y += deltaY;
+  }
+
+  mapPointToCanvas(point: Point): Point {
+    let mappedPoint: Point = new Point(0, 0);
+
+    mappedPoint.x = point.x + this.viewState.panVector.x;
+    mappedPoint.y = point.y + this.viewState.panVector.y;
+
+    return mappedPoint;
   }
 }
 

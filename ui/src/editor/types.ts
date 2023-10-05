@@ -10,7 +10,13 @@ export interface ViewState {
   panVector: Point,
   mousePos: Point,
   oldMousePos: Point,
-  canvasSize: { width: number, height: number }
+  canvasSize: { width: number, height: number },
+  state: ViewStates
+};
+
+export enum ViewStates {
+  IDLE = "IDLE",
+  PANNING = "PANNING"
 };
 
 export interface ElementViewData {
