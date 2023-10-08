@@ -111,7 +111,8 @@ class NodeGroupRenderer extends ElementRenderer {
   }
 
   moveNodeGroupToPos(pos: Point) {
-    this.viewPos = pos;
+    this.worldPos = pos;
+    this.viewPos = EditorView.mapViewPosToCanvasPos(pos);
     this.updateNodeGrid();
   }
 

@@ -101,8 +101,7 @@ class EditorView {
     this.viewState.panVector.y += deltaY;
 
     for (let element of EditorModel.elements) {
-      element.renderer.viewPos.x = element.renderer.worldPos.x + this.viewState.panVector.x;
-      element.renderer.viewPos.y = element.renderer.worldPos.y + this.viewState.panVector.y;
+      element.renderer.updateViewPos();
     }
   }
 

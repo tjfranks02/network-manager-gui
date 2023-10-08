@@ -165,7 +165,7 @@ class NodeRenderer extends ElementRenderer {
 
   moveNodeToPos(pos: Point): void {
     this.worldPos = pos;
-    this.viewPos = EditorView.mapViewPosToCanvasPos(this.worldPos);
+    this.viewPos = EditorView.mapViewPosToCanvasPos(pos);
     this.setConnectorPositions();
   }
 
