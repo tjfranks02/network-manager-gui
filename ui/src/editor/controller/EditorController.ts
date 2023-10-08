@@ -4,6 +4,7 @@ import { ViewStates } from "../types";
 import EditorView from "../view/EditorView";
 import { ElementStates } from "../editorConstants";
 import ModelUtils from "../model/utils/modelUtils";
+import NodeGroupRenderer from "../view/renderers/NodeGroupRenderer";
 
 // Elements
 import Node from "../model/elements/Node";
@@ -44,7 +45,7 @@ class EditorController {
 
   resetElementStates() {
     for (let element of EditorModel.elements) {
-      element.viewData.state = ElementStates.IDLE;
+      element.renderer.state = ElementStates.IDLE;
     }
   }
 
@@ -54,7 +55,7 @@ class EditorController {
 
     // Add active Node to NodeGroup
     if (activeElement instanceof Node && elementUnderMouse instanceof NodeGroup) {
-      elementUnderMouse.addNode(activeElement);
+      (<NodeGroupRenderer>elementUnderMouse.renderer).addNodeToGroup(activeElement);
       EditorModel.removeElementById(activeElement.id);
     }
     
@@ -114,23 +115,23 @@ class EditorController {
     switch (elementClassName) {
       case Node.name:
         newElement = new Node(id, { 
-          pos: EditorView.viewState.mousePos,
+          worldPos: EditorView.viewState.mousePos,
+          viewPos: EditorView.mapViewPosToCanvasPos(EditorView.viewState.mousePos),
           state: ElementStates.IDLE, 
           zIndex: 1, 
           margin: 12, 
-          padding: 0,
-          canvasPos: EditorView.viewState.mousePos
+          padding: 0
         });
         break;
 
       case NodeGroup.name:
         newElement = new NodeGroup(id, { 
-          pos: EditorView.viewState.mousePos,
+          worldPos: EditorView.viewState.mousePos,
+          viewPos: EditorView.mapViewPosToCanvasPos(EditorView.viewState.mousePos),
           state: ElementStates.IDLE, 
           zIndex: 2, 
           margin: 0, 
-          padding: 8,
-          canvasPos: EditorView.viewState.mousePos 
+          padding: 8
         });
         break;
     }

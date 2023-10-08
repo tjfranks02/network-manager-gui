@@ -4,18 +4,19 @@ import ElementRenderer from "./ElementRenderer";
 import Element from "../../model/elements/Element";
 import EditorView from "../EditorView";
 import { ElementStates } from "../../editorConstants";
+import { BaseElementViewData } from "../../types";
 
 class ConnectionRenderer extends ElementRenderer {
   connection: Connection;
 
-  constructor(connection: Connection) {
-    super();
+  constructor(connection: Connection, baseViewData: BaseElementViewData) {
+    super(baseViewData);
     this.connection = connection;
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    let originPos = this.connection.origin.viewData.pos;
-    let destPos = this.connection.dest ? this.connection.dest.viewData.pos : EditorView.viewState.mousePos;
+    let originPos = this.viewPos;
+    let destPos = this.connection.dest ? this.viewPos : EditorView.viewState.mousePos;
 
     ctx.beginPath();
     
@@ -39,8 +40,8 @@ class ConnectionRenderer extends ElementRenderer {
       return false;
     }
 
-    let originPos: Point = this.connection.origin.viewData.pos;
-    let destPos: Point = this.connection.dest!.viewData.pos;
+    let originPos: Point = this.viewPos;
+    let destPos: Point = this.viewPos;
 
     let m: number = (destPos.y - originPos.y) / (destPos.x - originPos.x);
     let c: number = originPos.y - m * originPos.x;
@@ -54,23 +55,20 @@ class ConnectionRenderer extends ElementRenderer {
   }
 
   handleClick(): void {
-    this.connection.viewData.state = ElementStates.CLICKED;
+    this.state = ElementStates.CLICKED;
   }
 
   handleUnclick(): void {
-    this.connection.viewData.state = ElementStates.ACTIVE;
+    this.state = ElementStates.ACTIVE;
   }
 
   handleMouseMove(): void {
 
   }
 
-  mapElementCoordsToCanvasCoords(): void {
-    let newX: number = this.connection.viewData.pos.x + EditorView.viewState.panVector.x;
-    let newY: number = this.connection.viewData.pos.y + EditorView.viewState.panVector.y;
-
-    this.connection.viewData.pos.x = newX;
-    this.connection.viewData.pos.y = newY;
+  updateViewPos(): void {
+    this.viewPos.x = this.worldPos.x + EditorView.viewState.panVector.x;
+    this.viewPos.y = this.worldPos.y + EditorView.viewState.panVector.y;
   }
 }
 

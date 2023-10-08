@@ -7,12 +7,12 @@ import { v4 as uuidv4 } from "uuid";
 import { DEFAULT_ORIGIN, ElementStates } from "../../editorConstants";
 import EditorView from "../EditorView";
 import { NodeViewConstants as Constants } from "./constants/rendererConstants";
-import { ElementViewData } from "../../types";
+import { BaseElementViewData } from "../../types";
 
 
-const DEFAULT_CONNECTION_POINT_DATA: ElementViewData = {
-  pos: DEFAULT_ORIGIN,
-  canvasPos: DEFAULT_ORIGIN,
+const DEFAULT_CONNECTION_POINT_DATA: BaseElementViewData = {
+  viewPos: DEFAULT_ORIGIN,
+  worldPos: DEFAULT_ORIGIN,
   state: ElementStates.IDLE, 
   zIndex: 1, 
   margin: 5, 
@@ -22,16 +22,20 @@ const DEFAULT_CONNECTION_POINT_DATA: ElementViewData = {
 class NodeRenderer extends ElementRenderer {
   node: Node;
 
-  constructor(node: Node) {
-    super();
-    this.node = node;
+  width: number;
+  height: number;
 
+  constructor(node: Node, baseViewData: BaseElementViewData) {
+    super(baseViewData);
+    this.node = node;
+    this.width = Constants.WIDTH;
+    this.height = Constants.HEIGHT;
     this.setupConnectionPoints();
   }
 
   elementUnderMouse(): Element | null {
     // Check if mouse is over any sub-elements
-    for (let connPoint of this.node.viewData.connectionPoints) {
+    for (let connPoint of this.node.connectionPoints) {
       let subElement = connPoint.renderer.elementUnderMouse();
 
       if (subElement) {
@@ -57,28 +61,31 @@ class NodeRenderer extends ElementRenderer {
   isMouseOverElement(mousePos : Point): boolean {
     let mouseX = mousePos.x;
     let mouseY = mousePos.y; 
-    let bbTopLeftX = this.node.viewData.pos.x;
-    let bbTopLeftY = this.node.viewData.pos.y;
-    let bbBottomRightX = this.node.viewData.pos.x + Constants.WIDTH;
-    let bbBottomRightY = this.node.viewData.pos.y + Constants.HEIGHT;
+    let bbTopLeftX = this.viewPos.x;
+    let bbTopLeftY = this.viewPos.y;
+    let bbBottomRightX = this.viewPos.x + this.width;
+    let bbBottomRightY = this.viewPos.y + this.height;
 
     if (bbTopLeftX <= mouseX && mouseX <= bbBottomRightX
         && bbTopLeftY <= mouseY && mouseY <= bbBottomRightY) {
       return true;
     }
+
     return false;
   }
 
-  draw(ctx: CanvasRenderingContext2D, ): void {
-    let canvasPos: Point = EditorView.mapPointToCanvas(this.node.viewData.pos);
-
+  draw(ctx: CanvasRenderingContext2D): void {
     ctx.beginPath();
     ctx.fillStyle = 'blue';
-    ctx.roundRect(canvasPos.x, canvasPos.y, Constants.WIDTH, Constants.HEIGHT, 5);
+    ctx.roundRect(this.viewPos.x, this.viewPos.y, this.width, this.height, 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
-    ctx.fillText(this.node.id.substring(0, 5), canvasPos.x, canvasPos.y + Constants.HEIGHT + 10);
+    ctx.fillText(
+      this.node.id.substring(0, 5), 
+      this.viewPos.x, 
+      this.viewPos.y + this.height + 10
+    );
 
     ctx.closePath();
 
@@ -86,16 +93,14 @@ class NodeRenderer extends ElementRenderer {
     this.node.connections.forEach((connection) => connection.renderer.draw(ctx));
 
     // Draw connection points
-    this.node.viewData.connectionPoints.forEach(
+    this.node.connectionPoints.forEach(
       (connectionPoint: ConnectionPoint) => connectionPoint.renderer.draw(ctx)
     );
   }
 
   setupConnectionPoints(): void {
-    let defaultPoint = new Point(0, 0);
-
-    this.node.viewData.connectionPoints = [];
-    this.node.viewData.connectionPoints.push(
+    this.node.connectionPoints = [];
+    this.node.connectionPoints.push(
       new ConnectionPoint(
         uuidv4(), 
         {...DEFAULT_CONNECTION_POINT_DATA}, 
@@ -103,7 +108,7 @@ class NodeRenderer extends ElementRenderer {
       )
     );
 
-    this.node.viewData.connectionPoints.push(
+    this.node.connectionPoints.push(
       new ConnectionPoint(
         uuidv4(), 
         {...DEFAULT_CONNECTION_POINT_DATA}, 
@@ -111,7 +116,7 @@ class NodeRenderer extends ElementRenderer {
       )
     );
 
-    this.node.viewData.connectionPoints.push(
+    this.node.connectionPoints.push(
       new ConnectionPoint(
         uuidv4(), 
         {...DEFAULT_CONNECTION_POINT_DATA}, 
@@ -119,7 +124,7 @@ class NodeRenderer extends ElementRenderer {
       )
     );
 
-    this.node.viewData.connectionPoints.push(
+    this.node.connectionPoints.push(
       new ConnectionPoint(
         uuidv4(), 
         {...DEFAULT_CONNECTION_POINT_DATA}, 
@@ -133,39 +138,47 @@ class NodeRenderer extends ElementRenderer {
   setConnectorPositions(): void {
 
     let topConnectorPos = new Point(
-      this.node.viewData.pos.x + (Constants.WIDTH / 2), this.node.viewData.pos.y
+      this.worldPos.x + (this.width / 2), this.worldPos.y
     );
     let rightConnectorPos = new Point(
-      this.node.viewData.pos.x + Constants.WIDTH, this.node.viewData.pos.y + (Constants.HEIGHT / 2)
+      this.worldPos.x + this.width, this.worldPos.y + (this.height / 2)
     );
     let bottomConnectorPos = new Point(
-      this.node.viewData.pos.x + (Constants.WIDTH / 2), this.node.viewData.pos.y + Constants.HEIGHT
+      this.worldPos.x + (this.width / 2), this.worldPos.y + this.height
     );
     let leftConnectorPos = new Point(
-      this.node.viewData.pos.x, this.node.viewData.pos.y + (Constants.HEIGHT / 2)
+      this.worldPos.x, this.worldPos.y + (this.height / 2)
     );
 
-    this.node.viewData.connectionPoints[0].viewData.pos = topConnectorPos;
-    this.node.viewData.connectionPoints[1].viewData.pos = rightConnectorPos;
-    this.node.viewData.connectionPoints[2].viewData.pos = bottomConnectorPos;
-    this.node.viewData.connectionPoints[3].viewData.pos = leftConnectorPos;
+    this.node.connectionPoints[0].renderer.worldPos = topConnectorPos;
+    this.node.connectionPoints[0].renderer.viewPos = EditorView.mapViewPosToCanvasPos(topConnectorPos);
+    
+    this.node.connectionPoints[1].renderer.worldPos = rightConnectorPos;
+    this.node.connectionPoints[1].renderer.viewPos = EditorView.mapViewPosToCanvasPos(rightConnectorPos);
+
+    this.node.connectionPoints[2].renderer.worldPos = bottomConnectorPos;
+    this.node.connectionPoints[2].renderer.worldPos = EditorView.mapViewPosToCanvasPos(bottomConnectorPos);
+
+    this.node.connectionPoints[3].renderer.worldPos = leftConnectorPos;
+    this.node.connectionPoints[3].renderer.worldPos = EditorView.mapViewPosToCanvasPos(leftConnectorPos);
   }
 
   moveNodeToPos(pos: Point): void {
-    this.node.viewData.pos = pos;
+    this.worldPos = pos;
+    this.viewPos = EditorView.mapViewPosToCanvasPos(this.worldPos);
     this.setConnectorPositions();
   }
 
   handleClick(): void {
-    this.node.viewData.state = ElementStates.CLICKED;
+    this.state = ElementStates.CLICKED;
   }
   
   handleUnclick(): void {
-    this.node.viewData.state = ElementStates.ACTIVE;
+    this.state = ElementStates.ACTIVE;
   }
 
   handleMouseMove(): void {
-    switch (this.node.viewData.state) {
+    switch (this.state) {
       case ElementStates.CLICKED:
         this.moveNodeToPos(EditorView.viewState.mousePos);
         break;
@@ -173,6 +186,11 @@ class NodeRenderer extends ElementRenderer {
       case ElementStates.ACTIVE:
         break;
     }
+  }
+
+  updateViewPos(): void {
+    this.viewPos.x = this.worldPos.x + EditorView.viewState.panVector.x;
+    this.viewPos.y = this.worldPos.y + EditorView.viewState.panVector.y;
   }
 }
 

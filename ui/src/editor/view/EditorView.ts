@@ -61,7 +61,7 @@ class EditorView {
       if (!elementWithMaxZIndex) {
         elementWithMaxZIndex = elementUnderMouse;
       } else if (elementUnderMouse && 
-          elementUnderMouse.viewData.zIndex > elementWithMaxZIndex.viewData.zIndex) {
+          elementUnderMouse.renderer.zIndex > elementWithMaxZIndex.renderer.zIndex) {
         elementWithMaxZIndex = elementUnderMouse;
       }
     }
@@ -90,7 +90,7 @@ class EditorView {
   }
 
   resetElementStates() {
-    EditorModel.elements.forEach((element) => element.viewData.state = ElementStates.IDLE);
+    EditorModel.elements.forEach((element) => element.renderer.state = ElementStates.IDLE);
   }
 
   panCanvas() {
@@ -99,9 +99,14 @@ class EditorView {
 
     this.viewState.panVector.x += deltaX;
     this.viewState.panVector.y += deltaY;
+
+    for (let element of EditorModel.elements) {
+      element.renderer.viewPos.x = element.renderer.worldPos.x + this.viewState.panVector.x;
+      element.renderer.viewPos.y = element.renderer.worldPos.y + this.viewState.panVector.y;
+    }
   }
 
-  mapPointToCanvas(point: Point): Point {
+  mapViewPosToCanvasPos(point: Point): Point {
     let mappedPoint: Point = new Point(0, 0);
 
     mappedPoint.x = point.x + this.viewState.panVector.x;

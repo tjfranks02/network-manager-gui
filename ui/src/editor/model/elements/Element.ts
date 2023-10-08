@@ -1,14 +1,11 @@
-import { ElementViewData } from "../../types";
 import ElementRenderer from "../../../editor/view/renderers/ElementRenderer";
 
 class Element {
   id: string;
-  viewData: ElementViewData;
   renderer!: ElementRenderer;
 
-  constructor(id: string, viewData: ElementViewData) {
+  constructor(id: string) {
     this.id = id;
-    this.viewData = viewData;
   }
 }
 

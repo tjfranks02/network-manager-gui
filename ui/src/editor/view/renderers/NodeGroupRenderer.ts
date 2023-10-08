@@ -2,6 +2,7 @@ import Element from "../../model/elements/Element";
 import ElementRenderer from "./ElementRenderer";
 import NodeRenderer from "./NodeRenderer";
 import NodeGroup from "../../model/elements/NodeGroup";
+import Node from "../../model/elements/Node";
 import Point from "../../utils/Point";
 import { ElementStates } from "../../editorConstants";
 import { 
@@ -9,31 +10,34 @@ import {
   NodeViewConstants as NodeConstants 
 } from "./constants/rendererConstants";
 import EditorView from "../EditorView";
+import { BaseElementViewData } from "../../types";
 
 class NodeGroupRenderer extends ElementRenderer {
   nodeGroup: NodeGroup;
 
-  constructor(nodeGroup: NodeGroup) {
-    super();
+  width: number;
+  height: number;
+
+  constructor(nodeGroup: NodeGroup, baseViewData: BaseElementViewData, width: number, height: number) {
+    super(baseViewData);
     this.nodeGroup = nodeGroup;
+    this.width = width;
+    this.height = height;
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    let canvasPos: Point = EditorView.mapPointToCanvas(this.nodeGroup.viewData.pos);
-
-    this.updateNodeGrid();
-    this.updateNodeGroupDimensions();
-
     ctx.beginPath();
     
     ctx.fillStyle = this.isMouseOverElement(EditorView.viewState.mousePos) ? "green" : "red";
-    ctx.roundRect(canvasPos.x, canvasPos.y, 
-      this.nodeGroup.viewData.width, this.nodeGroup.viewData.height, 5);
+    ctx.roundRect(this.viewPos.x, this.viewPos.y, this.width, this.height, 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
-    ctx.fillText(this.nodeGroup.id.substring(0, 5), canvasPos.x, 
-      canvasPos.y + Constants.HEIGHT + 10);
+    ctx.fillText(
+      this.nodeGroup.id.substring(0, 5), 
+      this.viewPos.x, 
+      this.viewPos.y + Constants.HEIGHT + 10
+    );
     
     ctx.closePath();
 
@@ -43,26 +47,26 @@ class NodeGroupRenderer extends ElementRenderer {
   }
 
   updateNodeGroupDimensions() {
-    let totalPadding = 2 * this.nodeGroup.viewData.padding;
+    let totalPadding = 2 * this.padding;
 
     // Calculate and set width
     let totalHorizontalMargin: number = this.nodeGroup.nodes.length > 0 ? 
-      this.nodeGroup.nodes[0].viewData.margin * (Constants.NUM_NODES_IN_ROW - 1) : 0;
+      this.nodeGroup.nodes[0].renderer.margin * (Constants.NUM_NODES_IN_ROW - 1) : 0;
 
-    let width: number = Math.max(Constants.WIDTH, Constants.NUM_NODES_IN_ROW + 
+    let width: number = Math.max(this.width, Constants.NUM_NODES_IN_ROW + 
       totalPadding + Constants.NUM_NODES_IN_ROW * NodeConstants.WIDTH + totalHorizontalMargin);
 
-    this.nodeGroup.viewData.width = width;
+    this.width = width;
 
     // Calculate and set height
     let numRows: number = Math.ceil(this.nodeGroup.nodes.length / Constants.NUM_NODES_IN_ROW);
 
     let totalVerticalMargin: number = this.nodeGroup.nodes.length > 0 ? 
-      this.nodeGroup.nodes[0].viewData.margin * numRows : 0;
+      this.nodeGroup.nodes[0].renderer.margin * numRows : 0;
     let nodeHeights: number = numRows * NodeConstants.HEIGHT;
 
     let height: number = Math.max(Constants.HEIGHT, totalPadding + totalVerticalMargin + nodeHeights);
-    this.nodeGroup.viewData.height = height;
+    this.height = height;
   }
 
   updateNodeGrid() {
@@ -77,26 +81,26 @@ class NodeGroupRenderer extends ElementRenderer {
     let i: number = Math.floor(nodeIndex / Constants.NUM_NODES_IN_ROW);
     let j: number = nodeIndex % Constants.NUM_NODES_IN_ROW;
 
-    let nodeX: number = this.nodeGroup.viewData.padding + this.nodeGroup.viewData.pos.x + 
-      (j * NodeConstants.WIDTH) + (j * this.nodeGroup.nodes[nodeIndex].viewData.margin);
+    let nodeX: number = this.padding + this.worldPos.x + (j * NodeConstants.WIDTH) + 
+      (j * this.nodeGroup.nodes[nodeIndex].renderer.margin);
     
-    let nodeY: number = this.nodeGroup.viewData.padding + this.nodeGroup.viewData.pos.y + 
-      (i * NodeConstants.HEIGHT) + (i * this.nodeGroup.nodes[nodeIndex].viewData.margin);
+    let nodeY: number = this.padding + this.worldPos.y + (i * NodeConstants.HEIGHT) + 
+      (i * this.nodeGroup.nodes[nodeIndex].renderer.margin);
 
     let newNodePos = new Point(nodeX, nodeY);
     (<NodeRenderer>this.nodeGroup.nodes[nodeIndex].renderer).moveNodeToPos(newNodePos);
   }
 
   handleClick(): void {
-    this.nodeGroup.viewData.state = ElementStates.CLICKED;
+    this.state = ElementStates.CLICKED;
   }
 
   handleUnclick(): void {
-    this.nodeGroup.viewData.state = ElementStates.ACTIVE;
+    this.state = ElementStates.ACTIVE;
   }
 
   handleMouseMove(): void {
-    switch (this.nodeGroup.viewData.state) {
+    switch (this.state) {
       case ElementStates.CLICKED:
         this.moveNodeGroupToPos(EditorView.viewState.mousePos);
         break;
@@ -107,16 +111,17 @@ class NodeGroupRenderer extends ElementRenderer {
   }
 
   moveNodeGroupToPos(pos: Point) {
-    this.nodeGroup.viewData.pos = pos;
+    this.viewPos = pos;
+    this.updateNodeGrid();
   }
 
   isMouseOverElement(mousePos: Point): boolean {
     let mouseX = mousePos.x;
     let mouseY = mousePos.y; 
-    let bbTopLeftX = this.nodeGroup.viewData.pos.x;
-    let bbTopLeftY = this.nodeGroup.viewData.pos.y;
-    let bbBottomRightX = this.nodeGroup.viewData.pos.x + this.nodeGroup.viewData.width;
-    let bbBottomRightY = this.nodeGroup.viewData.pos.y + this.nodeGroup.viewData.height;
+    let bbTopLeftX = this.viewPos.x;
+    let bbTopLeftY = this.viewPos.y;
+    let bbBottomRightX = this.viewPos.x + this.width;
+    let bbBottomRightY = this.viewPos.y + this.height;
 
     if (bbTopLeftX <= mouseX && mouseX <= bbBottomRightX
         && bbTopLeftY <= mouseY && mouseY <= bbBottomRightY) {
@@ -131,6 +136,18 @@ class NodeGroupRenderer extends ElementRenderer {
     }
 
     return null;
+  }
+
+  updateViewPos(): void {
+    this.viewPos.x = this.worldPos.x + EditorView.viewState.panVector.x;
+    this.viewPos.y = this.worldPos.y + EditorView.viewState.panVector.y;
+    this.updateNodeGrid();
+  }
+
+  addNodeToGroup(node: Node) {
+    this.nodeGroup.nodes.push(node);
+    this.updateNodeGroupDimensions();
+    this.updateNodeGrid();
   }
 }
 
