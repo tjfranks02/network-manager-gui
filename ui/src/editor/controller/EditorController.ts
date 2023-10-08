@@ -1,6 +1,6 @@
 import Element from "../model/elements/Element";
 import EditorModel from "../model/Model";
-import {  } from "../types";
+import { ViewStates } from "../types";
 import EditorView from "../view/EditorView";
 import { ElementStates } from "../editorConstants";
 import ModelUtils from "../model/utils/modelUtils";
@@ -33,7 +33,10 @@ class EditorController {
     EditorView.assignNewActiveElement(elementUnderMouse);
 
     if (elementUnderMouse) {
+      EditorView.viewState.state = ViewStates.ELEMENT_FOCUSSED;
       elementUnderMouse.renderer.handleClick();
+    } else {
+      EditorView.viewState.state = ViewStates.CANVAS_FOCUSSED;
     }
 
     EditorView.draw(ctx);
@@ -59,17 +62,33 @@ class EditorController {
       EditorView.viewState.activeElement.renderer.handleUnclick();
     }
 
+    switch (EditorView.viewState.state) {
+      case ViewStates.CANVAS_FOCUSSED:
+        EditorView.viewState.state = ViewStates.IDLE;
+        break;
+      
+      case ViewStates.ELEMENT_FOCUSSED:
+        EditorView.viewState.state = ViewStates.ELEMENT_ACTIVE;
+        break;
+    }
+
     EditorView.draw(ctx);
   }
 
   handleMouseMove(ctx: CanvasRenderingContext2D): void {
-    if (EditorView.viewState.activeElement) {
-      EditorView.viewState.activeElement.renderer.handleMouseMove();
-    } else if (EditorView.viewState.prevActiveElement) {
-      // No active element selected, pan the canvas
-      EditorView.panCanvas();
+    switch (EditorView.viewState.state) {
+      case ViewStates.CANVAS_FOCUSSED:
+        EditorView.panCanvas();
+        break;
+      
+      case ViewStates.ELEMENT_FOCUSSED:
+        EditorView.viewState.activeElement!.renderer.handleMouseMove();
+        break;
+      
+      default:
+        break;
     }
-
+ 
     EditorView.draw(ctx);
   }
 

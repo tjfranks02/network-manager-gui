@@ -15,8 +15,25 @@ export interface ViewState {
 };
 
 export enum ViewStates {
+  /**
+   * There is no active element in the canvas
+   */
   IDLE = "IDLE",
-  PANNING = "PANNING"
+
+  /**
+   * A blank canvas has been clicked and the mouse is still down
+   */
+  CANVAS_FOCUSSED = "CANVAS_FOCUSSED",
+
+  /**
+   * An element has been clicked and the mouse is still down
+   */
+  ELEMENT_FOCUSSED = "ELEMENT_FOCUSSED",
+
+  /**
+   * An element has been clicked and the mouse has been released. The element is now active
+   */
+  ELEMENT_ACTIVE = "ELEMENT_ACTIVE"
 };
 
 export interface ElementViewData {
