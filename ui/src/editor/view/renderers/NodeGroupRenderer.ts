@@ -102,7 +102,7 @@ class NodeGroupRenderer extends ElementRenderer {
   handleMouseMove(): void {
     switch (this.state) {
       case ElementStates.CLICKED:
-        this.moveNodeGroupToPos(EditorView.viewState.mousePos);
+        this.moveNodeGroupToPos(EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos));
         break;
 
       case ElementStates.ACTIVE:

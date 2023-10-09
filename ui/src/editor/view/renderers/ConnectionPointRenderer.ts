@@ -23,7 +23,7 @@ class ConnectionPointRenderer extends ElementRenderer {
     let shouldDisplay = CanvasUtils.isMouseInRangeOfPoint(EditorView.viewState.mousePos, 
       this.viewPos, 5);
 
-    if (true || shouldDisplay) {
+    if (shouldDisplay) {
       ctx.beginPath();
 
       ctx.fillStyle = 'red';
