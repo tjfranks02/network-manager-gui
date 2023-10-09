@@ -120,7 +120,17 @@ class EditorView {
     mappedPoint.x = point.x + this.viewState.panVector.x;
     mappedPoint.y = point.y + this.viewState.panVector.y;
 
+    mappedPoint.applyScaleToPoint(this.viewState.scale);
+
     return mappedPoint;
+  }
+
+  updateElementViewPositions(ctx: CanvasRenderingContext2D) {
+    for (let element of EditorModel.elements) {
+      element.renderer.updateViewPos();
+    }
+
+    this.draw(ctx);
   }
 }
 

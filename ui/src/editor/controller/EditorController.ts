@@ -93,12 +93,14 @@ class EditorController {
     EditorView.draw(ctx);
   }
 
-  handleMouseWheelScroll(deltaY: number) {
+  handleMouseWheelScroll(ctx: CanvasRenderingContext2D, deltaY: number) {
     if (deltaY < 0) { // Up
       EditorView.viewState.scale = Math.max(EditorView.viewState.scale - SCALE_DELTA, MIN_SCALE);
     } else { // Down
       EditorView.viewState.scale = Math.min(EditorView.viewState.scale + SCALE_DELTA, MAX_SCALE);
     }
+
+    EditorView.updateElementViewPositions(ctx);
   }
 
   /**

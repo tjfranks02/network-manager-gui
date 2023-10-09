@@ -76,7 +76,8 @@ const Canvas = () => {
   };
 
   const handleMouseWheelMove = (event: WheelEvent<HTMLCanvasElement>): void => {
-    EditorController.handleMouseWheelScroll(event.deltaY);
+    clearCanvas();
+    EditorController.handleMouseWheelScroll(getContext(), event.deltaY);
   };
   
   return (
