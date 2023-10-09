@@ -151,21 +151,21 @@ class NodeRenderer extends ElementRenderer {
     );
 
     this.node.connectionPoints[0].renderer.worldPos = topConnectorPos;
-    this.node.connectionPoints[0].renderer.viewPos = EditorView.mapViewPosToCanvasPos(topConnectorPos);
+    this.node.connectionPoints[0].renderer.viewPos = EditorView.mapWorldPosToViewPos(topConnectorPos);
     
     this.node.connectionPoints[1].renderer.worldPos = rightConnectorPos;
-    this.node.connectionPoints[1].renderer.viewPos = EditorView.mapViewPosToCanvasPos(rightConnectorPos);
+    this.node.connectionPoints[1].renderer.viewPos = EditorView.mapWorldPosToViewPos(rightConnectorPos);
 
     this.node.connectionPoints[2].renderer.worldPos = bottomConnectorPos;
-    this.node.connectionPoints[2].renderer.worldPos = EditorView.mapViewPosToCanvasPos(bottomConnectorPos);
+    this.node.connectionPoints[2].renderer.viewPos = EditorView.mapWorldPosToViewPos(bottomConnectorPos);
 
     this.node.connectionPoints[3].renderer.worldPos = leftConnectorPos;
-    this.node.connectionPoints[3].renderer.worldPos = EditorView.mapViewPosToCanvasPos(leftConnectorPos);
+    this.node.connectionPoints[3].renderer.viewPos = EditorView.mapWorldPosToViewPos(leftConnectorPos);
   }
 
   moveNodeToPos(pos: Point): void {
     this.worldPos = pos;
-    this.viewPos = EditorView.mapViewPosToCanvasPos(pos);
+    this.viewPos = EditorView.mapWorldPosToViewPos(pos);
     this.setConnectorPositions();
   }
 
@@ -180,7 +180,7 @@ class NodeRenderer extends ElementRenderer {
   handleMouseMove(): void {
     switch (this.state) {
       case ElementStates.CLICKED:
-        this.moveNodeToPos(EditorView.viewState.mousePos);
+        this.moveNodeToPos(EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos));
         break;
 
       case ElementStates.ACTIVE:
@@ -189,8 +189,13 @@ class NodeRenderer extends ElementRenderer {
   }
 
   updateViewPos(): void {
-    this.viewPos.x = this.worldPos.x + EditorView.viewState.panVector.x;
-    this.viewPos.y = this.worldPos.y + EditorView.viewState.panVector.y;
+    this.viewPos = EditorView.mapWorldPosToViewPos(this.worldPos);
+
+    for (let connection of this.node.connections) {
+      connection.renderer.updateViewPos();
+    }
+
+    this.setConnectorPositions();
   }
 }
 

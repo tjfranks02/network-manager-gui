@@ -105,7 +105,16 @@ class EditorView {
     }
   }
 
-  mapViewPosToCanvasPos(point: Point): Point {
+  mapViewPosToWorldPos(point: Point): Point {
+    let mappedPoint: Point = new Point(0, 0);
+
+    mappedPoint.x = point.x - this.viewState.panVector.x;
+    mappedPoint.y = point.y - this.viewState.panVector.y;
+
+    return mappedPoint;
+  }
+
+  mapWorldPosToViewPos(point: Point): Point {
     let mappedPoint: Point = new Point(0, 0);
 
     mappedPoint.x = point.x + this.viewState.panVector.x;

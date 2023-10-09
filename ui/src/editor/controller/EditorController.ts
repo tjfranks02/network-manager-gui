@@ -115,8 +115,8 @@ class EditorController {
     switch (elementClassName) {
       case Node.name:
         newElement = new Node(id, { 
-          worldPos: EditorView.viewState.mousePos,
-          viewPos: EditorView.mapViewPosToCanvasPos(EditorView.viewState.mousePos),
+          worldPos: EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos),
+          viewPos: EditorView.viewState.mousePos,
           state: ElementStates.IDLE, 
           zIndex: 1, 
           margin: 12, 
@@ -126,8 +126,8 @@ class EditorController {
 
       case NodeGroup.name:
         newElement = new NodeGroup(id, { 
-          worldPos: EditorView.viewState.mousePos,
-          viewPos: EditorView.mapViewPosToCanvasPos(EditorView.viewState.mousePos),
+          worldPos: EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos),
+          viewPos: EditorView.viewState.mousePos,
           state: ElementStates.IDLE, 
           zIndex: 2, 
           margin: 0, 

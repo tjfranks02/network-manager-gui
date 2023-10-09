@@ -1,4 +1,4 @@
-import CanvasUtils from "../../utils/CanvasUtils";
+import CanvasUtils from "../../utils/canvasUtils";
 import ElementRenderer from "./ElementRenderer";
 import Element from "../../model/elements/Element";
 import ConnectionPoint from "../../model/elements/ConnectionPoint";
@@ -20,17 +20,14 @@ class ConnectionPointRenderer extends ElementRenderer {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    let connectionPointPos = this.viewPos;
-
     let shouldDisplay = CanvasUtils.isMouseInRangeOfPoint(EditorView.viewState.mousePos, 
-      connectionPointPos, 5);
+      this.viewPos, 5);
 
-    if (shouldDisplay) {
+    if (true || shouldDisplay) {
       ctx.beginPath();
 
       ctx.fillStyle = 'red';
-      ctx.arc(connectionPointPos.x, connectionPointPos.y, CONNECTION_POINT_RADIUS, 0, 2 * Math.PI, 
-        false);
+      ctx.arc(this.viewPos.x, this.viewPos.y, CONNECTION_POINT_RADIUS, 0, 2 * Math.PI, false);
       ctx.fill();
       
       ctx.closePath();
@@ -81,8 +78,7 @@ class ConnectionPointRenderer extends ElementRenderer {
   }
 
   updateViewPos(): void {
-    this.viewPos.x = this.worldPos.x + EditorView.viewState.panVector.x;
-    this.viewPos.y = this.worldPos.y + EditorView.viewState.panVector.y;
+    this.viewPos = EditorView.mapWorldPosToViewPos(this.worldPos);
   }
 }
 

@@ -15,8 +15,9 @@ class ConnectionRenderer extends ElementRenderer {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    let originPos = this.viewPos;
-    let destPos = this.connection.dest ? this.viewPos : EditorView.viewState.mousePos;
+    let originPos = this.connection.origin.renderer.viewPos;
+    let destPos = this.connection.dest ? this.connection.dest.renderer.viewPos : 
+      EditorView.viewState.mousePos;
 
     ctx.beginPath();
     
