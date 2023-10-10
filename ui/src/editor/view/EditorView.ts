@@ -117,6 +117,19 @@ class EditorView {
     return mappedPoint;
   }
 
+  /**
+   * Apply scale value to a given number. Useful for scaling dimensions of elements
+   * 
+   * Params:
+   *   val: number - the value to scale
+   * 
+   * Returns:
+   *   number - the scaled value
+   */
+  scaleValue(val: number): number {
+    return val * this.viewState.scale;
+  }
+
   mapWorldPosToViewPos(point: Point): Point {
     let mappedPoint = new Point(point.x, point.y);
 

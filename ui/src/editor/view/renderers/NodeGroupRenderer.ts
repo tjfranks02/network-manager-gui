@@ -29,7 +29,7 @@ class NodeGroupRenderer extends ElementRenderer {
     ctx.beginPath();
     
     ctx.fillStyle = this.isMouseOverElement(EditorView.viewState.mousePos) ? "green" : "red";
-    ctx.roundRect(this.viewPos.x, this.viewPos.y, this.width, this.height, 5);
+    ctx.roundRect(this.viewPos.x, this.viewPos.y, this.getScaledWidth(), this.getScaledHeight(), 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
@@ -44,6 +44,14 @@ class NodeGroupRenderer extends ElementRenderer {
     for (let node of this.nodeGroup.nodes) {
       node.renderer.draw(ctx);
     }
+  }
+
+  getScaledHeight() {
+    return EditorView.scaleValue(this.height);
+  }
+
+  getScaledWidth() {
+    return EditorView.scaleValue(this.width);
   }
 
   updateNodeGroupDimensions() {
@@ -121,8 +129,8 @@ class NodeGroupRenderer extends ElementRenderer {
     let mouseY = mousePos.y; 
     let bbTopLeftX = this.viewPos.x;
     let bbTopLeftY = this.viewPos.y;
-    let bbBottomRightX = this.viewPos.x + this.width;
-    let bbBottomRightY = this.viewPos.y + this.height;
+    let bbBottomRightX = this.viewPos.x + this.getScaledWidth();
+    let bbBottomRightY = this.viewPos.y + this.getScaledHeight();
 
     if (bbTopLeftX <= mouseX && mouseX <= bbBottomRightX
         && bbTopLeftY <= mouseY && mouseY <= bbBottomRightY) {

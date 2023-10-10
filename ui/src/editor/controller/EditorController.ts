@@ -94,9 +94,9 @@ class EditorController {
   }
 
   handleMouseWheelScroll(ctx: CanvasRenderingContext2D, deltaY: number) {
-    if (deltaY < 0) { // Up
+    if (deltaY > 0) { // Down
       EditorView.viewState.scale = Math.max(EditorView.viewState.scale - SCALE_DELTA, MIN_SCALE);
-    } else { // Down
+    } else { // Up
       EditorView.viewState.scale = Math.min(EditorView.viewState.scale + SCALE_DELTA, MAX_SCALE);
     }
 
