@@ -111,6 +111,9 @@ class EditorView {
     mappedPoint.x = point.x - this.viewState.panVector.x;
     mappedPoint.y = point.y - this.viewState.panVector.y;
 
+    mappedPoint.x /= this.viewState.scale;
+    mappedPoint.y /= this.viewState.scale;
+
     return mappedPoint;
   }
 

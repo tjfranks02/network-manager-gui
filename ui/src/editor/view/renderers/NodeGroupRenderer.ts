@@ -140,8 +140,7 @@ class NodeGroupRenderer extends ElementRenderer {
   }
 
   updateViewPos(): void {
-    this.viewPos.x = this.worldPos.x + EditorView.viewState.panVector.x;
-    this.viewPos.y = this.worldPos.y + EditorView.viewState.panVector.y;
+    this.viewPos = EditorView.mapWorldPosToViewPos(this.worldPos);
     this.updateNodeGrid();
   }
 
