@@ -106,10 +106,10 @@ class EditorView {
   }
 
   mapViewPosToWorldPos(point: Point): Point {
-    let mappedPoint: Point = new Point(0, 0);
+    let mappedPoint = new Point(point.x, point.y);
 
-    mappedPoint.x = point.x - this.viewState.panVector.x;
-    mappedPoint.y = point.y - this.viewState.panVector.y;
+    mappedPoint.x -= this.viewState.panVector.x;
+    mappedPoint.y -= this.viewState.panVector.y;
 
     mappedPoint.x /= this.viewState.scale;
     mappedPoint.y /= this.viewState.scale;
@@ -118,12 +118,12 @@ class EditorView {
   }
 
   mapWorldPosToViewPos(point: Point): Point {
-    let mappedPoint: Point = new Point(0, 0);
-
-    mappedPoint.x = point.x + this.viewState.panVector.x;
-    mappedPoint.y = point.y + this.viewState.panVector.y;
+    let mappedPoint = new Point(point.x, point.y);
 
     mappedPoint.applyScaleToPoint(this.viewState.scale);
+
+    mappedPoint.x += this.viewState.panVector.x;
+    mappedPoint.y += this.viewState.panVector.y;
 
     return mappedPoint;
   }
