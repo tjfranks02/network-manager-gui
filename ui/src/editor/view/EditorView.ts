@@ -96,10 +96,7 @@ class EditorView {
     EditorModel.elements.forEach((element) => element.renderer.state = ElementStates.IDLE);
   }
 
-  panCanvas() {
-    let deltaX: number = this.viewState.mousePos.x - this.viewState.oldMousePos.x;
-    let deltaY: number = this.viewState.mousePos.y - this.viewState.oldMousePos.y;
-
+  panCanvas(deltaX: number, deltaY: number) {
     this.viewState.panVector.x += deltaX;
     this.viewState.panVector.y += deltaY;
 
@@ -153,16 +150,20 @@ class EditorView {
   }
 
   scaleCanvas(ctx: CanvasRenderingContext2D, deltaY: number) {
-    let preScaleViewPoint: Point = this.mapWorldPosToViewPos(new Point(0, 0));
-
     if (deltaY > 0) { // Down
       this.viewState.scale = Math.max(this.viewState.scale - SCALE_DELTA, MIN_SCALE);
     } else { // Up
       this.viewState.scale = Math.min(this.viewState.scale + SCALE_DELTA, MAX_SCALE);
     }
 
-    let postScaleViewPoint: Point = this.mapWorldPosToViewPos(new Point(0, 0));
-    
+    // If the mouse moved when scale applied, what would its new position be?
+    let postScaleMousePos: Point = this.mapWorldPosToViewPos(this.viewState.mousePos);
+
+    // Pan canvas to keep the same point under the mouse
+    this.panCanvas(
+      this.viewState.mousePos.x - postScaleMousePos.x, 
+      this.viewState.mousePos.y - postScaleMousePos.y
+    );
 
     this.updateElementViewPositions(ctx);
   }
