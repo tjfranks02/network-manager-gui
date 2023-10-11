@@ -94,13 +94,19 @@ class EditorController {
   }
 
   handleMouseWheelScroll(ctx: CanvasRenderingContext2D, deltaY: number) {
-    if (deltaY > 0) { // Down
-      EditorView.viewState.scale = Math.max(EditorView.viewState.scale - SCALE_DELTA, MIN_SCALE);
-    } else { // Up
-      EditorView.viewState.scale = Math.min(EditorView.viewState.scale + SCALE_DELTA, MAX_SCALE);
-    }
+    EditorView.scaleCanvas(ctx, deltaY);
 
-    EditorView.updateElementViewPositions(ctx);
+    // After scaling, we also need to pan the canvas so that the part of the canvas that was
+    // previously under the mouse is still under the mouse.
+    // How do we work out how much this pan amount needs to be?
+
+    // newviewpos = oldviewpos
+    // newviewpos = oldviewpos + panamount +
+
+    // suppose pan = 0, 0 and scale = 1.05
+    // if we had a view pos of (100, 100) before, we want to have a view pos of (105, 105) after
+    // so we need to pan by (5, 5)
+    // So essentially, we need to get a random world pos (say 0, 0) and map it to the view pos n
   }
 
   /**

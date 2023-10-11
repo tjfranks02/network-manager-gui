@@ -7,7 +7,10 @@ import {
   ElementStates, 
   DEFAULT_ORIGIN, 
   DEFAULT_CANVAS_WIDTH, 
-  DEFAULT_CANVAS_HEIGHT 
+  DEFAULT_CANVAS_HEIGHT,
+  SCALE_DELTA,
+  MIN_SCALE,
+  MAX_SCALE
 } from "../editorConstants";
 import Point from "../utils/Point";
 
@@ -147,6 +150,21 @@ class EditorView {
     }
 
     this.draw(ctx);
+  }
+
+  scaleCanvas(ctx: CanvasRenderingContext2D, deltaY: number) {
+    let preScaleViewPoint: Point = this.mapWorldPosToViewPos(new Point(0, 0));
+
+    if (deltaY > 0) { // Down
+      this.viewState.scale = Math.max(this.viewState.scale - SCALE_DELTA, MIN_SCALE);
+    } else { // Up
+      this.viewState.scale = Math.min(this.viewState.scale + SCALE_DELTA, MAX_SCALE);
+    }
+
+    let postScaleViewPoint: Point = this.mapWorldPosToViewPos(new Point(0, 0));
+    
+
+    this.updateElementViewPositions(ctx);
   }
 }
 
