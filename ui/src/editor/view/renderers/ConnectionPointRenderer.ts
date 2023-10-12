@@ -45,7 +45,7 @@ class ConnectionPointRenderer extends ElementRenderer {
   }
 
   isMouseOverElement(mousePos: Point): boolean {
-    return CanvasUtils.isMouseInRangeOfPoint(EditorView.viewState.mousePos, this.pos, 5);
+    return CanvasUtils.isMouseInRangeOfPoint(mousePos, this.pos, 5);
   } 
 
   handleClick(): void {
