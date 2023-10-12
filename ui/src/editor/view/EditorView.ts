@@ -74,7 +74,7 @@ class EditorView {
     return elementWithMaxZIndex;
   }
 
-  getElementsUnderMouse(mousePos: Point): Array<Element> {
+  getElementsUnderMouse(): Array<Element> {
     let elementsUnderMouse: Array<Element> = [];
     
     for (let element of EditorModel.elements) {
@@ -92,6 +92,7 @@ class EditorView {
 
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.translate(this.viewState.panVector.x, this.viewState.panVector.y);
+    //ctx.transform()
     //ctx.scale(this.viewState.scale, this.viewState.scale);
 
     for (let element of EditorModel.elements) {
@@ -108,10 +109,6 @@ class EditorView {
   panCanvas(deltaX: number, deltaY: number) {
     this.viewState.panVector.x += deltaX;
     this.viewState.panVector.y += deltaY;
-
-    // for (let element of EditorModel.elements) {
-    //   element.renderer.updateViewPos();
-    // }
   }
 
   mapViewPosToWorldPos(point: Point): Point {
@@ -139,33 +136,12 @@ class EditorView {
     return val * this.viewState.scale;
   }
 
-  mapWorldPosToViewPos(point: Point): Point {
-    let mappedPoint = new Point(point.x, point.y);
-
-    mappedPoint.applyScaleToPoint(this.viewState.scale);
-
-    mappedPoint.x += this.viewState.panVector.x;
-    mappedPoint.y += this.viewState.panVector.y;
-
-    return mappedPoint;
-  }
-
   scaleCanvas(ctx: CanvasRenderingContext2D, deltaY: number) {
-    // if (deltaY > 0) { // Down
-    //   this.viewState.scale = Math.max(this.viewState.scale - SCALE_DELTA, MIN_SCALE);
-    // } else { // Up
-    //   this.viewState.scale = Math.min(this.viewState.scale + SCALE_DELTA, MAX_SCALE);
-    // }
-
-    // let postScaleMousePos: Point = this.mapWorldPosToViewPos(this.viewState.mousePos);
-
-    // // Pan canvas to keep the same point under the mouse
-    // this.panCanvas(
-    //   this.viewState.mousePos.x - postScaleMousePos.x, 
-    //   this.viewState.mousePos.y - postScaleMousePos.y
-    // );
-
-    // this.updateElementViewPositions(ctx);
+    if (deltaY > 0) { // Down
+      this.viewState.scale = Math.max(this.viewState.scale - SCALE_DELTA, MIN_SCALE);
+    } else { // Up
+      this.viewState.scale = Math.min(this.viewState.scale + SCALE_DELTA, MAX_SCALE);
+    }
   }
 }
 
