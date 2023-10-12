@@ -32,14 +32,6 @@ class NodeRenderer extends ElementRenderer {
     this.setupConnectionPoints();
   }
 
-  getScaledHeight() {
-    return EditorView.scaleValue(this.height);
-  }
-
-  getScaledWidth() {
-    return EditorView.scaleValue(this.width);
-  }
-
   elementUnderMouse(mousePos: Point): Element | null {
     // Check if mouse is over any sub-elements
     for (let connPoint of this.node.connectionPoints) {
@@ -70,8 +62,8 @@ class NodeRenderer extends ElementRenderer {
     let mouseY = mousePos.y; 
     let bbTopLeftX = this.pos.x;
     let bbTopLeftY = this.pos.y;
-    let bbBottomRightX = this.pos.x + this.getScaledWidth();
-    let bbBottomRightY = this.pos.y + this.getScaledHeight();
+    let bbBottomRightX = this.pos.x + this.width;
+    let bbBottomRightY = this.pos.y + this.height;
 
     if (bbTopLeftX <= mouseX && mouseX <= bbBottomRightX
         && bbTopLeftY <= mouseY && mouseY <= bbBottomRightY) {
@@ -84,14 +76,14 @@ class NodeRenderer extends ElementRenderer {
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.beginPath();
     ctx.fillStyle = 'blue';
-    ctx.roundRect(this.pos.x, this.pos.y, this.getScaledWidth(), this.getScaledHeight(), 5);
+    ctx.roundRect(this.pos.x, this.pos.y, this.width, this.height, 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
     ctx.fillText(
       this.node.id.substring(0, 5), 
       this.pos.x, 
-      this.pos.y + this.getScaledHeight() + 10
+      this.pos.y + this.height + 10
     );
 
     ctx.closePath();
@@ -144,18 +136,10 @@ class NodeRenderer extends ElementRenderer {
 
   setConnectorPositions(): void {
 
-    let topConnectorPos = new Point(
-      this.pos.x + (this.getScaledWidth() / 2), this.pos.y
-    );
-    let rightConnectorPos = new Point(
-      this.pos.x + this.getScaledWidth(), this.pos.y + (this.getScaledHeight() / 2)
-    );
-    let bottomConnectorPos = new Point(
-      this.pos.x + (this.getScaledWidth() / 2), this.pos.y + this.getScaledHeight()
-    );
-    let leftConnectorPos = new Point(
-      this.pos.x, this.pos.y + (this.getScaledHeight() / 2)
-    );
+    let topConnectorPos = new Point(this.pos.x + (this.width / 2), this.pos.y);
+    let rightConnectorPos = new Point(this.pos.x + this.width, this.pos.y + (this.height / 2));
+    let bottomConnectorPos = new Point(this.pos.x + (this.width / 2), this.pos.y + this.height);
+    let leftConnectorPos = new Point(this.pos.x, this.pos.y + (this.height / 2));
 
     this.node.connectionPoints[0].renderer.pos = topConnectorPos;
     

@@ -31,7 +31,7 @@ class NodeGroupRenderer extends ElementRenderer {
     ctx.beginPath();
     
     ctx.fillStyle = this.isMouseOverElement(worldMousePos) ? "green" : "red";
-    ctx.roundRect(this.pos.x, this.pos.y, this.getScaledWidth(), this.getScaledHeight(), 5);
+    ctx.roundRect(this.pos.x, this.pos.y, this.width, this.height, 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
@@ -46,14 +46,6 @@ class NodeGroupRenderer extends ElementRenderer {
     for (let node of this.nodeGroup.nodes) {
       node.renderer.draw(ctx);
     }
-  }
-
-  getScaledHeight() {
-    return EditorView.scaleValue(this.height);
-  }
-
-  getScaledWidth() {
-    return EditorView.scaleValue(this.width);
   }
 
   updateNodeGroupDimensions() {
@@ -130,8 +122,8 @@ class NodeGroupRenderer extends ElementRenderer {
     let mouseY = mousePos.y; 
     let bbTopLeftX = this.pos.x;
     let bbTopLeftY = this.pos.y;
-    let bbBottomRightX = this.pos.x + this.getScaledWidth();
-    let bbBottomRightY = this.pos.y + this.getScaledHeight();
+    let bbBottomRightX = this.pos.x + this.width;
+    let bbBottomRightY = this.pos.y + this.height;
 
     if (bbTopLeftX <= mouseX && mouseX <= bbBottomRightX
         && bbTopLeftY <= mouseY && mouseY <= bbBottomRightY) {

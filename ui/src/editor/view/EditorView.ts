@@ -92,8 +92,7 @@ class EditorView {
 
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.translate(this.viewState.panVector.x, this.viewState.panVector.y);
-    //ctx.transform()
-    //ctx.scale(this.viewState.scale, this.viewState.scale);
+    ctx.scale(this.viewState.scale, this.viewState.scale);
 
     for (let element of EditorModel.elements) {
       element.renderer.draw(ctx);
@@ -142,6 +141,8 @@ class EditorView {
     } else { // Up
       this.viewState.scale = Math.min(this.viewState.scale + SCALE_DELTA, MAX_SCALE);
     }
+
+    this.draw(ctx);
   }
 }
 
