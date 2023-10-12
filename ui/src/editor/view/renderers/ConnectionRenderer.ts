@@ -42,8 +42,8 @@ class ConnectionRenderer extends ElementRenderer {
       return false;
     }
 
-    let originPos: Point = this.pos;
-    let destPos: Point = this.pos;
+    let originPos = this.connection.origin.renderer.pos;
+    let destPos = this.connection.dest ? this.connection.dest.renderer.pos : mousePos;
 
     let m: number = (destPos.y - originPos.y) / (destPos.x - originPos.x);
     let c: number = originPos.y - m * originPos.x;
