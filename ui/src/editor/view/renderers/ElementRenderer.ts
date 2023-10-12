@@ -4,23 +4,21 @@ import { BaseElementViewData } from "../../types";
 import Point from "../../utils/Point";
 
 abstract class ElementRenderer {
-  worldPos: Point;
-  viewPos: Point;
+  pos: Point;
   state: ElementStates;
   zIndex: number;
   margin: number;
   padding: number;
 
   constructor(baseViewData: BaseElementViewData) {
-    this.worldPos = baseViewData.worldPos;
-    this.viewPos = baseViewData.viewPos;
+    this.pos = baseViewData.pos;
     this.state = baseViewData.state;
     this.zIndex = baseViewData.zIndex;
     this.margin = baseViewData.margin;
     this.padding = baseViewData.padding;
   }
 
-  abstract elementUnderMouse(): Element | null;
+  abstract elementUnderMouse(mousePos: Point): Element | null;
 
   /**
    * Render the element in the editor
@@ -32,12 +30,7 @@ abstract class ElementRenderer {
    */
   abstract handleClick(): void;
   abstract handleUnclick(): void;
-  abstract handleMouseMove(): void;
-
-  /**
-   * When some change is made to the viewport, update the view position of the element
-   */
-  abstract updateViewPos(): void;
+  abstract handleMouseMove(mousePos: Point): void;
 }
 
 export default ElementRenderer;

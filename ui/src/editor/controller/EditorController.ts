@@ -83,7 +83,13 @@ class EditorController {
         break;
       
       case ViewStates.ELEMENT_FOCUSSED:
-        EditorView.viewState.activeElement!.renderer.handleMouseMove();
+        EditorView.viewState.activeElement!.renderer.handleMouseMove(
+          EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos)
+        );
+        console.log("-------------------------")
+        console.log("mouse pos:", EditorView.viewState.mousePos.x, EditorView.viewState.mousePos.y);
+        console.log("mouse pos in world coords:", EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos).x, EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos).y);
+        console.log("active element pos:", EditorView.viewState.activeElement!.renderer.pos.x, EditorView.viewState.activeElement!.renderer.pos.y);
         break;
       
       default:
@@ -111,8 +117,7 @@ class EditorController {
     switch (elementClassName) {
       case Node.name:
         newElement = new Node(id, { 
-          worldPos: EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos),
-          viewPos: EditorView.viewState.mousePos,
+          pos: EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos),
           state: ElementStates.IDLE, 
           zIndex: 1, 
           margin: 12, 
@@ -122,8 +127,7 @@ class EditorController {
 
       case NodeGroup.name:
         newElement = new NodeGroup(id, { 
-          worldPos: EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos),
-          viewPos: EditorView.viewState.mousePos,
+          pos: EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos),
           state: ElementStates.IDLE, 
           zIndex: 2, 
           margin: 0, 

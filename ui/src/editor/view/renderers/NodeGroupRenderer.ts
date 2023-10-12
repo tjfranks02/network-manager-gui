@@ -26,17 +26,19 @@ class NodeGroupRenderer extends ElementRenderer {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
+    let worldMousePos: Point = EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos);
+
     ctx.beginPath();
     
-    ctx.fillStyle = this.isMouseOverElement(EditorView.viewState.mousePos) ? "green" : "red";
-    ctx.roundRect(this.viewPos.x, this.viewPos.y, this.getScaledWidth(), this.getScaledHeight(), 5);
+    ctx.fillStyle = this.isMouseOverElement(worldMousePos) ? "green" : "red";
+    ctx.roundRect(this.pos.x, this.pos.y, this.getScaledWidth(), this.getScaledHeight(), 5);
     ctx.fill();
 
     ctx.font = "10px Arial";
     ctx.fillText(
       this.nodeGroup.id.substring(0, 5), 
-      this.viewPos.x, 
-      this.viewPos.y + Constants.HEIGHT + 10
+      this.pos.x, 
+      this.pos.y + Constants.HEIGHT + 10
     );
     
     ctx.closePath();
@@ -89,10 +91,10 @@ class NodeGroupRenderer extends ElementRenderer {
     let i: number = Math.floor(nodeIndex / Constants.NUM_NODES_IN_ROW);
     let j: number = nodeIndex % Constants.NUM_NODES_IN_ROW;
 
-    let nodeX: number = this.padding + this.worldPos.x + (j * NodeConstants.WIDTH) + 
+    let nodeX: number = this.padding + this.pos.x + (j * NodeConstants.WIDTH) + 
       (j * this.nodeGroup.nodes[nodeIndex].renderer.margin);
     
-    let nodeY: number = this.padding + this.worldPos.y + (i * NodeConstants.HEIGHT) + 
+    let nodeY: number = this.padding + this.pos.y + (i * NodeConstants.HEIGHT) + 
       (i * this.nodeGroup.nodes[nodeIndex].renderer.margin);
 
     let newNodePos = new Point(nodeX, nodeY);
@@ -119,18 +121,17 @@ class NodeGroupRenderer extends ElementRenderer {
   }
 
   moveNodeGroupToPos(pos: Point) {
-    this.worldPos = pos;
-    this.viewPos = EditorView.mapWorldPosToViewPos(pos);
+    this.pos = pos;
     this.updateNodeGrid();
   }
 
   isMouseOverElement(mousePos: Point): boolean {
     let mouseX = mousePos.x;
     let mouseY = mousePos.y; 
-    let bbTopLeftX = this.viewPos.x;
-    let bbTopLeftY = this.viewPos.y;
-    let bbBottomRightX = this.viewPos.x + this.getScaledWidth();
-    let bbBottomRightY = this.viewPos.y + this.getScaledHeight();
+    let bbTopLeftX = this.pos.x;
+    let bbTopLeftY = this.pos.y;
+    let bbBottomRightX = this.pos.x + this.getScaledWidth();
+    let bbBottomRightY = this.pos.y + this.getScaledHeight();
 
     if (bbTopLeftX <= mouseX && mouseX <= bbBottomRightX
         && bbTopLeftY <= mouseY && mouseY <= bbBottomRightY) {
@@ -139,17 +140,12 @@ class NodeGroupRenderer extends ElementRenderer {
     return false;
   }
 
-  elementUnderMouse(): Element | null {
-    if (this.isMouseOverElement(EditorView.viewState.mousePos)) {
+  elementUnderMouse(mousePos: Point): Element | null {
+    if (this.isMouseOverElement(mousePos)) {
       return this.nodeGroup;
     }
 
     return null;
-  }
-
-  updateViewPos(): void {
-    this.viewPos = EditorView.mapWorldPosToViewPos(this.worldPos);
-    this.updateNodeGrid();
   }
 
   addNodeToGroup(node: Node) {

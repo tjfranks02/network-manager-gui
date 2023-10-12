@@ -32,4 +32,4 @@ export const MIN_SCALE = 0.1;
 export const MAX_SCALE = 2.0;
 
 // Amount that scale should change with each mouse wheel move
-export const SCALE_DELTA = 0.05;
+export const SCALE_DELTA = 0.035;

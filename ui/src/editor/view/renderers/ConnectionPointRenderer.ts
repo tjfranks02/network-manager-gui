@@ -7,6 +7,7 @@ import Connection from "../../model/elements/Connection";
 import { ElementStates } from "../../editorConstants";
 import ModelUtils from "../../model/utils/modelUtils";
 import { BaseElementViewData } from "../../types";
+import Point from "../../utils/Point";
 
 const CONNECTION_POINT_RADIUS: number = 5;
 
@@ -20,30 +21,31 @@ class ConnectionPointRenderer extends ElementRenderer {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    let shouldDisplay = CanvasUtils.isMouseInRangeOfPoint(EditorView.viewState.mousePos, 
-      this.viewPos, 5);
+    let mouseWorldPos: Point = EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos);
+
+    let shouldDisplay = CanvasUtils.isMouseInRangeOfPoint(mouseWorldPos, this.pos, 5);
 
     if (shouldDisplay) {
       ctx.beginPath();
 
       ctx.fillStyle = 'red';
-      ctx.arc(this.viewPos.x, this.viewPos.y, CONNECTION_POINT_RADIUS, 0, 2 * Math.PI, false);
+      ctx.arc(this.pos.x, this.pos.y, CONNECTION_POINT_RADIUS, 0, 2 * Math.PI, false);
       ctx.fill();
       
       ctx.closePath();
     }
   }
 
-  elementUnderMouse(): Element | null {
-    if (this.isMouseOverElement()) {
+  elementUnderMouse(mousePos: Point): Element | null {
+    if (this.isMouseOverElement(mousePos)) {
       return this.connectionPoint;
     } 
     
     return null;
   }
 
-  isMouseOverElement(): boolean {
-    return CanvasUtils.isMouseInRangeOfPoint(EditorView.viewState.mousePos, this.viewPos, 5);
+  isMouseOverElement(mousePos: Point): boolean {
+    return CanvasUtils.isMouseInRangeOfPoint(EditorView.viewState.mousePos, this.pos, 5);
   } 
 
   handleClick(): void {
@@ -55,8 +57,7 @@ class ConnectionPointRenderer extends ElementRenderer {
         this.connectionPoint.owner,
         null,
         { 
-          worldPos: this.connectionPoint.owner.renderer.worldPos,
-          viewPos: this.connectionPoint.owner.renderer.viewPos,
+          pos: this.connectionPoint.owner.renderer.pos,
           state: ElementStates.INCOMPLETE, 
           zIndex: -1, 
           margin: 0, 
@@ -75,10 +76,6 @@ class ConnectionPointRenderer extends ElementRenderer {
 
   handleMouseMove(): void {
 
-  }
-
-  updateViewPos(): void {
-    this.viewPos = EditorView.mapWorldPosToViewPos(this.worldPos);
   }
 }
 

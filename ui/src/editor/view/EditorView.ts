@@ -59,7 +59,9 @@ class EditorView {
     let elementWithMaxZIndex: Element | null = null;
 
     for (let element of EditorModel.elements) {
-      let elementUnderMouse: Element | null = element.renderer.elementUnderMouse();
+      let elementUnderMouse: Element | null = element.renderer.elementUnderMouse(
+        this.mapViewPosToWorldPos(this.viewState.mousePos)
+      );
       
       if (!elementWithMaxZIndex) {
         elementWithMaxZIndex = elementUnderMouse;
@@ -72,11 +74,13 @@ class EditorView {
     return elementWithMaxZIndex;
   }
 
-  getElementsUnderMouse(): Array<Element> {
+  getElementsUnderMouse(mousePos: Point): Array<Element> {
     let elementsUnderMouse: Array<Element> = [];
     
     for (let element of EditorModel.elements) {
-      let elementUnderMouse: Element | null = element.renderer.elementUnderMouse();
+      let elementUnderMouse: Element | null = element.renderer.elementUnderMouse(
+        this.mapViewPosToWorldPos(this.viewState.mousePos)
+      );
 
       if (elementUnderMouse) {
         elementsUnderMouse.push(elementUnderMouse);
@@ -87,9 +91,14 @@ class EditorView {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
+    ctx.translate(this.viewState.panVector.x, this.viewState.panVector.y);
+    //ctx.scale(this.viewState.scale, this.viewState.scale);
+
     for (let element of EditorModel.elements) {
       element.renderer.draw(ctx);
     }
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
   }
 
   resetElementStates() {
@@ -100,9 +109,9 @@ class EditorView {
     this.viewState.panVector.x += deltaX;
     this.viewState.panVector.y += deltaY;
 
-    for (let element of EditorModel.elements) {
-      element.renderer.updateViewPos();
-    }
+    // for (let element of EditorModel.elements) {
+    //   element.renderer.updateViewPos();
+    // }
   }
 
   mapViewPosToWorldPos(point: Point): Point {
@@ -141,31 +150,22 @@ class EditorView {
     return mappedPoint;
   }
 
-  updateElementViewPositions(ctx: CanvasRenderingContext2D) {
-    for (let element of EditorModel.elements) {
-      element.renderer.updateViewPos();
-    }
-
-    this.draw(ctx);
-  }
-
   scaleCanvas(ctx: CanvasRenderingContext2D, deltaY: number) {
-    if (deltaY > 0) { // Down
-      this.viewState.scale = Math.max(this.viewState.scale - SCALE_DELTA, MIN_SCALE);
-    } else { // Up
-      this.viewState.scale = Math.min(this.viewState.scale + SCALE_DELTA, MAX_SCALE);
-    }
+    // if (deltaY > 0) { // Down
+    //   this.viewState.scale = Math.max(this.viewState.scale - SCALE_DELTA, MIN_SCALE);
+    // } else { // Up
+    //   this.viewState.scale = Math.min(this.viewState.scale + SCALE_DELTA, MAX_SCALE);
+    // }
 
-    // If the mouse moved when scale applied, what would its new position be?
-    let postScaleMousePos: Point = this.mapWorldPosToViewPos(this.viewState.mousePos);
+    // let postScaleMousePos: Point = this.mapWorldPosToViewPos(this.viewState.mousePos);
 
-    // Pan canvas to keep the same point under the mouse
-    this.panCanvas(
-      this.viewState.mousePos.x - postScaleMousePos.x, 
-      this.viewState.mousePos.y - postScaleMousePos.y
-    );
+    // // Pan canvas to keep the same point under the mouse
+    // this.panCanvas(
+    //   this.viewState.mousePos.x - postScaleMousePos.x, 
+    //   this.viewState.mousePos.y - postScaleMousePos.y
+    // );
 
-    this.updateElementViewPositions(ctx);
+    // this.updateElementViewPositions(ctx);
   }
 }
 

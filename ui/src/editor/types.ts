@@ -36,10 +36,7 @@ export enum ViewStates {
  */
 export interface BaseElementViewData {
   // The position of the element in the world relative to the origin point
-  worldPos: Point,
-
-  // The position of the element in relation to the camera
-  viewPos: Point,
+  pos: Point,
 
   // The current state of this element
   state: ElementStates,
