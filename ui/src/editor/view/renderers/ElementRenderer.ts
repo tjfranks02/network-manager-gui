@@ -1,4 +1,4 @@
-import { ElementStates } from "../../editorConstants";
+import { ElementStates } from "../../../constants/editorConstants";
 import Element from "../../model/elements/Element";
 import { BaseElementViewData } from "../../types";
 import Point from "../../utils/Point";

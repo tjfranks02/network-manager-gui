@@ -2,7 +2,7 @@ import Element from "../model/elements/Element";
 import EditorModel from "../model/Model";
 import { ViewStates } from "../types";
 import EditorView from "../view/EditorView";
-import { ElementStates } from "../editorConstants";
+import { ElementStates } from "../../constants/editorConstants";
 import ModelUtils from "../model/utils/modelUtils";
 import NodeGroupRenderer from "../view/renderers/NodeGroupRenderer";
 

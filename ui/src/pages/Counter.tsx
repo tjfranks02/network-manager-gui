@@ -1,8 +1,8 @@
-import type { RootState } from '../redux/store';
+import type { RootState } from "../redux/store";
 import { useSelector, useDispatch } from "react-redux";
-import { increment } from '../redux/reducers/counter';
+import { increment } from "../redux/reducers/counter";
 
-import Canvas from '../components/editorView/Canvas/Canvas';
+import Canvas from "../components/EditorView/Canvas/Canvas";
 
 const Dashboard = () => {
   const count = useSelector((state: RootState) => state.counter.value);

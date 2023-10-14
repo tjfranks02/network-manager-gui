@@ -7,7 +7,7 @@ import Connection from "../../model/elements/Connection";
 import { 
   ElementStates,
   CONNECTION_POINT_IDLE_COLOUR
-} from "../../editorConstants";
+} from "../../../constants/editorConstants";
 import ModelUtils from "../../model/utils/modelUtils";
 import { BaseElementViewData } from "../../types";
 import Point from "../../utils/Point";

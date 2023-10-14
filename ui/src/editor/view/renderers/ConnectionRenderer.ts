@@ -7,7 +7,7 @@ import {
   CONNECTION_IDLE_COLOUR, 
   CONNECTION_HOVER_COLOUR, 
   ElementStates 
-} from "../../editorConstants";
+} from "../../../constants/editorConstants";
 import { BaseElementViewData } from "../../types";
 
 class ConnectionRenderer extends ElementRenderer {

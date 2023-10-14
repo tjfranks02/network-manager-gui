@@ -1,6 +1,6 @@
 import Point from "./utils/Point";
 import Element from "./model/elements/Element";
-import { ElementStates } from "./editorConstants";
+import { ElementStates } from "../constants/editorConstants";
 
 export interface ViewState {
   lastClicked: Element | null,

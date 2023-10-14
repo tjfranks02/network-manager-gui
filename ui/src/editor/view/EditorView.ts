@@ -11,7 +11,7 @@ import {
   SCALE_DELTA,
   MIN_SCALE,
   MAX_SCALE
-} from "../editorConstants";
+} from "../../constants/editorConstants";
 import Point from "../utils/Point";
 
 const DEFAULT_VIEW_STATE: ViewState = {

@@ -8,12 +8,10 @@ import {
   ElementStates,
   NODE_GROUP_HOVER_COLOUR,
   NODE_GROUP_IDLE_COLOUR,
-  DEFAULT_FONT
-} from "../../editorConstants";
-import { 
+  DEFAULT_FONT,
   NodeGroupViewConstants as Constants, 
   NodeViewConstants as NodeConstants 
-} from "./constants/rendererConstants";
+} from "../../../constants/editorConstants";
 import EditorView from "../EditorView";
 import { BaseElementViewData } from "../../types";
 

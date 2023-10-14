@@ -1,10 +1,10 @@
-import { useRef, MouseEvent, WheelEvent, DragEvent, useEffect } from 'react';
+import { useRef, MouseEvent, WheelEvent, DragEvent, useEffect } from "react";
 import Point from "../../../editor/utils/Point";
 import EditorController from "../../../editor/controller/EditorController";
 import EditorView from "../../../editor/view/EditorView";
 import { useSelector } from "react-redux";
-import { RootState } from '../../../redux/store';
-import { DEFAULT_CANVAS_HEIGHT, DEFAULT_CANVAS_WIDTH } from '../../../editor/editorConstants';
+import { RootState } from "../../../redux/store";
+import { DEFAULT_CANVAS_HEIGHT, DEFAULT_CANVAS_WIDTH } from "../../../constants/editorConstants";
 
 import css from "./styles.module.css";
 
@@ -23,7 +23,7 @@ const Canvas = () => {
   }, []);
 
   const getContext = (): CanvasRenderingContext2D => {
-    return canvasRef.current!.getContext('2d')!;
+    return canvasRef.current!.getContext("2d")!;
   };
 
   const mapClientCoordsToMouse = (event: MouseEvent<HTMLCanvasElement>): Point => {

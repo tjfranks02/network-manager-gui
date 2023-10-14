@@ -1,9 +1,8 @@
-import type { RootState } from '../../redux/store';
+import type { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
-
-import Canvas from '../../components/editorView/Canvas/Canvas';
-import ActiveElementPanel from '../../components/editorView/ActiveElementPanel/ActiveElementPanel';
-import ElementSelectorPanel from '../../components/editorView/ElementSelectorPanel/ElementSelectorPanel';
+import Canvas from "../../components/EditorView/Canvas/Canvas";
+import ActiveElementPanel from "../../components/EditorView/ActiveElementPanel/ActiveElementPanel";
+import ElementSelectorPanel from "../../components/EditorView/ElementSelectorPanel/ElementSelectorPanel";
 
 import css from './styles.module.css';
 

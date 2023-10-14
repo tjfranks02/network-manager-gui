@@ -4,7 +4,7 @@ import Node from "./elements/Node";
 import NodeGroup from "./elements/NodeGroup";
 import Element from "./elements/Element";
 import Point from "../../editor/utils/Point";
-import { ElementStates } from "../editorConstants";
+import { ElementStates } from "../../constants/editorConstants";
 import NodeGroupRenderer from "../view/renderers/NodeGroupRenderer";
 
 /**

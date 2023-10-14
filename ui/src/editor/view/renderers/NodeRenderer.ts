@@ -9,9 +9,9 @@ import {
   ElementStates, 
   NODE_HOVER_COLOUR, 
   NODE_IDLE_COLOUR,
-  DEFAULT_FONT
-} from "../../editorConstants";
-import { NodeViewConstants as Constants } from "./constants/rendererConstants";
+  DEFAULT_FONT,
+  NodeViewConstants as Constants
+} from "../../../constants/editorConstants";
 import { BaseElementViewData } from "../../types";
 
 
