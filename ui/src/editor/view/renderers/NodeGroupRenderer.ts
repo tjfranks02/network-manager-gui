@@ -4,7 +4,12 @@ import NodeRenderer from "./NodeRenderer";
 import NodeGroup from "../../model/elements/NodeGroup";
 import Node from "../../model/elements/Node";
 import Point from "../../utils/Point";
-import { ElementStates } from "../../editorConstants";
+import { 
+  ElementStates,
+  NODE_GROUP_HOVER_COLOUR,
+  NODE_GROUP_IDLE_COLOUR,
+  DEFAULT_FONT
+} from "../../editorConstants";
 import { 
   NodeGroupViewConstants as Constants, 
   NodeViewConstants as NodeConstants 
@@ -30,11 +35,12 @@ class NodeGroupRenderer extends ElementRenderer {
 
     ctx.beginPath();
     
-    ctx.fillStyle = this.isMouseOverElement(worldMousePos) ? "green" : "red";
+    ctx.fillStyle = this.isMouseOverElement(worldMousePos) ? 
+      NODE_GROUP_HOVER_COLOUR : NODE_GROUP_IDLE_COLOUR;
     ctx.roundRect(this.pos.x, this.pos.y, this.width, this.height, 5);
     ctx.fill();
 
-    ctx.font = "10px Arial";
+    ctx.font = DEFAULT_FONT;
     ctx.fillText(
       this.nodeGroup.id.substring(0, 5), 
       this.pos.x, 

@@ -4,8 +4,13 @@ import Element from "../../model/elements/Element";
 import Point from "../../utils/Point";
 import ConnectionPoint from "../../model/elements/ConnectionPoint";
 import { v4 as uuidv4 } from "uuid";
-import { DEFAULT_ORIGIN, ElementStates } from "../../editorConstants";
-import EditorView from "../EditorView";
+import { 
+  DEFAULT_ORIGIN, 
+  ElementStates, 
+  NODE_HOVER_COLOUR, 
+  NODE_IDLE_COLOUR,
+  DEFAULT_FONT
+} from "../../editorConstants";
 import { NodeViewConstants as Constants } from "./constants/rendererConstants";
 import { BaseElementViewData } from "../../types";
 
@@ -75,11 +80,11 @@ class NodeRenderer extends ElementRenderer {
 
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.beginPath();
-    ctx.fillStyle = 'blue';
+    ctx.fillStyle = NODE_IDLE_COLOUR;
     ctx.roundRect(this.pos.x, this.pos.y, this.width, this.height, 5);
     ctx.fill();
 
-    ctx.font = "10px Arial";
+    ctx.font = DEFAULT_FONT;
     ctx.fillText(
       this.node.id.substring(0, 5), 
       this.pos.x, 

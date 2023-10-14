@@ -33,3 +33,25 @@ export const MAX_SCALE = 2.0;
 
 // Amount that scale should change with each mouse wheel move
 export const SCALE_DELTA = 0.02;
+
+/**
+ * Theme infomration for editor nodes
+ * 
+ */
+// Font info
+export const DEFAULT_FONT = "10px Arial";
+
+// Node colours
+export const NODE_IDLE_COLOUR = "blue";
+export const NODE_HOVER_COLOUR = "darkblue";
+
+// Connection colours
+export const CONNECTION_IDLE_COLOUR = "green";
+export const CONNECTION_HOVER_COLOUR = "orange";
+
+// Node connection point colours
+export const CONNECTION_POINT_IDLE_COLOUR = "red";
+
+// Node group colours
+export const NODE_GROUP_IDLE_COLOUR = "red";
+export const NODE_GROUP_HOVER_COLOUR = "gold";

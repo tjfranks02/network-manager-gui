@@ -3,7 +3,11 @@ import Connection from "../../model/elements/Connection";
 import ElementRenderer from "./ElementRenderer";
 import Element from "../../model/elements/Element";
 import EditorView from "../EditorView";
-import { ElementStates } from "../../editorConstants";
+import { 
+  CONNECTION_IDLE_COLOUR, 
+  CONNECTION_HOVER_COLOUR, 
+  ElementStates 
+} from "../../editorConstants";
 import { BaseElementViewData } from "../../types";
 
 class ConnectionRenderer extends ElementRenderer {
@@ -26,9 +30,9 @@ class ConnectionRenderer extends ElementRenderer {
     ctx.lineTo(destPos.x, destPos.y);
     
     if (this.isMouseWithinThreshold(worldMousePos)) {
-      ctx.strokeStyle = 'red';
+      ctx.strokeStyle = CONNECTION_HOVER_COLOUR;
     } else {
-      ctx.strokeStyle = 'green';
+      ctx.strokeStyle = CONNECTION_IDLE_COLOUR;
     }
 
     ctx.fill();

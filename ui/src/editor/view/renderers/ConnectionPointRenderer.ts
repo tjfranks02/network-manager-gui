@@ -4,7 +4,10 @@ import Element from "../../model/elements/Element";
 import ConnectionPoint from "../../model/elements/ConnectionPoint";
 import EditorView from "../EditorView";
 import Connection from "../../model/elements/Connection";
-import { ElementStates } from "../../editorConstants";
+import { 
+  ElementStates,
+  CONNECTION_POINT_IDLE_COLOUR
+} from "../../editorConstants";
 import ModelUtils from "../../model/utils/modelUtils";
 import { BaseElementViewData } from "../../types";
 import Point from "../../utils/Point";
@@ -28,7 +31,7 @@ class ConnectionPointRenderer extends ElementRenderer {
     if (shouldDisplay) {
       ctx.beginPath();
 
-      ctx.fillStyle = 'red';
+      ctx.fillStyle = CONNECTION_POINT_IDLE_COLOUR;
       ctx.arc(this.pos.x, this.pos.y, CONNECTION_POINT_RADIUS, 0, 2 * Math.PI, false);
       ctx.fill();
       
