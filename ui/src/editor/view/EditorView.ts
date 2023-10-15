@@ -162,17 +162,10 @@ class EditorView {
     console.log("pan:", this.viewState.panVector.x, this.viewState.panVector.y);
 
     // Amount we need to pan the canvas by in total
-    let dx_new: number = (mousePosBefore.x - mousePosAfter.x);
-    let dy_new: number = (mousePosBefore.y - mousePosAfter.y);
+    let dx: number = (mousePosBefore.x - mousePosAfter.x);
+    let dy: number = (mousePosBefore.y - mousePosAfter.y);
 
-    let dx_old: number = (this.viewState.mousePos.x - mousePosAfter.x);
-    let dy_old: number = (this.viewState.mousePos.y - mousePosAfter.y);
-
-    this.panCanvas(dx_new, dy_new);
-    // this.panCanvas(dx_old, dy_old);
-
-    // this.viewState.scaleOffset.x += dx_new; 
-    // this.viewState.scaleOffset.y += dy_new;
+    this.panCanvas(dx, dy);
     this.draw(ctx);
   }
 }
