@@ -19,10 +19,10 @@ const DEFAULT_VIEW_STATE: ViewState = {
   activeElement: null,
   prevActiveElement: null,
   scale: 1,
-  scaleOffset: DEFAULT_ORIGIN,
-  panVector: DEFAULT_ORIGIN,
-  mousePos: DEFAULT_ORIGIN,
-  oldMousePos: DEFAULT_ORIGIN,
+  scaleOffset: new Point(0, 0),
+  panVector: new Point(0, 0),
+  mousePos: new Point(0, 0),
+  oldMousePos: new Point(0, 0),
   canvasSize: { width: DEFAULT_CANVAS_WIDTH, height: DEFAULT_CANVAS_HEIGHT },
   state: ViewStates.IDLE
 };
@@ -137,25 +137,42 @@ class EditorView {
   }
 
   scaleCanvas(ctx: CanvasRenderingContext2D, deltaY: number) {
+    let mousePosBefore: Point = this.viewState.mousePos.applyScaleToPoint(this.viewState.scale);
+    
     if (deltaY > 0) { // Down, zoom in
       this.viewState.scale = Math.max(this.viewState.scale - SCALE_DELTA, MIN_SCALE);
     } else { // Up, zoom out
       this.viewState.scale = Math.min(this.viewState.scale + SCALE_DELTA, MAX_SCALE);
     }
 
-    let mousePosAfterScale: Point = this.viewState.mousePos.applyScaleToPoint(this.viewState.scale);
+    let mousePosAfter: Point = this.viewState.mousePos.applyScaleToPoint(this.viewState.scale);
     console.log("-----------------------------")
+    console.log("NEW METHOD")
+    console.log("scale:", this.viewState.scale);
+    console.log("mousePosBefore:", mousePosBefore.x, mousePosBefore.y);
+    console.log("mousePosAfter:", mousePosAfter.x, mousePosAfter.y);
+    console.log("AMOUNT TO MOVE BY:", mousePosBefore.x - mousePosAfter.x, mousePosBefore.y - mousePosAfter.y)
+
+    console.log("OLD METHOD")
     console.log("scale:", this.viewState.scale);
     console.log("mousePos:", this.viewState.mousePos.x, this.viewState.mousePos.y);
-    console.log("mousePosAfterScale:", mousePosAfterScale.x, mousePosAfterScale.y);
-    console.log("diff:", this.viewState.mousePos.x - mousePosAfterScale.x, this.viewState.mousePos.y - mousePosAfterScale.y);
+    console.log("mousePosAfterScale:", mousePosAfter.x, mousePosAfter.y);
+    console.log("AMOUNT TO MOVE BY:", this.viewState.mousePos.x - mousePosAfter.x, this.viewState.mousePos.y - mousePosAfter.y)
+
     console.log("pan:", this.viewState.panVector.x, this.viewState.panVector.y);
 
     // Amount we need to pan the canvas by in total
-    let dx: number = (this.viewState.mousePos.x - mousePosAfterScale.x);
-    let dy: number = (this.viewState.mousePos.y - mousePosAfterScale.y);
+    let dx_new: number = (mousePosBefore.x - mousePosAfter.x);
+    let dy_new: number = (mousePosBefore.y - mousePosAfter.y);
 
-    this.viewState.scaleOffset = new Point(dx, dy);
+    let dx_old: number = (this.viewState.mousePos.x - mousePosAfter.x);
+    let dy_old: number = (this.viewState.mousePos.y - mousePosAfter.y);
+
+    this.panCanvas(dx_new, dy_new);
+    // this.panCanvas(dx_old, dy_old);
+
+    // this.viewState.scaleOffset.x += dx_new; 
+    // this.viewState.scaleOffset.y += dy_new;
     this.draw(ctx);
   }
 }
