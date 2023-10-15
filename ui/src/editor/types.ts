@@ -7,6 +7,7 @@ export interface ViewState {
   activeElement: Element | null,
   prevActiveElement: Element | null,
   scale: number,
+  scaleOffset: Point,
   panVector: Point,
   mousePos: Point,
   oldMousePos: Point,

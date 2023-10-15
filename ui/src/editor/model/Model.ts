@@ -23,15 +23,15 @@ class Model {
    */
   constructElements(): void {
     
-    let node1 = new Node(uuidv4(), { pos: new Point(50, 100), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0,  });
-    let node2 = new Node(uuidv4(), { pos: new Point(50, 170), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
+    let node1 = new Node(uuidv4(), { pos: new Point(0, 0), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
+    let node2 = new Node(uuidv4(), { pos: new Point(75, 75), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
     let node3 = new Node(uuidv4(), { pos: new Point(50, 240), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
-    let node4 = new Node(uuidv4(), { pos: new Point(50, 310), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
+    let node4 = new Node(uuidv4(), { pos: new Point(850, 325), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
 
-    // this.elements.push(node1);
+    this.elements.push(node1);
     this.elements.push(node2);
     // this.elements.push(node3);
-    // this.elements.push(node4);
+    this.elements.push(node4);
 
     let node5 = new Node(uuidv4(), { pos: new Point(50, 100), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
     let node6 = new Node(uuidv4(), { pos: new Point(500, 100), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });

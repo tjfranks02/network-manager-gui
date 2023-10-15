@@ -19,6 +19,7 @@ const DEFAULT_VIEW_STATE: ViewState = {
   activeElement: null,
   prevActiveElement: null,
   scale: 1,
+  scaleOffset: DEFAULT_ORIGIN,
   panVector: DEFAULT_ORIGIN,
   mousePos: DEFAULT_ORIGIN,
   oldMousePos: DEFAULT_ORIGIN,
@@ -91,7 +92,7 @@ class EditorView {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    ctx.translate(this.viewState.panVector.x, this.viewState.panVector.y);
+    ctx.translate(this.viewState.panVector.x + this.viewState.scaleOffset.x, this.viewState.panVector.y + this.viewState.scaleOffset.y);
     ctx.scale(this.viewState.scale, this.viewState.scale);
 
     for (let element of EditorModel.elements) {
@@ -136,12 +137,25 @@ class EditorView {
   }
 
   scaleCanvas(ctx: CanvasRenderingContext2D, deltaY: number) {
-    if (deltaY > 0) { // Down
+    if (deltaY > 0) { // Down, zoom in
       this.viewState.scale = Math.max(this.viewState.scale - SCALE_DELTA, MIN_SCALE);
-    } else { // Up
+    } else { // Up, zoom out
       this.viewState.scale = Math.min(this.viewState.scale + SCALE_DELTA, MAX_SCALE);
     }
 
+    let mousePosAfterScale: Point = this.viewState.mousePos.applyScaleToPoint(this.viewState.scale);
+    console.log("-----------------------------")
+    console.log("scale:", this.viewState.scale);
+    console.log("mousePos:", this.viewState.mousePos.x, this.viewState.mousePos.y);
+    console.log("mousePosAfterScale:", mousePosAfterScale.x, mousePosAfterScale.y);
+    console.log("diff:", this.viewState.mousePos.x - mousePosAfterScale.x, this.viewState.mousePos.y - mousePosAfterScale.y);
+    console.log("pan:", this.viewState.panVector.x, this.viewState.panVector.y);
+
+    // Amount we need to pan the canvas by in total
+    let dx: number = (this.viewState.mousePos.x - mousePosAfterScale.x);
+    let dy: number = (this.viewState.mousePos.y - mousePosAfterScale.y);
+
+    this.viewState.scaleOffset = new Point(dx, dy);
     this.draw(ctx);
   }
 }

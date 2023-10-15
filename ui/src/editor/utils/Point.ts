@@ -7,9 +7,8 @@ class Point {
     this.y = y;
   }
 
-  applyScaleToPoint(scale: number): void {
-    this.x *= scale;
-    this.y *= scale;
+  applyScaleToPoint(scale: number): Point {
+    return new Point(this.x * scale, this.y * scale);
   }
 
   movePoint(x: number, y: number): void {
