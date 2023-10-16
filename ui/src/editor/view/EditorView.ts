@@ -146,20 +146,6 @@ class EditorView {
     }
 
     let mousePosAfter: Point = this.viewState.mousePos.applyScaleToPoint(this.viewState.scale);
-    console.log("-----------------------------")
-    console.log("NEW METHOD")
-    console.log("scale:", this.viewState.scale);
-    console.log("mousePosBefore:", mousePosBefore.x, mousePosBefore.y);
-    console.log("mousePosAfter:", mousePosAfter.x, mousePosAfter.y);
-    console.log("AMOUNT TO MOVE BY:", mousePosBefore.x - mousePosAfter.x, mousePosBefore.y - mousePosAfter.y)
-
-    console.log("OLD METHOD")
-    console.log("scale:", this.viewState.scale);
-    console.log("mousePos:", this.viewState.mousePos.x, this.viewState.mousePos.y);
-    console.log("mousePosAfterScale:", mousePosAfter.x, mousePosAfter.y);
-    console.log("AMOUNT TO MOVE BY:", this.viewState.mousePos.x - mousePosAfter.x, this.viewState.mousePos.y - mousePosAfter.y)
-
-    console.log("pan:", this.viewState.panVector.x, this.viewState.panVector.y);
 
     // Amount we need to pan the canvas by in total
     let dx: number = (mousePosBefore.x - mousePosAfter.x);
