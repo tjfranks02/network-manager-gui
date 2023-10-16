@@ -4,7 +4,6 @@ import EditorController from "../../../editor/controller/EditorController";
 import EditorView from "../../../editor/view/EditorView";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-import { DEFAULT_CANVAS_HEIGHT, DEFAULT_CANVAS_WIDTH } from "../../../constants/editorConstants";
 
 import css from "./styles.module.css";
 
@@ -13,7 +12,18 @@ const setNewMousePos = (newMousePos: Point): void => {
   EditorView.viewState.mousePos = newMousePos;
 }
 
-const Canvas = () => {
+/**
+ * Props to pass in to the canvas element
+ */
+type CanvasProps = {
+  width: number,
+  height: number
+};
+
+/**
+ * The network editor canvas. This is where the user can draw and interact with the network.
+ */
+const Canvas = ({ width, height }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const currDraggedElem = useSelector((state: RootState) => state.currentDraggedElement.element);
@@ -79,13 +89,19 @@ const Canvas = () => {
     clearCanvas();
     EditorController.handleMouseWheelScroll(getContext(), event.deltaY);
   };
+
+  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+  console.log(vw);
+  console.log(vh);
   
   return (
     <canvas 
       className={css.canvas}
       ref={canvasRef} 
-      width={DEFAULT_CANVAS_WIDTH}
-      height={DEFAULT_CANVAS_HEIGHT}
+      width={width}
+      height={height}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}

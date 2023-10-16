@@ -1,8 +1,15 @@
+import DogPhoto from "../../assets/dogWithSunnies.png";
 import css from "./styles.module.css";
 
 const Header = () => {
   return (
-    <div>WOOHOO this is the header for the app! PErhaps a better name is navbar :-)</div>
+    <div className={css.container}>
+      <img
+        width={75}
+        height={75} 
+        src={DogPhoto} 
+      />
+    </div>
   );
 };
 

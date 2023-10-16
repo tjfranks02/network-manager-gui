@@ -1,8 +1,10 @@
 import type { RootState } from "../../redux/store";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import Canvas from "../../components/EditorView/Canvas/Canvas";
-import ActiveElementPanel from "../../components/EditorView/ActiveElementPanel/ActiveElementPanel";
-import ElementSelectorPanel from "../../components/EditorView/ElementSelectorPanel/ElementSelectorPanel";
+import Canvas from "../../components/editorView/Canvas/Canvas.tsx";
+import ActiveElementPanel from "../../components/editorView/ActiveElementPanel/ActiveElementPanel";
+import ElementSelectorPanel from "../../components/editorView/ElementSelectorPanel/ElementSelectorPanel";
+import { DEFAULT_CANVAS_HEIGHT, DEFAULT_CANVAS_WIDTH } from "../../constants/editorConstants";
 
 import css from "./styles.module.css";
 import Header from "../../components/Header/Header";
@@ -15,7 +17,7 @@ const Dashboard = () => {
       <Header />
       <div className={css.editorContainer}>
         <ElementSelectorPanel />
-        <Canvas />
+        <Canvas width={DEFAULT_CANVAS_WIDTH} height={DEFAULT_CANVAS_HEIGHT} />
         <ActiveElementPanel activeElement={activeElement} />
       </div>
     </div>
