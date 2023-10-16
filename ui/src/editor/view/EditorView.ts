@@ -4,8 +4,7 @@ import { ViewState, ViewStates } from "../types";
 import store from "../../redux/store";
 import { setActiveElement } from "../../redux/reducers/activeElement";
 import { 
-  ElementStates, 
-  DEFAULT_ORIGIN, 
+  ElementStates,  
   DEFAULT_CANVAS_WIDTH, 
   DEFAULT_CANVAS_HEIGHT,
   SCALE_DELTA,
@@ -18,7 +17,7 @@ const DEFAULT_VIEW_STATE: ViewState = {
   lastClicked: null,
   activeElement: null,
   prevActiveElement: null,
-  scale: 1,
+  scale: 0.8,
   scaleOffset: new Point(0, 0),
   panVector: new Point(0, 0),
   mousePos: new Point(0, 0),
