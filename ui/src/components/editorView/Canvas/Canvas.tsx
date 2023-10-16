@@ -56,9 +56,23 @@ const Canvas = ({ width, height }: CanvasProps) => {
   const handleMouseDown = (event: MouseEvent<HTMLCanvasElement>): void => {
     let mousePos = mapClientCoordsToMouse(event);
     setNewMousePos(mousePos);
-    
+
     clearCanvas();
-    EditorController.handleMouseDown(getContext()); 
+
+    switch (event.button) {
+      case 0: // Left click
+        EditorController.handleLeftClick(getContext());
+        break;
+      
+      case 1: // Middle mouse
+        EditorController.handleMiddleMouseClick(getContext());
+        break;
+
+      case 2: // Right click
+        event.preventDefault();
+        EditorController.handleRightClick(getContext());
+        break;
+    }
   };
 
   const handleMouseUp = (event: MouseEvent<HTMLCanvasElement>): void => {
@@ -102,6 +116,7 @@ const Canvas = ({ width, height }: CanvasProps) => {
       onDragOver={(e) => handleDragOver(e)}
       onDrop={(e) => onDraggedElementDrop(e)}
       onWheel={(e) => handleMouseWheelMove(e)}
+      onContextMenu={(e) => e.preventDefault()}
     />
   );
 }

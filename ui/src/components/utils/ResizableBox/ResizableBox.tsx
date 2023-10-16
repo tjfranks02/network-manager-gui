@@ -14,7 +14,7 @@ const ResizableBox = ({ children }: { children: ReactNode}) => {
     return new Point(mouseX, mouseY);
   };
 
-  const determineBorder = (e: MouseEvent) => {  
+  const determineCursor = (e: MouseEvent) => {  
     let rect = e.currentTarget.getBoundingClientRect();
 
     let mousePos: Point = mapClientCoordsToMouse(e);
@@ -48,7 +48,7 @@ const ResizableBox = ({ children }: { children: ReactNode}) => {
   return (
     <div 
       style={{ cursor: cursor }}
-      onMouseMove={(e) => determineBorder(e)}
+      onMouseMove={(e) => determineCursor(e)}
     >
       {children}
     </div>

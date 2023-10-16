@@ -17,14 +17,8 @@ class EditorController {
 
   constructor() {
   }
-  
-  /**
-   * Handle the user clicking the canvas.
-   * 
-   * Params:
-   *   ctx: CanvasRenderingContext2D - the canvas context
-   */
-  handleMouseDown(ctx: CanvasRenderingContext2D): void {
+
+  handleLeftClick(ctx: CanvasRenderingContext2D): void {
     let elementUnderMouse = EditorView.getElementUnderMouse();
     this.resetElementStates();
 
@@ -33,10 +27,17 @@ class EditorController {
     if (elementUnderMouse) {
       EditorView.viewState.state = ViewStates.ELEMENT_FOCUSSED;
       elementUnderMouse.renderer.handleClick();
-    } else {
-      EditorView.viewState.state = ViewStates.CANVAS_FOCUSSED;
-    }
+    } 
+    
+    EditorView.draw(ctx);
+  }
 
+  handleMiddleMouseClick(ctx: CanvasRenderingContext2D): void {
+    EditorView.viewState.state = ViewStates.CANVAS_FOCUSSED;
+    EditorView.draw(ctx);
+  }
+
+  handleRightClick(ctx: CanvasRenderingContext2D): void {
     EditorView.draw(ctx);
   }
 
