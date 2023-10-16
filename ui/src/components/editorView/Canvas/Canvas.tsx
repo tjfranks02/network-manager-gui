@@ -58,7 +58,7 @@ const Canvas = ({ width, height }: CanvasProps) => {
     setNewMousePos(mousePos);
     
     clearCanvas();
-    EditorController.handleMouseDown(getContext());
+    EditorController.handleMouseDown(getContext()); 
   };
 
   const handleMouseUp = (event: MouseEvent<HTMLCanvasElement>): void => {
