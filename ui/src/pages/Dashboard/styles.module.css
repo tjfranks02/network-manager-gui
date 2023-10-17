@@ -1,8 +1,17 @@
 .container {
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  width: 100vw;
 }
 
 .editorContainer {
   display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.middleColumn {
+  display: flex;
+  flex-direction: column;
 }

@@ -13,18 +13,19 @@ import ResizableBox from "../../components/utils/ResizableBox/ResizableBox.tsx";
 const Dashboard = () => {
   const activeElement = useSelector((state: RootState) => state.activeElement.element);
 
-  const onResize = () => {
-    console.log("YEEHAW")
-  };
-
   return (
     <div className={css.container}>
       <Header />
       <div className={css.editorContainer}>
         <ElementSelectorPanel />
-        <ResizableBox>
-          <Canvas width={DEFAULT_CANVAS_WIDTH} height={DEFAULT_CANVAS_HEIGHT} />
-        </ResizableBox>
+        <div className={css.middleColumn}>
+          <ResizableBox>
+            <Canvas width={DEFAULT_CANVAS_WIDTH} height={DEFAULT_CANVAS_HEIGHT} />
+          </ResizableBox>
+          <div>
+            Bottom box! not sure what this will do yet but i feel like it should be here
+          </div>
+        </div>
         <ActiveElementPanel activeElement={activeElement} />
       </div>
     </div>
