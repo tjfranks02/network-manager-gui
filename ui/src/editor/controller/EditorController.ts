@@ -47,7 +47,12 @@ class EditorController {
     }
   }
 
-  handleMouseUp(ctx: CanvasRenderingContext2D): void {
+  handleMiddleMouseUp(ctx: CanvasRenderingContext2D): void {
+    EditorView.viewState.state = ViewStates.IDLE;
+    EditorView.draw(ctx);
+  }
+
+  handleLeftMouseUp(ctx: CanvasRenderingContext2D): void {
     let elementUnderMouse: Element | null = EditorView.getElementUnderMouse();   
     let activeElement: Element | null = EditorView.viewState.activeElement;
 

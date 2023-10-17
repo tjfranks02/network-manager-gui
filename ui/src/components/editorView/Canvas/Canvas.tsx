@@ -79,7 +79,16 @@ const Canvas = ({ width, height }: CanvasProps) => {
     let mousePos = mapClientCoordsToMouse(event);
     setNewMousePos(mousePos);
 
-    EditorController.handleMouseUp(getContext());
+    switch (event.button) {
+      case 0: // Left mouse up
+        EditorController.handleLeftMouseUp(getContext());
+        break;
+      case 1: // Middle mouse up
+        EditorController.handleMiddleMouseUp(getContext());
+        break;
+      default:
+        break;
+    }
   };
 
   const onDraggedElementDrop = (event: DragEvent<HTMLCanvasElement>) => {
