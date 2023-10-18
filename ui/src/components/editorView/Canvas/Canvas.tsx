@@ -59,19 +59,12 @@ const Canvas = ({ width, height }: CanvasProps) => {
 
     clearCanvas();
 
-    switch (event.button) {
-      case 0: // Left click
-        EditorController.handleLeftClick(getContext());
-        break;
-      
-      case 1: // Middle mouse
-        EditorController.handleMiddleMouseClick(getContext());
-        break;
-
-      case 2: // Right click
-        event.preventDefault();
-        EditorController.handleRightClick(getContext());
-        break;
+    if (event.altKey && event.button === 0 || event.button === 1) { // Middle mouse (alt+left on trackpad)
+      EditorController.handleMiddleMouseClick(getContext());
+    } else if (event.button === 0) { // Left click
+      EditorController.handleLeftClick(getContext());
+    } else if (event.button === 2) { // Right click
+      EditorController.handleRightClick((getContext()));
     }
   };
 
