@@ -3,7 +3,12 @@ import Point from "../../../editor/utils/Point";
 
 import css from "./styles.module.css";
 
-const ResizableBox = ({ children }: { children: ReactNode}) => {
+const ResizableBox = ({ children, onResize, width, height }: { 
+  children: ReactNode, 
+  onResize: () => void,
+  width: number,
+  height: number
+}) => {
   const [cursor, setCursor] = useState("default");
 
   const mapClientCoordsToMouse = (event: MouseEvent): Point => {
@@ -47,7 +52,12 @@ const ResizableBox = ({ children }: { children: ReactNode}) => {
 
   return (
     <div 
-      style={{ cursor: cursor }}
+      style={{ 
+        cursor: cursor, 
+        backgroundColor: "pink",
+        flexBasis: `${width}px`,
+        height: `${height}px`
+      }}
       onMouseMove={(e) => determineCursor(e)}
     >
       {children}

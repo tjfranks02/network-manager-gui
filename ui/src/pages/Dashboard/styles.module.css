@@ -5,4 +5,5 @@
 
 .editorContainer {
   display: flex;
+  flex-direction: row;
 }

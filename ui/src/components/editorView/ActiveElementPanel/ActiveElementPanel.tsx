@@ -2,7 +2,7 @@ import css from "./styles.module.css";
 
 const ActiveElementPanel = ({ activeElement }: { activeElement: string }) => {
   return (
-    <div className={css.container}>
+    <div className={css.container} style={{ backgroundColor: "purple"}} >
       <h3>Active element panel</h3>
       {activeElement}
     </div>

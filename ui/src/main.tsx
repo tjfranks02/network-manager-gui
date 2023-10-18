@@ -1,33 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
   RouterProvider
-} from 'react-router-dom';
+} from "react-router-dom";
 
 // Redux
-import { Provider } from 'react-redux';
-import store from './redux/store';
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 // React components
-import Dashboard from './pages/Dashboard/Dashboard';
-import Counter from './pages/Counter';
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Counter from "./pages/Counter";
 
 // CSS stylings
-import './styles/index.module.css';
+import "./styles/index.module.css";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Dashboard />,
   },
   {
-    path: '/counter',
+    path: "/counter",
     element: <Counter />
   }
 ]);
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
