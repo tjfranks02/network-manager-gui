@@ -109,12 +109,9 @@ const Canvas = ({ width, height }: CanvasProps) => {
   return (
     <canvas 
       className={css.canvas}
-      style={{
-        backgroundColor: "green"
-      }}
       ref={canvasRef} 
-      width={width}
-      height={height}
+      width={`${width - 5}px`}
+      height={`${height - 5}px`}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
