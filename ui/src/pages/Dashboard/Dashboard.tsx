@@ -84,7 +84,7 @@ const Dashboard = () => {
           width={canvasDimensions.width} 
           height={canvasDimensions.height} 
         >
-          <Canvas width={DEFAULT_CANVAS_WIDTH} height={DEFAULT_CANVAS_HEIGHT} />
+          <Canvas width={canvasDimensions.width} height={canvasDimensions.height} />
         </ResizableBox>
         <ResizableBox 
           onResize={() => console.log("RESIZE!")}
