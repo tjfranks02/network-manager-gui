@@ -63,12 +63,7 @@ const ResizableBox = ({ children }: {
 
   return (
     <div 
-      style={{ 
-        cursor: cursor,
-        display: "flex",
-        width: window.innerWidth,
-        backgroundColor: "yellow"
-      }}
+      style={{ cursor: cursor }}
       onMouseMove={(e) => determineCursor(e)}
       className={css.border}
     >

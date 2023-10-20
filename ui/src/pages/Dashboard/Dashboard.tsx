@@ -9,9 +9,8 @@ import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
 
 import css from "./styles.module.css";
 import Header from "../../components/Header/Header";
-import ResizableFlexBox from "../../components/utils/resizable/ResizableFlexBox/ResizableFlexBox.tsx";
+import ResizableBox from "../../components/utils/resizable/ResizableBox/ResizableBox.tsx";
 import { Dimensions } from "../../types.ts";
-import ResizableFlexItem from "../../components/utils/resizable/ResizableFlexItem/ResizableFlexItem.tsx";
 
 const Dashboard = () => {
   const activeElement = useSelector((state: RootState) => state.activeElement.element);
@@ -74,15 +73,15 @@ const Dashboard = () => {
         gridTemplateRows: containerHeight,
         outline: "1px solid blue",
       }}>
-        <div style={{ border: "1px solid blue"}}>
+        <ResizableBox>
           <ElementSelectorPanel />
-        </div>
-        <div style={{ border: "1px solid blue"}}>
+        </ResizableBox>
+        <ResizableBox>
           <Canvas />
-        </div>
-        <div>
-          <ActiveElementPanel activeElement={activeElement} />        
-        </div>
+        </ResizableBox>
+        <ResizableBox>
+          <ActiveElementPanel activeElement={activeElement} />
+        </ResizableBox>      
       </div>
     </div>
   );
