@@ -46,20 +46,6 @@ const ResizableBox = ({ children }: {
     }                               
   };
 
-  const renderChildren = () => {
-    if (!children) {
-      return null;
-    }
-
-    return Children.toArray(children).map((child) => {
-      return (
-        <div style={{ }}>
-          {child}
-        </div>
-      );
-    });
-  };
-
   return (
     <div 
       style={{ cursor: cursor }}

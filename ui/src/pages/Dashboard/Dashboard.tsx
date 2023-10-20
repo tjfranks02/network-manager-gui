@@ -19,20 +19,6 @@ const Dashboard = () => {
    * Just gonna hardcode all these values for now. Surely there's a more generic way to do this
    * though that doesn't rely on our exact layout.
    */
-  const [elementSelectorPanelDimensions, setElementSelectorPanelDimensions] = useState<Dimensions>({
-      width: 200,
-      height: 800
-    }
-  );
-  const [canvasDimensions, setCanvasDimensions] = useState<Dimensions>({
-      width: DEFAULT_CANVAS_WIDTH,
-      height: DEFAULT_CANVAS_HEIGHT
-  });
-  const [activeElementPanelDimensions, setActiveElementPanelDimensions] = useState<Dimensions>({
-      width: 200,
-      height: 800
-  });
-
   const [containerHeight, setContainerHeight] = useState<number>(0);
 
   useEffect(() => {
@@ -41,37 +27,18 @@ const Dashboard = () => {
 
   const setDefaultDimensions = () => {
     const viewportHeight: number = window.innerHeight;
-    const viewportWidth: number = window.innerWidth;
     const navbarHeight: number = DEFAULT_NAVBAR_HEIGHT;
-
-    // Canvas dimensions
-    setCanvasDimensions({
-      height: viewportHeight - navbarHeight,
-      width: viewportWidth * 0.8
-    });
-
-    // Element selector panel dimensions
-    setElementSelectorPanelDimensions({
-      height: viewportHeight - navbarHeight,
-      width: viewportWidth * 0.1
-    });
-
-    setActiveElementPanelDimensions({
-      height: viewportHeight - navbarHeight,
-      width: viewportWidth * 0.1
-    });
 
     setContainerHeight(viewportHeight - navbarHeight);
   };
 
   return (
     <div>
-      <NavBar width={window.innerWidth} height={DEFAULT_CANVAS_HEIGHT} />
+      <NavBar width={window.innerWidth} height={DEFAULT_NAVBAR_HEIGHT} />
       <div style={{
         display: "grid",
         gridTemplateColumns: "1fr 5fr 1fr",
-        gridTemplateRows: containerHeight - 3.75,
-        outline: "1px solid blue",
+        gridTemplateRows: containerHeight,
       }}>
         <ResizableBox>
           <ElementSelectorPanel />

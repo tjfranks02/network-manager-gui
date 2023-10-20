@@ -25,7 +25,6 @@ const Canvas = () => {
 
   useEffect(() => {
     if (wrapperRef.current) {
-      console.log("wrapperRef.current.offsetHeight: " + wrapperRef.current.clientHeight);
       setWrapperHeight(wrapperRef.current.clientHeight);
       setWrapperWidth(wrapperRef.current.clientWidth);
     }

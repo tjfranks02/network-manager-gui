@@ -1,3 +1,4 @@
 .canvas {
+  display: block;
   outline: 1px solid blue;
 }
