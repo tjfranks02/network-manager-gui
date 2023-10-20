@@ -38,7 +38,6 @@ const ResizableBox = ({ children }: {
     } else if (mousePos.x > width - delta) {
       newCursor += "e";
     }
-    console.log(cursor)
     
     if (newCursor) {
       setCursor(newCursor + "-resize");

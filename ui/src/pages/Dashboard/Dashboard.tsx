@@ -8,7 +8,7 @@ import { DEFAULT_CANVAS_HEIGHT, DEFAULT_CANVAS_WIDTH } from "../../constants/edi
 import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
 
 import css from "./styles.module.css";
-import Header from "../../components/Header/Header";
+import NavBar from "../../components/NavBar/NavBar";
 import ResizableBox from "../../components/utils/resizable/ResizableBox/ResizableBox.tsx";
 import { Dimensions } from "../../types.ts";
 
@@ -66,11 +66,11 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Header />
+      <NavBar width={window.innerWidth} height={DEFAULT_CANVAS_HEIGHT} />
       <div style={{
         display: "grid",
         gridTemplateColumns: "1fr 5fr 1fr",
-        gridTemplateRows: containerHeight,
+        gridTemplateRows: containerHeight - 3.75,
         outline: "1px solid blue",
       }}>
         <ResizableBox>

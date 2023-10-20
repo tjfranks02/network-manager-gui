@@ -1,4 +1,4 @@
-import { useRef, MouseEvent, WheelEvent, DragEvent, useEffect, useState } from "react";
+import { useRef, MouseEvent, WheelEvent, DragEvent, useEffect, useState, useCallback } from "react";
 import Point from "../../../editor/utils/Point";
 import EditorController from "../../../editor/controller/EditorController";
 import EditorView from "../../../editor/view/EditorView";
@@ -16,26 +16,23 @@ const setNewMousePos = (newMousePos: Point): void => {
  * The network editor canvas. This is where the user can draw and interact with the network.
  */
 const Canvas = () => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const canvasWrapperRef = useRef<HTMLDivElement>(null);
-
   const currDraggedElem = useSelector((state: RootState) => state.currentDraggedElement.element);
+  
+  const [wrapperHeight, setWrapperHeight] = useState<number>(100);
+  const [wrapperWidth, setWrapperWidth] = useState<number>(100);
 
-  const [canvasDimensions, setCanvasDimensions] = useState<any>({ width: 0, height: 0 });
+  useEffect(() => {
+    if (wrapperRef.current) {
+      console.log("wrapperRef.current.offsetHeight: " + wrapperRef.current.clientHeight);
+      setWrapperHeight(wrapperRef.current.clientHeight);
+      setWrapperWidth(wrapperRef.current.clientWidth);
+    }
+  });
   
   useEffect(() => {
     EditorController.draw(getContext());
-  }, []);
-
-  useEffect(() => {
-    let canvas: HTMLCanvasElement | null = canvasRef.current;
-
-    if (canvas) {
-      setCanvasDimensions({
-        width: canvas.offsetWidth,
-        height: canvas.offsetHeight
-      });
-    }
   }, []);
 
   const getContext = (): CanvasRenderingContext2D => {
@@ -113,15 +110,12 @@ const Canvas = () => {
   };
 
   return (
-    <div style={{  }} ref={canvasWrapperRef}>
+    <div style={{ width: "100%", height: "100%" }} ref={wrapperRef}>
       <canvas 
-        style={{
-
-        }}
         className={css.canvas}
         ref={canvasRef} 
-        width={925}
-        height={350}
+        width={wrapperWidth}
+        height={wrapperHeight}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
