@@ -121,7 +121,7 @@ const Canvas = () => {
         className={css.canvas}
         ref={canvasRef} 
         width={925}
-        height={550}
+        height={350}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}

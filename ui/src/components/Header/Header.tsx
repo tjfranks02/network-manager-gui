@@ -7,9 +7,8 @@ const Header = ({ width, height }: { width: number, height: number }) => {
     <div 
       className={css.container}
       style={{
-        backgroundColor: "green",
         width: `${width}px`,
-        height: `73px`
+        height: `${DEFAULT_NAVBAR_HEIGHT}px`
       }}
     >
       <img

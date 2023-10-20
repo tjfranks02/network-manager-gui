@@ -66,20 +66,23 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={{
-      display: "grid",
-      gridTemplateColumns: "1fr 5fr 1fr",
-      gridTemplateRows: "100vh",
-      outline: "1px solid blue"
-    }}>
-      <div style={{ border: "1px solid blue"}}>
-        <ElementSelectorPanel />
-      </div>
-      <div style={{ border: "1px solid blue"}}>
-        <Canvas />
-      </div>
-      <div>
-        <ActiveElementPanel activeElement={activeElement} />        
+    <div>
+      <Header />
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 5fr 1fr",
+        gridTemplateRows: containerHeight,
+        outline: "1px solid blue",
+      }}>
+        <div style={{ border: "1px solid blue"}}>
+          <ElementSelectorPanel />
+        </div>
+        <div style={{ border: "1px solid blue"}}>
+          <Canvas />
+        </div>
+        <div>
+          <ActiveElementPanel activeElement={activeElement} />        
+        </div>
       </div>
     </div>
   );
