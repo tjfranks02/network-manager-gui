@@ -40,10 +40,10 @@ const ElementSelectorPanel = () => {
   };
 
   return (
-    //<div>
-    <h3>Element selector panel</h3>
-    //<ul>{renderElements()}</ul> */}
-    //</div>
+    <div>
+      <h3>Element selector panel</h3>
+      <ul>{renderElements()}</ul>
+    </div>
   );
 };
 

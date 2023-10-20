@@ -68,26 +68,19 @@ const Dashboard = () => {
   return (
     <div style={{
       display: "grid",
+      gridTemplateColumns: "1fr 5fr 1fr",
+      gridTemplateRows: "100vh",
       outline: "1px solid blue"
     }}>
-      {/* <ResizableFlexBox>
-        <ResizableFlexItem flexGrow={1}>
-          <div style={{ backgroundColor: "pink" }}>HELLO</div>
-          <ElementSelectorPanel />
-        </ResizableFlexItem>
-        <ResizableFlexItem flexGrow={1}>
-          <div style={{ backgroundColor: "purple" }}>Hello</div>
-        </ResizableFlexItem>
-        <ResizableFlexItem flexGrow={1}>
-          Hello3
-        </ResizableFlexItem>
-      </ResizableFlexBox> */}
-      <div style={{ backgroundColor: "blue"}}>Div 1</div>
-      <div style={{ backgroundColor: "pink"}}>Div 2</div>
-      <div style={{ backgroundColor: "red"}}>Div 3</div>
-      <div style={{ backgroundColor: "lightblue"}}>Div 4</div>
-      <div style={{ backgroundColor: "brown"}}>Div 5</div>
-      <div style={{ backgroundColor: "yellow"}}>Div 6</div>
+      <div style={{ border: "1px solid blue"}}>
+        <ElementSelectorPanel />
+      </div>
+      <div style={{ border: "1px solid blue"}}>
+        <Canvas />
+      </div>
+      <div>
+        <ActiveElementPanel activeElement={activeElement} />        
+      </div>
     </div>
   );
 };

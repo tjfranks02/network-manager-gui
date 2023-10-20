@@ -113,17 +113,15 @@ const Canvas = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "brown", height: 50 }} ref={canvasWrapperRef}>
+    <div style={{  }} ref={canvasWrapperRef}>
       <canvas 
         style={{
-          backgroundColor: "white",
-          width: "100%",
-          height: "100%"
+
         }}
         className={css.canvas}
         ref={canvasRef} 
-        width={canvasDimensions.width}
-        height={canvasDimensions.height}
+        width={925}
+        height={550}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
