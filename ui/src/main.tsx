@@ -15,6 +15,7 @@ import Counter from "./pages/Counter";
 
 // CSS stylings
 import "./styles/index.module.css";
+import GridTutorial from "./pages/GridTutorial";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/counter",
     element: <Counter />
+  },
+  {
+    path: "/gridtut",
+    element: <GridTutorial />
   }
 ]);
 

@@ -65,57 +65,29 @@ const Dashboard = () => {
     setContainerHeight(viewportHeight - navbarHeight);
   };
 
-  console.log(DEFAULT_NAVBAR_HEIGHT);
-
   return (
-    <div>
-      <ResizableFlexBox>
-        <div style={{
-          backgroundColor: "red",
-          // flexGrow: 2
-        }}>
-          Box 1
-        </div>
-        <div style={{
-          backgroundColor: "blue",
-        }}>
-          Box 2
-        </div>
-        <div style={{
-          backgroundColor: "green",
-        }}>
-          Box 3
-        </div>
-      </ResizableFlexBox>
-      <ResizableFlexBox>
-        <div style={{
-          backgroundColor: "lightblue",
-          // flexGrow: 2
-        }}>
-          Box 4
-        </div>
-        <div style={{
-          backgroundColor: "yellow",
-        }}>
-          Box 5
-        </div>
-        <div style={{
-          backgroundColor: "purple",
-        }}>
-          Box 6
-        </div>
-      </ResizableFlexBox>
-      <ResizableFlexBox>
+    <div style={{
+      display: "grid",
+      outline: "1px solid blue"
+    }}>
+      {/* <ResizableFlexBox>
         <ResizableFlexItem flexGrow={1}>
+          <div style={{ backgroundColor: "pink" }}>HELLO</div>
           <ElementSelectorPanel />
         </ResizableFlexItem>
         <ResizableFlexItem flexGrow={1}>
-          <Canvas width={1} height={1} />
+          <div style={{ backgroundColor: "purple" }}>Hello</div>
         </ResizableFlexItem>
         <ResizableFlexItem flexGrow={1}>
           Hello3
         </ResizableFlexItem>
-      </ResizableFlexBox>
+      </ResizableFlexBox> */}
+      <div style={{ backgroundColor: "blue"}}>Div 1</div>
+      <div style={{ backgroundColor: "pink"}}>Div 2</div>
+      <div style={{ backgroundColor: "red"}}>Div 3</div>
+      <div style={{ backgroundColor: "lightblue"}}>Div 4</div>
+      <div style={{ backgroundColor: "brown"}}>Div 5</div>
+      <div style={{ backgroundColor: "yellow"}}>Div 6</div>
     </div>
   );
 };

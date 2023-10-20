@@ -13,17 +13,9 @@ const setNewMousePos = (newMousePos: Point): void => {
 }
 
 /**
- * Props to pass in to the canvas element
- */
-type CanvasProps = {
-  width: number,
-  height: number
-};
-
-/**
  * The network editor canvas. This is where the user can draw and interact with the network.
  */
-const Canvas = ({ width, height }: CanvasProps) => {
+const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasWrapperRef = useRef<HTMLDivElement>(null);
 
@@ -121,7 +113,7 @@ const Canvas = ({ width, height }: CanvasProps) => {
   };
 
   return (
-    <div style={{ backgroundColor: "brown", height: 100 }} ref={canvasWrapperRef}>
+    <div style={{ backgroundColor: "brown", height: 50 }} ref={canvasWrapperRef}>
       <canvas 
         style={{
           backgroundColor: "white",
