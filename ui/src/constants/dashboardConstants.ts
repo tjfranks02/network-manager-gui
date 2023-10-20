@@ -1,1 +1,1 @@
-export const DEFAULT_NAVBAR_HEIGHT: number = 80;
+export const DEFAULT_NAVBAR_HEIGHT: number = 75;

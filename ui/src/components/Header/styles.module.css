@@ -1,3 +1,8 @@
 .container {
-  border: 1px solid blue;
+  border: 0px solid blue;
+}
+
+.logo {
+  width: 30px;
+  height: auto;
 }

@@ -1,4 +1,4 @@
-import { useRef, MouseEvent, WheelEvent, DragEvent, useEffect } from "react";
+import { useRef, MouseEvent, WheelEvent, DragEvent, useEffect, useState } from "react";
 import Point from "../../../editor/utils/Point";
 import EditorController from "../../../editor/controller/EditorController";
 import EditorView from "../../../editor/view/EditorView";
@@ -25,11 +25,25 @@ type CanvasProps = {
  */
 const Canvas = ({ width, height }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasWrapperRef = useRef<HTMLDivElement>(null);
 
   const currDraggedElem = useSelector((state: RootState) => state.currentDraggedElement.element);
 
+  const [canvasDimensions, setCanvasDimensions] = useState<any>({ width: 0, height: 0 });
+  
   useEffect(() => {
     EditorController.draw(getContext());
+  }, []);
+
+  useEffect(() => {
+    let canvas: HTMLCanvasElement | null = canvasRef.current;
+
+    if (canvas) {
+      setCanvasDimensions({
+        width: canvas.offsetWidth,
+        height: canvas.offsetHeight
+      });
+    }
   }, []);
 
   const getContext = (): CanvasRenderingContext2D => {
@@ -105,21 +119,28 @@ const Canvas = ({ width, height }: CanvasProps) => {
     clearCanvas();
     EditorController.handleMouseWheelScroll(getContext(), event.deltaY);
   };
-  
+
   return (
-    <canvas 
-      className={css.canvas}
-      ref={canvasRef} 
-      width={`${width - 5}px`}
-      height={`${height - 5}px`}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
-      onDragOver={(e) => handleDragOver(e)}
-      onDrop={(e) => onDraggedElementDrop(e)}
-      onWheel={(e) => handleMouseWheelMove(e)}
-      onContextMenu={(e) => e.preventDefault()}
-    />
+    <div style={{ backgroundColor: "brown", height: 100 }} ref={canvasWrapperRef}>
+      <canvas 
+        style={{
+          backgroundColor: "white",
+          width: "100%",
+          height: "100%"
+        }}
+        className={css.canvas}
+        ref={canvasRef} 
+        width={canvasDimensions.width}
+        height={canvasDimensions.height}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        onDragOver={(e) => handleDragOver(e)}
+        onDrop={(e) => onDraggedElementDrop(e)}
+        onWheel={(e) => handleMouseWheelMove(e)}
+        onContextMenu={(e) => e.preventDefault()}
+      />
+    </div>
   );
 }
 

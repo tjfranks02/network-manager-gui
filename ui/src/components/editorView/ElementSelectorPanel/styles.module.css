@@ -1,7 +1,7 @@
 .container {
   -webkit-user-select: none; /* Safari */
-         user-select: none;
-  height: 100%;
+  user-select: none;
+  background-color: blue;
 }
 
 .element:hover {

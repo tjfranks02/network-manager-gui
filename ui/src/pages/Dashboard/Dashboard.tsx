@@ -9,8 +9,9 @@ import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
 
 import css from "./styles.module.css";
 import Header from "../../components/Header/Header";
-import ResizableBox from "../../components/utils/ResizableBox/ResizableBox.tsx";
+import ResizableFlexBox from "../../components/utils/resizable/ResizableFlexBox/ResizableFlexBox.tsx";
 import { Dimensions } from "../../types.ts";
+import ResizableFlexItem from "../../components/utils/resizable/ResizableFlexItem/ResizableFlexItem.tsx";
 
 const Dashboard = () => {
   const activeElement = useSelector((state: RootState) => state.activeElement.element);
@@ -44,10 +45,6 @@ const Dashboard = () => {
     const viewportWidth: number = window.innerWidth;
     const navbarHeight: number = DEFAULT_NAVBAR_HEIGHT;
 
-    console.log("Navbar height:", navbarHeight);
-    console.log("viewPort height:", viewportHeight)
-    console.log("viewport width:", viewportWidth);
-
     // Canvas dimensions
     setCanvasDimensions({
       height: viewportHeight - navbarHeight,
@@ -68,32 +65,57 @@ const Dashboard = () => {
     setContainerHeight(viewportHeight - navbarHeight);
   };
 
+  console.log(DEFAULT_NAVBAR_HEIGHT);
+
   return (
-    <div className={css.container} style={{ height: containerHeight }}>
-      <Header />
-      <div className={css.editorContainer}>
-        <ResizableBox 
-          onResize={() => console.log("RESIZE!")}
-          width={elementSelectorPanelDimensions.width}
-          height={elementSelectorPanelDimensions.height}
-        >
+    <div>
+      <ResizableFlexBox>
+        <div style={{
+          backgroundColor: "red",
+          // flexGrow: 2
+        }}>
+          Box 1
+        </div>
+        <div style={{
+          backgroundColor: "blue",
+        }}>
+          Box 2
+        </div>
+        <div style={{
+          backgroundColor: "green",
+        }}>
+          Box 3
+        </div>
+      </ResizableFlexBox>
+      <ResizableFlexBox>
+        <div style={{
+          backgroundColor: "lightblue",
+          // flexGrow: 2
+        }}>
+          Box 4
+        </div>
+        <div style={{
+          backgroundColor: "yellow",
+        }}>
+          Box 5
+        </div>
+        <div style={{
+          backgroundColor: "purple",
+        }}>
+          Box 6
+        </div>
+      </ResizableFlexBox>
+      <ResizableFlexBox>
+        <ResizableFlexItem flexGrow={1}>
           <ElementSelectorPanel />
-        </ResizableBox>
-        <ResizableBox 
-          onResize={() => console.log("RESIZE!")}
-          width={canvasDimensions.width} 
-          height={canvasDimensions.height} 
-        >
-          <Canvas width={canvasDimensions.width} height={canvasDimensions.height} />
-        </ResizableBox>
-        <ResizableBox 
-          onResize={() => console.log("RESIZE!")}
-          width={activeElementPanelDimensions.width}
-          height={activeElementPanelDimensions.height}
-        >
-          <ActiveElementPanel activeElement={activeElement} />
-        </ResizableBox>
-      </div>
+        </ResizableFlexItem>
+        <ResizableFlexItem flexGrow={1}>
+          <Canvas width={1} height={1} />
+        </ResizableFlexItem>
+        <ResizableFlexItem flexGrow={1}>
+          Hello3
+        </ResizableFlexItem>
+      </ResizableFlexBox>
     </div>
   );
 };

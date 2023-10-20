@@ -1,13 +1,10 @@
-import { ReactNode, MouseEvent, useState } from "react";
-import Point from "../../../editor/utils/Point";
+import { ReactNode, MouseEvent, useState, Children } from "react";
+import Point from "../../../../editor/utils/Point";
 
 import css from "./styles.module.css";
 
-const ResizableBox = ({ children, onResize, width, height }: { 
+const ResizableBox = ({ children }: { 
   children: ReactNode, 
-  onResize: () => void,
-  width: number,
-  height: number
 }) => {
   const [cursor, setCursor] = useState("default");
 
@@ -50,12 +47,27 @@ const ResizableBox = ({ children, onResize, width, height }: {
     }                               
   };
 
+  const renderChildren = () => {
+    if (!children) {
+      return null;
+    }
+
+    return Children.toArray(children).map((child) => {
+      return (
+        <div style={{ }}>
+          {child}
+        </div>
+      );
+    });
+  };
+
   return (
     <div 
       style={{ 
         cursor: cursor,
-        flexBasis: `${width}px`,
-        height: `${height}px`
+        display: "flex",
+        width: window.innerWidth,
+        backgroundColor: "yellow"
       }}
       onMouseMove={(e) => determineCursor(e)}
       className={css.border}
