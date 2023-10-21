@@ -3,8 +3,9 @@ import Point from "../../../../editor/utils/Point";
 
 import css from "./styles.module.css";
 
-const ResizableBox = ({ children }: { 
+const ResizableBox = ({ children, onResize }: { 
   children: ReactNode, 
+  onResize: (direction: string, index: number) => void | null
 }) => {
   const [cursor, setCursor] = useState("default");
 

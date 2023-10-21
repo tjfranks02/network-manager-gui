@@ -11,6 +11,7 @@ import css from "./styles.module.css";
 import NavBar from "../../components/NavBar/NavBar";
 import ResizableBox from "../../components/utils/resizable/ResizableBox/ResizableBox.tsx";
 import { Dimensions } from "../../types.ts";
+import ResizableGrid from "../../components/utils/resizable/ResizableGrid/ResizableGrid.tsx";
 
 const Dashboard = () => {
   const activeElement = useSelector((state: RootState) => state.activeElement.element);
@@ -35,11 +36,7 @@ const Dashboard = () => {
   return (
     <div>
       <NavBar width={window.innerWidth} height={DEFAULT_NAVBAR_HEIGHT} />
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 5fr 1fr",
-        gridTemplateRows: containerHeight,
-      }}>
+      <ResizableGrid height={containerHeight}>
         <ResizableBox>
           <ElementSelectorPanel />
         </ResizableBox>
@@ -48,8 +45,8 @@ const Dashboard = () => {
         </ResizableBox>
         <ResizableBox>
           <ActiveElementPanel activeElement={activeElement} />
-        </ResizableBox>      
-      </div>
+        </ResizableBox>     
+      </ResizableGrid>
     </div>
   );
 };
