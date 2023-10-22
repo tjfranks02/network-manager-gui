@@ -8,7 +8,7 @@ const Header = ({ width, height }: { width: number, height: number }) => {
       className={css.container}
       style={{
         width: `${width}px`,
-        height: `${DEFAULT_NAVBAR_HEIGHT}px`
+        height: `${DEFAULT_NAVBAR_HEIGHT}px`,
       }}
     >
       <img

@@ -1,8 +1,8 @@
 .container {
-  border: 0px solid blue;
+  padding: 2px;
 }
 
 .logo {
-  width: 50px;
+  width: 45px;
   height: auto;
 }

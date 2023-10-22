@@ -1,17 +1,22 @@
-import { ReactNode, Children, cloneElement, ReactElement } from "react";
+import { ReactNode, Children, cloneElement, ReactElement, MouseEvent } from "react";
+import { 
+  VERTICAL_RESIZE_CURSOR, 
+  HORIZONTAL_RESIZE_CURSOR 
+} from "../../../../constants/dashboardConstants";
 
 const ResizableGrid = ({ children, height }: { children: ReactNode, height: number }) => {
 
-  const onChildResize = (sideClicked: string, childIndex: number) => {
-    console.log(sideClicked)
+  const onChildResize = (e: MouseEvent, cursor: string, childIndex: number) => {
+    console.log(cursor)
     console.log(childIndex)
+    console.log(e);
   };  
 
   const renderChildren = () => {
     return Children.toArray(children).map((child, index) => {
       return cloneElement(child as ReactElement<any>, { 
         index: index, 
-        onResize: (sideClicked: string) => onChildResize(sideClicked, index)
+        onResize: (e: MouseEvent, sideClicked: string) => onChildResize(e, sideClicked, index)
       });
     });
   }

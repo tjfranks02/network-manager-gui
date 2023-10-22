@@ -17,7 +17,7 @@ const DEFAULT_VIEW_STATE: ViewState = {
   lastClicked: null,
   activeElement: null,
   prevActiveElement: null,
-  scale: 1.0,
+  scale: 0.85,
   scaleOffset: new Point(0, 0),
   panVector: new Point(50, 30),
   mousePos: new Point(0, 0),

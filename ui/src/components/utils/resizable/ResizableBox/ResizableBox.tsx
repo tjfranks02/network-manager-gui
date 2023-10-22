@@ -1,11 +1,24 @@
-import { ReactNode, MouseEvent, useState, Children } from "react";
+import { ReactNode, MouseEvent, useState } from "react";
+
 import Point from "../../../../editor/utils/Point";
+import { 
+  VERTICAL_RESIZE_CURSOR, 
+  HORIZONTAL_RESIZE_CURSOR 
+} from "../../../../constants/dashboardConstants";
 
 import css from "./styles.module.css";
 
+/**
+ * This component is a wrapper around any component that needs to be resizable. When it detects that
+ * it is being re-sized, it triggers the onResize function to be handled by its parent component.
+ * 
+ * Params:
+ *   children: The child component that needs to be resizable
+ *   onResize: The function that is called when the child component is resized
+ */
 const ResizableBox = ({ children, onResize }: { 
   children: ReactNode, 
-  onResize?: (sideClicked: string) => void
+  onResize?: (event: MouseEvent, sideClicked: string) => void
 }) => {
   const [cursor, setCursor] = useState("default");
 
@@ -28,31 +41,40 @@ const ResizableBox = ({ children, onResize }: {
     
     let newCursor: string = "";
 
-    if (mousePos.y < delta) {
-      newCursor += "n"; 
-    } else if (mousePos.y > height - delta) {
-      newCursor += "s";
+    if (mousePos.y < delta || mousePos.y > height - delta) {
+      newCursor += VERTICAL_RESIZE_CURSOR; 
     }
     
-    if (mousePos.x < delta) {
-      newCursor += "w";
-    } else if (mousePos.x > width - delta) {
-      newCursor += "e";
+    if (mousePos.x < delta || mousePos.x > width - delta) {
+      newCursor += HORIZONTAL_RESIZE_CURSOR;
     }
     
-    if (newCursor) {
-      setCursor(newCursor + "-resize");
-    } else {
-      setCursor("default"); 
+    if (!newCursor) {
+      newCursor = "default";
     }
-    
-    onResize("n")
+
+    return newCursor;
+  };
+
+  const handleMouseDown = (e: MouseEvent) => {
+    let newCursor = determineCursor(e);
+    setCursor(newCursor);
+
+    if (onResize) {
+      onResize(e, cursor);
+    }
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    let newCursor = determineCursor(e);
+    setCursor(newCursor);
   };
 
   return (
     <div 
       style={{ cursor: cursor }}
-      onClick={(e) => determineCursor(e)}
+      onClick={handleMouseDown}
+      onMouseMove={handleMouseMove}
       className={css.border}
     >
       {children}
