@@ -5,7 +5,7 @@ import css from "./styles.module.css";
 
 const ResizableBox = ({ children, onResize }: { 
   children: ReactNode, 
-  onResize: (direction: string, index: number) => void | null
+  onResize: (sideClicked: string) => void | null
 }) => {
   const [cursor, setCursor] = useState("default");
 
@@ -44,13 +44,15 @@ const ResizableBox = ({ children, onResize }: {
       setCursor(newCursor + "-resize");
     } else {
       setCursor("default"); 
-    }                               
+    }
+    
+    onResize("n")
   };
 
   return (
     <div 
       style={{ cursor: cursor }}
-      onMouseMove={(e) => determineCursor(e)}
+      onClick={(e) => determineCursor(e)}
       className={css.border}
     >
       {children}
