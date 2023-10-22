@@ -5,7 +5,7 @@ import css from "./styles.module.css";
 
 const ResizableBox = ({ children, onResize }: { 
   children: ReactNode, 
-  onResize: (sideClicked: string) => void | null
+  onResize?: (sideClicked: string) => void
 }) => {
   const [cursor, setCursor] = useState("default");
 
