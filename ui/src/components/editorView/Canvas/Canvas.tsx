@@ -4,6 +4,7 @@ import EditorController from "../../../editor/controller/EditorController";
 import EditorView from "../../../editor/view/EditorView";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import CanvasUtils from "../../../editor/utils/canvasUtils";
 
 import css from "./styles.module.css";
 
@@ -38,25 +39,17 @@ const Canvas = () => {
     return canvasRef.current!.getContext("2d")!;
   };
 
-  const mapClientCoordsToMouse = (event: MouseEvent<HTMLCanvasElement>): Point => {
-    const bounds = event.currentTarget.getBoundingClientRect();
-
-    const mouseX = event.clientX - bounds.left;
-    const mouseY = event.clientY - bounds.top;
-    return new Point(mouseX, mouseY);
-  };
-
   const handleMouseMove = (event: MouseEvent<HTMLCanvasElement>): void => {
     clearCanvas();
 
-    let mousePos = mapClientCoordsToMouse(event);
+    let mousePos = CanvasUtils.mapClientCoordsToMouse(event);
     setNewMousePos(mousePos);
 
     EditorController.handleMouseMove(getContext());
   };
 
   const handleMouseDown = (event: MouseEvent<HTMLCanvasElement>): void => {
-    let mousePos = mapClientCoordsToMouse(event);
+    let mousePos = CanvasUtils.mapClientCoordsToMouse(event);
     setNewMousePos(mousePos);
 
     clearCanvas();
@@ -71,7 +64,7 @@ const Canvas = () => {
   };
 
   const handleMouseUp = (event: MouseEvent<HTMLCanvasElement>): void => {
-    let mousePos = mapClientCoordsToMouse(event);
+    let mousePos = CanvasUtils.mapClientCoordsToMouse(event);
     setNewMousePos(mousePos);
 
     switch (event.button) {
@@ -99,7 +92,7 @@ const Canvas = () => {
   const handleDragOver = (event: DragEvent<HTMLCanvasElement>) => {
     event.preventDefault();
 
-    let mousePos = mapClientCoordsToMouse(event);
+    let mousePos = CanvasUtils.mapClientCoordsToMouse(event);
     setNewMousePos(mousePos);
   };
 
