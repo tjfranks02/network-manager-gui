@@ -51,7 +51,7 @@ const ResizableGrid = ({ children, width, height, direction }: {
     return Children.toArray(children).map((child, index) => {
       return cloneElement(child as ReactElement<any>, { 
         index: index, 
-        onResize: (sideClicked: ResizeHandles) => onResizeHandleClick(sideClicked, index),
+        onResizeHandleClick: (sideClicked: ResizeHandles) => onResizeHandleClick(sideClicked, index),
         enabledHandles: [ResizeHandles.RIGHT]
       });
     });

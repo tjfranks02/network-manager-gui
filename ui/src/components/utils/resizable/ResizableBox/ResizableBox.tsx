@@ -13,9 +13,9 @@ import css from "./styles.module.css";
  *   children: The child component that needs to be resizable
  *   onResize: The function that is called when the child component is resized
  */
-const ResizableBox = ({ children, onResize, enabledHandles }: { 
+const ResizableBox = ({ children, onResizeHandleClick, enabledHandles }: { 
   children: ReactNode, 
-  onResize?: (handle: ResizeHandles) => void,
+  onResizeHandleClick?: (handle: ResizeHandles) => void,
   enabledHandles?: ResizeHandles[]
 }) => {
   const [cursor, setCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
@@ -65,8 +65,8 @@ const ResizableBox = ({ children, onResize, enabledHandles }: {
   const handleMouseDown = (e: MouseEvent) => {
     let newCursor: ResizeHandles = determineHandle(e);
 
-    if (newCursor != ResizeHandles.DEFAULT && onResize) {
-      onResize(newCursor);
+    if (newCursor != ResizeHandles.DEFAULT && onResizeHandleClick) {
+      onResizeHandleClick(newCursor);
     }
   };
 
