@@ -1,25 +1,49 @@
-import { ReactNode, Children, cloneElement, ReactElement, MouseEvent } from "react";
-import { 
-  VERTICAL_RESIZE_CURSOR, 
-  HORIZONTAL_RESIZE_CURSOR 
-} from "../../../../constants/dashboardConstants";
+import { ReactNode, Children, cloneElement, ReactElement, MouseEvent, useState } from "react";
+import { ResizeHandles } from "../../../../constants/dashboardConstants";
 import CanvasUtils from "../../../../editor/utils/canvasUtils";
 import Point from "../../../../editor/utils/Point";
+import Canvas from "../../../EditorView/Canvas/Canvas";
 
-const ResizableGrid = ({ children, height }: { children: ReactNode, height: number }) => {
+const ResizableGrid = ({ children, width, height, direction }: { 
+  children: ReactNode, 
+  width: number,
+  height: number,
+  direction: string }) => {
 
-  const onChildResize = (e: MouseEvent, cursor: string, childIndex: number) => {
-    let mousePos: Point = CanvasUtils.mapClientCoordsToMouse(e);
+  const [childElemSizes, setChildElemSizes] = useState<number[]>([
+    (1 / 7) * width, 
+    (5 / 7) * width, 
+    (1 / 7) * width
+  ]);
+  const [mousePos, setMousePos] = useState<Point>(new Point(0, 0));
+  
+  const getChildElementSize = (index: number) => {
+    if (index < 0 || index >= childElemSizes.length) {
+      return 0;
+    }
 
-    // TODO
-    // Get the current width of the child element that was clicked
-    // Alter the width of the clicked element based on the mouse position
-    // Alter the width of the neighbouring elements based on the mouse position
+    let totalFrValues: number = childElemSizes.reduce((a, b) => a + b, 0);
+    return (childElemSizes[index] / totalFrValues) * width;
+  };
+  
+  const resizeChildElement = (mousePos: Point, index: number) => {
+    let elemOffset: number = 0;
 
-    if (cursor.includes(VERTICAL_RESIZE_CURSOR)) {
-      console.log("vertical resize")
-    } else if (cursor.includes(HORIZONTAL_RESIZE_CURSOR)) {
-      console.log("horizontal resize")
+    for (let i = 0; i < index; i++) {
+      elemOffset += getChildElementSize(i);
+    }
+
+    let delta: number = mousePos.x - (elemOffset + getChildElementSize(index));
+
+    let newChildElemSizes: number[] = [...childElemSizes];
+    newChildElemSizes[index] = getChildElementSize(index) + delta;
+    newChildElemSizes[index + 1] = getChildElementSize(index + 1) - delta;
+    setChildElemSizes(newChildElemSizes);
+  };
+
+  const onResizeHandleClick = (handle: ResizeHandles, childIndex: number) => {
+    if (handle === ResizeHandles.RIGHT) {
+      resizeChildElement(mousePos, childIndex);
     }
   };  
 
@@ -27,17 +51,25 @@ const ResizableGrid = ({ children, height }: { children: ReactNode, height: numb
     return Children.toArray(children).map((child, index) => {
       return cloneElement(child as ReactElement<any>, { 
         index: index, 
-        onResize: (e: MouseEvent, sideClicked: string) => onChildResize(e, sideClicked, index)
+        onResize: (sideClicked: ResizeHandles) => onResizeHandleClick(sideClicked, index),
+        enabledHandles: [ResizeHandles.RIGHT]
       });
     });
   }
 
+  const onMouseMove = (e: MouseEvent) => {
+    setMousePos(CanvasUtils.mapClientCoordsToMouse(e));
+  };
+
   return (
-    <div style={{
-      display: "grid",
-      gridTemplateColumns: "1fr 5fr 1fr",
-      gridTemplateRows: height,
-    }}> 
+    <div 
+      style={{
+        display: "grid",
+        gridTemplateColumns: childElemSizes.map((size: number) => `${size}fr`).join(" "),
+        gridTemplateRows: height,
+      }}
+      onMouseMove={onMouseMove}
+    > 
       {renderChildren()}
     </div>
   )

@@ -1,10 +1,7 @@
 import { ReactNode, MouseEvent, useState } from "react";
 
 import Point from "../../../../editor/utils/Point";
-import { 
-  VERTICAL_RESIZE_CURSOR, 
-  HORIZONTAL_RESIZE_CURSOR 
-} from "../../../../constants/dashboardConstants";
+import { ResizeHandles } from "../../../../constants/dashboardConstants";
 
 import css from "./styles.module.css";
 
@@ -16,11 +13,12 @@ import css from "./styles.module.css";
  *   children: The child component that needs to be resizable
  *   onResize: The function that is called when the child component is resized
  */
-const ResizableBox = ({ children, onResize }: { 
+const ResizableBox = ({ children, onResize, enabledHandles }: { 
   children: ReactNode, 
-  onResize?: (event: MouseEvent, sideClicked: string) => void
+  onResize?: (handle: ResizeHandles) => void,
+  enabledHandles?: ResizeHandles[]
 }) => {
-  const [cursor, setCursor] = useState("default");
+  const [cursor, setCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
 
   const mapClientCoordsToMouse = (event: MouseEvent): Point => {
     const bounds = event.currentTarget.getBoundingClientRect();
@@ -30,7 +28,15 @@ const ResizableBox = ({ children, onResize }: {
     return new Point(mouseX, mouseY);
   };
 
-  const determineCursor = (e: MouseEvent) => {  
+  const isHandleEnabled = (handle: ResizeHandles): boolean => {
+    if (!enabledHandles) {
+      return true;
+    } else {
+      return enabledHandles.includes(handle);
+    }
+  };
+
+  const determineHandle = (e: MouseEvent): ResizeHandles => {  
     let rect = e.currentTarget.getBoundingClientRect();
 
     let mousePos: Point = mapClientCoordsToMouse(e);
@@ -39,42 +45,52 @@ const ResizableBox = ({ children, onResize }: {
 
     let delta = 10;
     
-    let newCursor: string = "";
+    let newCursor: ResizeHandles = ResizeHandles.DEFAULT;
 
-    if (mousePos.y < delta || mousePos.y > height - delta) {
-      newCursor += VERTICAL_RESIZE_CURSOR; 
+    if (mousePos.y < delta && isHandleEnabled(ResizeHandles.UP)) {
+      newCursor = ResizeHandles.UP;
+    } else if (mousePos.y > height - delta && isHandleEnabled(ResizeHandles.DOWN)) {
+      newCursor = ResizeHandles.DOWN; 
     }
     
-    if (mousePos.x < delta || mousePos.x > width - delta) {
-      newCursor += HORIZONTAL_RESIZE_CURSOR;
-    }
-    
-    if (!newCursor) {
-      newCursor = "default";
+    if (mousePos.x < delta && isHandleEnabled(ResizeHandles.LEFT)) {
+      newCursor = ResizeHandles.LEFT;
+    } else if (mousePos.x > width - delta && isHandleEnabled(ResizeHandles.RIGHT)) {
+      newCursor = ResizeHandles.RIGHT;
     }
 
     return newCursor;
   };
 
   const handleMouseDown = (e: MouseEvent) => {
-    let newCursor = determineCursor(e);
-    setCursor(newCursor);
+    let newCursor: ResizeHandles = determineHandle(e);
 
-    if (onResize) {
-      onResize(e, cursor);
+    if (newCursor != ResizeHandles.DEFAULT && onResize) {
+      onResize(newCursor);
     }
   };
 
+  const handleMouseUp = (e: MouseEvent) => {
+    
+  };
+
   const handleMouseMove = (e: MouseEvent) => {
-    let newCursor = determineCursor(e);
+    let newCursor: ResizeHandles = determineHandle(e);
     setCursor(newCursor);
   };
 
   return (
     <div 
-      style={{ cursor: cursor }}
-      onClick={handleMouseDown}
+      style={{ 
+        cursor: cursor,
+        borderTop: "1px solid #adb5bd",
+        borderRight: "1px solid #adb5bd",
+        borderBottom: "1px solid #adb5bd",
+        borderLeft: "1px solid #adb5bd"
+      }}
+      onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
       className={css.border}
     >
       {children}

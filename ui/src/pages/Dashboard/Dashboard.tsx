@@ -4,14 +4,14 @@ import { useSelector } from "react-redux";
 import Canvas from "../../components/EditorView/Canvas/Canvas.tsx";
 import ActiveElementPanel from "../../components/EditorView/ActiveElementPanel/ActiveElementPanel";
 import ElementSelectorPanel from "../../components/EditorView/ElementSelectorPanel/ElementSelectorPanel";
-import { DEFAULT_CANVAS_HEIGHT, DEFAULT_CANVAS_WIDTH } from "../../constants/editorConstants";
 import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
 
-import css from "./styles.module.css";
 import NavBar from "../../components/NavBar/NavBar";
 import ResizableBox from "../../components/utils/resizable/ResizableBox/ResizableBox.tsx";
 import { Dimensions } from "../../types.ts";
 import ResizableGrid from "../../components/utils/resizable/ResizableGrid/ResizableGrid.tsx";
+
+import css from "./styles.module.css";
 
 const Dashboard = () => {
   const activeElement = useSelector((state: RootState) => state.activeElement.element);
@@ -36,7 +36,7 @@ const Dashboard = () => {
   return (
     <div>
       <NavBar width={window.innerWidth} height={DEFAULT_NAVBAR_HEIGHT} />
-      <ResizableGrid height={containerHeight}>
+      <ResizableGrid direction="column" height={containerHeight} width={window.innerWidth}>
         <ResizableBox>
           <ElementSelectorPanel />
         </ResizableBox>

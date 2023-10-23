@@ -1,7 +1,13 @@
 export const DEFAULT_NAVBAR_HEIGHT: number = 50;
 
 /**
- * Cursor types for reszing elements in the canvas
+ * Constants relating to the resizable components
  */
-export const VERTICAL_RESIZE_CURSOR: string = "n-resize";
-export const HORIZONTAL_RESIZE_CURSOR: string = "e-resize";
+export enum ResizeHandles {
+  UP = "n-resize",
+  RIGHT = "e-resize",
+  DOWN  = "s-resize",
+  LEFT = "w-resize",
+  DEFAULT = "default"
+};
+
