@@ -30,6 +30,7 @@ const ResizableContainer = ({ children, width, height, direction }: {
   ]);
   const [mousePos, setMousePos] = useState<Point>(new Point(0, 0));
   const [activeChildElement, setActiveChildElement] = useState<number | null>(null);
+  const [cursor, setCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
   
   const getChildElementSize = (index: number) => {
     if (index < 0 || index >= childElemSizes.length) {
@@ -55,23 +56,19 @@ const ResizableContainer = ({ children, width, height, direction }: {
     setChildElemSizes(newChildElemSizes);
   };
 
-  const onResizeHandleClick = (handle: ResizeHandles, childIndex: number) => {
+  const handleResizeHandleClick = (handle: ResizeHandles, childIndex: number) => {
     setActiveChildElement(childIndex);
+    setCursor(handle);
 
     if (handle === ResizeHandles.RIGHT) {
       resizeChildElement(childIndex);
     }
   };  
 
-  const renderChildren = () => {
-    return Children.toArray(children).map((child, index) => {
-      return cloneElement(child as ReactElement<any>, { 
-        index: index, 
-        onResizeHandleClick: (sideClicked: ResizeHandles) => onResizeHandleClick(sideClicked, index),
-        enabledHandles: [ResizeHandles.RIGHT]
-      });
-    });
-  }
+  const getEnabledResizeHandles = (index: number): ResizeHandles[] => {
+    let enabledHandles: ResizeHandles[] = [ResizeHandles.RIGHT];
+    return enabledHandles;
+  };
 
   const handleMouseMove = (e: MouseEvent) => {
     setMousePos(CanvasUtils.mapClientCoordsToMouse(e));
@@ -85,12 +82,30 @@ const ResizableContainer = ({ children, width, height, direction }: {
     setActiveChildElement(null);
   };
 
+  const handleResizeHandleHover = (handle: ResizeHandles) => {
+    if (activeChildElement === null) {
+      setCursor(handle);
+    }
+  };  
+
+  const renderChildren = () => {
+    return Children.toArray(children).map((child, index) => {
+      return cloneElement(child as ReactElement<any>, { 
+        index: index, 
+        onResizeHandleClick: (handle: ResizeHandles) => handleResizeHandleClick(handle, index),
+        enabledHandles: getEnabledResizeHandles(index),
+        onResizeHandleHover: (handle: ResizeHandles) => handleResizeHandleHover(handle)
+      });
+    });
+  }
+
   return (
     <div 
       style={{
         display: "grid",
         gridTemplateColumns: childElemSizes.map((size: number) => `${size}px`).join(" "),
         gridTemplateRows: height,
+        cursor: cursor
       }}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}

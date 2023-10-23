@@ -13,12 +13,13 @@ import css from "./styles.module.css";
  *   children: The child component that needs to be resizable
  *   onResize: The function that is called when the child component is resized
  */
-const ResizableBox = ({ children, onResizeHandleClick, enabledHandles }: { 
+const ResizableBox = ({ children, onResizeHandleClick, enabledHandles, onResizeHandleHover }: 
+{ 
   children: ReactNode, 
   onResizeHandleClick?: (handle: ResizeHandles) => void,
+  onResizeHandleHover?: (handle: ResizeHandles) => void
   enabledHandles?: ResizeHandles[]
 }) => {
-  const [cursor, setCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
 
   const mapClientCoordsToMouse = (event: MouseEvent): Point => {
     const bounds = event.currentTarget.getBoundingClientRect();
@@ -71,14 +72,14 @@ const ResizableBox = ({ children, onResizeHandleClick, enabledHandles }: {
   };
 
   const handleMouseMove = (e: MouseEvent) => {
-    let newCursor: ResizeHandles = determineHandle(e);
-    setCursor(newCursor);
+    if (onResizeHandleHover) {
+      onResizeHandleHover(determineHandle(e));
+    }
   };
 
   return (
     <div 
       style={{ 
-        cursor: cursor,
         borderTop: "1px solid #adb5bd",
         borderRight: "1px solid #adb5bd",
         borderBottom: "1px solid #adb5bd",
