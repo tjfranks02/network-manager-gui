@@ -70,10 +70,6 @@ const ResizableBox = ({ children, onResizeHandleClick, enabledHandles }: {
     }
   };
 
-  const handleMouseUp = (e: MouseEvent) => {
-    
-  };
-
   const handleMouseMove = (e: MouseEvent) => {
     let newCursor: ResizeHandles = determineHandle(e);
     setCursor(newCursor);
@@ -86,11 +82,11 @@ const ResizableBox = ({ children, onResizeHandleClick, enabledHandles }: {
         borderTop: "1px solid #adb5bd",
         borderRight: "1px solid #adb5bd",
         borderBottom: "1px solid #adb5bd",
-        borderLeft: "1px solid #adb5bd"
+        borderLeft: "1px solid #adb5bd",
+        backgroundColor: "white"
       }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
       className={css.border}
     >
       {children}

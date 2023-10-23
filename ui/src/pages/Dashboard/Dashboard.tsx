@@ -8,8 +8,8 @@ import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
 
 import NavBar from "../../components/NavBar/NavBar";
 import ResizableBox from "../../components/utils/resizable/ResizableBox/ResizableBox.tsx";
-import { Dimensions } from "../../types.ts";
-import ResizableGrid from "../../components/utils/resizable/ResizableGrid/ResizableGrid.tsx";
+import ResizableContainer from 
+  "../../components/utils/resizable/ResizableContainer/ResizableContainer.tsx";
 
 import css from "./styles.module.css";
 
@@ -36,7 +36,7 @@ const Dashboard = () => {
   return (
     <div>
       <NavBar width={window.innerWidth} height={DEFAULT_NAVBAR_HEIGHT} />
-      <ResizableGrid direction="column" height={containerHeight} width={window.innerWidth}>
+      <ResizableContainer direction="column" height={containerHeight} width={window.innerWidth}>
         <ResizableBox>
           <ElementSelectorPanel />
         </ResizableBox>
@@ -46,7 +46,7 @@ const Dashboard = () => {
         <ResizableBox>
           <ActiveElementPanel activeElement={activeElement} />
         </ResizableBox>     
-      </ResizableGrid>
+      </ResizableContainer>
     </div>
   );
 };
