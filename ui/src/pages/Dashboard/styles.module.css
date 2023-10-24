@@ -7,11 +7,5 @@
 
 .editorContainer {
   display: flex;
-  height: 100%;
-  width: 100%;
-}
-
-.middleColumn {
-  display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }

@@ -1,9 +1,19 @@
-import { useRef, MouseEvent, WheelEvent, DragEvent, useEffect } from "react";
+import { 
+  useRef, 
+  MouseEvent, 
+  WheelEvent, 
+  DragEvent, 
+  useEffect, 
+  useState, 
+  useCallback, 
+  ElementRef 
+} from "react";
 import Point from "../../../editor/utils/Point";
 import EditorController from "../../../editor/controller/EditorController";
 import EditorView from "../../../editor/view/EditorView";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import CanvasUtils from "../../../editor/utils/canvasUtils";
 
 import css from "./styles.module.css";
 
@@ -13,70 +23,69 @@ const setNewMousePos = (newMousePos: Point): void => {
 }
 
 /**
- * Props to pass in to the canvas element
- */
-type CanvasProps = {
-  width: number,
-  height: number
-};
-
-/**
  * The network editor canvas. This is where the user can draw and interact with the network.
  */
-const Canvas = ({ width, height }: CanvasProps) => {
+const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
   const currDraggedElem = useSelector((state: RootState) => state.currentDraggedElement.element);
+  
+  const [wrapperHeight, setWrapperHeight] = useState<number>(100);
+  const [wrapperWidth, setWrapperWidth] = useState<number>(100);
+
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    EditorController.draw(getContext());
+    if (wrapperRef.current) {
+      const resizeObserver = new ResizeObserver(() => {
+        console.log(wrapperRef.current?.clientWidth);
+        console.log(wrapperRef.current?.clientHeight);
+
+        setWrapperWidth(wrapperRef.current!.clientWidth);
+        setWrapperHeight(wrapperRef.current!.clientHeight);
+      });
+      resizeObserver.observe(wrapperRef.current);
+      return () => resizeObserver.disconnect(); // clean up 
+    }
   }, []);
+
+  useEffect(() => {
+    EditorView.draw(getContext());
+  }, [wrapperWidth, wrapperHeight]);
+
+  // useEffect(() => {
+  //   EditorController.draw(getContext());
+  // }, [wrapperRef]);
 
   const getContext = (): CanvasRenderingContext2D => {
     return canvasRef.current!.getContext("2d")!;
   };
 
-  const mapClientCoordsToMouse = (event: MouseEvent<HTMLCanvasElement>): Point => {
-    const bounds = event.currentTarget.getBoundingClientRect();
-
-    const mouseX = event.clientX - bounds.left;
-    const mouseY = event.clientY - bounds.top;
-    return new Point(mouseX, mouseY);
-  };
-
   const handleMouseMove = (event: MouseEvent<HTMLCanvasElement>): void => {
     clearCanvas();
 
-    let mousePos = mapClientCoordsToMouse(event);
+    let mousePos = CanvasUtils.mapClientCoordsToMouse(event);
     setNewMousePos(mousePos);
 
     EditorController.handleMouseMove(getContext());
   };
 
   const handleMouseDown = (event: MouseEvent<HTMLCanvasElement>): void => {
-    let mousePos = mapClientCoordsToMouse(event);
+    let mousePos = CanvasUtils.mapClientCoordsToMouse(event);
     setNewMousePos(mousePos);
 
     clearCanvas();
 
-    switch (event.button) {
-      case 0: // Left click
-        EditorController.handleLeftClick(getContext());
-        break;
-      
-      case 1: // Middle mouse
-        EditorController.handleMiddleMouseClick(getContext());
-        break;
-
-      case 2: // Right click
-        event.preventDefault();
-        EditorController.handleRightClick(getContext());
-        break;
+    if (event.altKey && event.button === 0 || event.button === 1) { // Middle mouse (alt+left on trackpad)
+      EditorController.handleMiddleMouseClick(getContext());
+    } else if (event.button === 0) { // Left click
+      EditorController.handleLeftClick(getContext());
+    } else if (event.button === 2) { // Right click
+      EditorController.handleRightClick((getContext()));
     }
   };
 
   const handleMouseUp = (event: MouseEvent<HTMLCanvasElement>): void => {
-    let mousePos = mapClientCoordsToMouse(event);
+    let mousePos = CanvasUtils.mapClientCoordsToMouse(event);
     setNewMousePos(mousePos);
 
     switch (event.button) {
@@ -104,7 +113,7 @@ const Canvas = ({ width, height }: CanvasProps) => {
   const handleDragOver = (event: DragEvent<HTMLCanvasElement>) => {
     event.preventDefault();
 
-    let mousePos = mapClientCoordsToMouse(event);
+    let mousePos = CanvasUtils.mapClientCoordsToMouse(event);
     setNewMousePos(mousePos);
   };
 
@@ -112,21 +121,29 @@ const Canvas = ({ width, height }: CanvasProps) => {
     clearCanvas();
     EditorController.handleMouseWheelScroll(getContext(), event.deltaY);
   };
-  
+
   return (
-    <canvas 
-      className={css.canvas}
-      ref={canvasRef} 
-      width={width}
-      height={height}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
-      onDragOver={(e) => handleDragOver(e)}
-      onDrop={(e) => onDraggedElementDrop(e)}
-      onWheel={(e) => handleMouseWheelMove(e)}
-      onContextMenu={(e) => e.preventDefault()}
-    />
+    <div 
+      style={{ 
+        width: "100%", 
+        height: "100%", 
+        zIndex: -9
+      }} 
+      ref={wrapperRef}>
+      <canvas 
+        className={css.canvas}
+        ref={canvasRef} 
+        width={wrapperWidth}
+        height={wrapperHeight}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        onDragOver={(e) => handleDragOver(e)}
+        onDrop={(e) => onDraggedElementDrop(e)}
+        onWheel={(e) => handleMouseWheelMove(e)}
+        onContextMenu={(e) => e.preventDefault()}
+      />
+    </div>
   );
 }
 

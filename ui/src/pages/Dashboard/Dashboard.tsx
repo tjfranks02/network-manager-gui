@@ -1,33 +1,52 @@
 import type { RootState } from "../../redux/store";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Canvas from "../../components/editorView/Canvas/Canvas.tsx";
 import ActiveElementPanel from "../../components/editorView/ActiveElementPanel/ActiveElementPanel";
 import ElementSelectorPanel from "../../components/editorView/ElementSelectorPanel/ElementSelectorPanel";
-import { DEFAULT_CANVAS_HEIGHT, DEFAULT_CANVAS_WIDTH } from "../../constants/editorConstants";
+import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
+
+import NavBar from "../../components/NavBar/NavBar";
+import ResizableBox from "../../components/utils/resizable/ResizableBox/ResizableBox.tsx";
+import ResizableContainer from 
+  "../../components/utils/resizable/ResizableContainer/ResizableContainer.tsx";
 
 import css from "./styles.module.css";
-import Header from "../../components/Header/Header";
-import ResizableBox from "../../components/utils/ResizableBox/ResizableBox.tsx";
 
 const Dashboard = () => {
   const activeElement = useSelector((state: RootState) => state.activeElement.element);
 
+  /**
+   * Just gonna hardcode all these values for now. Surely there's a more generic way to do this
+   * though that doesn't rely on our exact layout.
+   */
+  const [containerHeight, setContainerHeight] = useState<number>(0);
+
+  useEffect(() => {
+    setDefaultDimensions();
+  }, []);
+
+  const setDefaultDimensions = () => {
+    const viewportHeight: number = window.innerHeight;
+    const navbarHeight: number = DEFAULT_NAVBAR_HEIGHT;
+
+    setContainerHeight(viewportHeight - navbarHeight);
+  };
+
   return (
-    <div className={css.container}>
-      <Header />
-      <div className={css.editorContainer}>
-        <ElementSelectorPanel />
-        <div className={css.middleColumn}>
-          <ResizableBox>
-            <Canvas width={DEFAULT_CANVAS_WIDTH} height={DEFAULT_CANVAS_HEIGHT} />
-          </ResizableBox>
-          <div>
-            Bottom box! not sure what this will do yet but i feel like it should be here
-          </div>
-        </div>
-        <ActiveElementPanel activeElement={activeElement} />
-      </div>
+    <div>
+      <NavBar width={window.innerWidth} height={DEFAULT_NAVBAR_HEIGHT} />
+      <ResizableContainer direction="column" height={containerHeight} width={window.innerWidth}>
+        <ResizableBox>
+          <ElementSelectorPanel />
+        </ResizableBox>
+        <ResizableBox>
+          <Canvas />
+        </ResizableBox>
+        <ResizableBox>
+          <ActiveElementPanel activeElement={activeElement} />
+        </ResizableBox>     
+      </ResizableContainer>
     </div>
   );
 };

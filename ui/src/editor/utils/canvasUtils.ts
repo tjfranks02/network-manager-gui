@@ -1,4 +1,5 @@
 import Point from "./Point";
+import { MouseEvent } from "react";
 
 class CanvasUtils {
   static isMouseInRangeOfPoint(mousePoint: Point, targetPoint: Point, threshold: number): boolean {
@@ -9,6 +10,14 @@ class CanvasUtils {
 
     return distance < threshold;
   }
+
+  static mapClientCoordsToMouse(event: MouseEvent): Point {
+    const bounds = event.currentTarget.getBoundingClientRect();
+
+    const mouseX = event.clientX - bounds.left;
+    const mouseY = event.clientY - bounds.top;
+    return new Point(mouseX, mouseY);
+  };
 }
 
 export default CanvasUtils;

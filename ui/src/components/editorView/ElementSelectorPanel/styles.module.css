@@ -1,7 +1,7 @@
 .container {
-  border: 1px solid blue;
   -webkit-user-select: none; /* Safari */
-         user-select: none;
+  user-select: none;
+  background-color: white;
 }
 
 .element:hover {
