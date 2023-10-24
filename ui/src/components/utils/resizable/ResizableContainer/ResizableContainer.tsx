@@ -21,24 +21,37 @@ const ResizableContainer = ({ children, width, height, direction }: {
   width: number,
   height: number,
   direction: string }) => {
+  
+  const getMainAxisSize = () => {
+    if (direction === "row") {
+      return height;
+    } else {
+      return width;
+    }
+  };
 
-  const [childElemSizes, setChildElemSizes] = useState<number[]>([
-    // Needs to be replaced with some kind of constructor
-    (1 / 7) * width, 
-    (5 / 7) * width, 
-    (1 / 7) * width
-  ]);
+  const getDefaultChildElemSizes = (): number[] => {
+    let defaultChildSizes = [];
+
+    for (let i = 0; i < Children.count(children); i++) {
+      defaultChildSizes.push((1 / Children.count(children)) * getMainAxisSize());
+    }
+
+    return defaultChildSizes;
+  };
+
+  const [childElemSizes, setChildElemSizes] = useState<number[]>(getDefaultChildElemSizes());
   const [mousePos, setMousePos] = useState<Point>(new Point(0, 0));
   const [activeChildElement, setActiveChildElement] = useState<number | null>(null);
   const [cursor, setCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
-  
+
   const getChildElementSize = (index: number) => {
     if (index < 0 || index >= childElemSizes.length) {
       return 0;
     }
 
     let totalFrValues: number = childElemSizes.reduce((a, b) => a + b, 0);
-    return (childElemSizes[index] / totalFrValues) * width;
+    return (childElemSizes[index] / totalFrValues) * getMainAxisSize();
   };
   
   const resizeChildElement = (index: number) => {
@@ -66,7 +79,14 @@ const ResizableContainer = ({ children, width, height, direction }: {
   };  
 
   const getEnabledResizeHandles = (index: number): ResizeHandles[] => {
-    let enabledHandles: ResizeHandles[] = [ResizeHandles.RIGHT];
+    let enabledHandles: ResizeHandles[] = [];
+
+    if (direction === "row" && index != Children.count(children)) {
+      enabledHandles = [ResizeHandles.DOWN];
+    } else if (direction === "column" && index != Children.count(children)) {
+      enabledHandles = [ResizeHandles.RIGHT];
+    }
+
     return enabledHandles;
   };
 
@@ -86,7 +106,23 @@ const ResizableContainer = ({ children, width, height, direction }: {
     if (activeChildElement === null) {
       setCursor(handle);
     }
-  };  
+  };
+  
+  const getGridTemplateColumns = () => {
+    if (direction === "column") {
+      return childElemSizes.map((size: number) => `${size}px`).join(" ");
+    } else {
+      return `${width}px`;
+    }
+  };
+
+  const getGridTemplateRows = () => {
+    if (direction === "row") {
+      return childElemSizes.map((size: number) => `${size}px`).join(" ");
+    } else {
+      return `${height}px`;
+    }
+  };
 
   const renderChildren = () => {
     return Children.toArray(children).map((child, index) => {
@@ -103,8 +139,8 @@ const ResizableContainer = ({ children, width, height, direction }: {
     <div 
       style={{
         display: "grid",
-        gridTemplateColumns: childElemSizes.map((size: number) => `${size}px`).join(" "),
-        gridTemplateRows: height,
+        gridTemplateColumns: getGridTemplateColumns(),
+        gridTemplateRows: getGridTemplateRows(),
         cursor: cursor
       }}
       onMouseMove={handleMouseMove}

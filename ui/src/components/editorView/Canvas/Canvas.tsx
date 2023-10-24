@@ -37,9 +37,6 @@ const Canvas = () => {
   useEffect(() => {
     if (wrapperRef.current) {
       const resizeObserver = new ResizeObserver(() => {
-        console.log(wrapperRef.current?.clientWidth);
-        console.log(wrapperRef.current?.clientHeight);
-
         setWrapperWidth(wrapperRef.current!.clientWidth);
         setWrapperHeight(wrapperRef.current!.clientHeight);
       });
