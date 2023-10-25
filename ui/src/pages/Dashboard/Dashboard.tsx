@@ -7,9 +7,8 @@ import ElementSelectorPanel from "../../components/editorView/ElementSelectorPan
 import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
 
 import NavBar from "../../components/NavBar/NavBar";
-import ResizableBox from "../../components/utils/resizable/ResizableBox/ResizableBox.tsx";
-import ResizableContainer from 
-  "../../components/utils/resizable/ResizableContainer/ResizableContainer.tsx";
+import ResizableBox from "../../components/resizable/ResizableBox/ResizableBox.tsx";
+import ResizableContainer from "../../components/resizable/ResizableContainer/ResizableContainer.tsx";
 
 import css from "./styles.module.css";
 
@@ -41,13 +40,18 @@ const Dashboard = () => {
           <ResizableBox>
             <ElementSelectorPanel />
           </ResizableBox>
-          {/* <ResizableBox>
-            <ResizableContainer direction="row"> */}
+          <ResizableBox>
+            <ResizableContainer direction="row">
               <ResizableBox>
                 <Canvas />
               </ResizableBox>
-            {/* </ResizableContainer>
-          </ResizableBox> */}
+              <ResizableBox>
+                <div style={{ backgroundColor: "lightblue" }}>
+                  This is a div
+                </div>
+              </ResizableBox>
+            </ResizableContainer>
+          </ResizableBox>
           <ResizableBox>
             <ActiveElementPanel activeElement={activeElement} />
           </ResizableBox>     

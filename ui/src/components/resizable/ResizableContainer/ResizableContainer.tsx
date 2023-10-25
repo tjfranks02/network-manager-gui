@@ -8,12 +8,12 @@ import {
   useEffect,
   useRef
 } from "react";
-import { ResizeHandles } from "../../../../constants/dashboardConstants";
-import CanvasUtils from "../../../../editor/utils/canvasUtils";
-import Point from "../../../../editor/utils/Point";
+import { ResizeHandles } from "../../../constants/dashboardConstants";
+import CanvasUtils from "../../../editor/utils/canvasUtils";
+import Point from "../../../editor/utils/Point";
 
 import css from "./styles.module.css";
-import useResizableDimensions from "../../../hooks/useResizableDimensions";
+import useResizableDimensions from "../../hooks/useResizableDimensions";
 
 /**
  * A resizable 2D container for ReziableBox components. Acts similar to a flexbox where you can
@@ -75,7 +75,8 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
       elemOffset += getChildElementSize(i);
     }
 
-    let delta: number = mousePos.x - (elemOffset + getChildElementSize(index));
+    let mainAxisMouseCoord: number = direction === "column" ? mousePos.x : mousePos.y;
+    let delta: number = mainAxisMouseCoord - (elemOffset + getChildElementSize(index));
 
     let newChildElemSizes: number[] = [...childElemSizes];
     newChildElemSizes[index] = getChildElementSize(index) + delta;
@@ -86,10 +87,6 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
   const handleResizeHandleClick = (handle: ResizeHandles, childIndex: number) => {
     setActiveChildElement(childIndex);
     setCursor(handle);
-
-    if (handle === ResizeHandles.RIGHT) {
-      resizeChildElement(childIndex);
-    }
   };  
 
   const getEnabledResizeHandles = (index: number): ResizeHandles[] => {

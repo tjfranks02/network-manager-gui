@@ -1,7 +1,7 @@
 import { ReactNode, MouseEvent, useState } from "react";
 
-import Point from "../../../../editor/utils/Point";
-import { ResizeHandles } from "../../../../constants/dashboardConstants";
+import Point from "../../../editor/utils/Point";
+import { ResizeHandles } from "../../../constants/dashboardConstants";
 
 import css from "./styles.module.css";
 
