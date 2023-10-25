@@ -14,6 +14,7 @@ import EditorView from "../../../editor/view/EditorView";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import CanvasUtils from "../../../editor/utils/canvasUtils";
+import useResizableDimensions from "../../hooks/useResizableDimensions";
 
 import css from "./styles.module.css";
 
@@ -28,30 +29,13 @@ const setNewMousePos = (newMousePos: Point): void => {
 const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const currDraggedElem = useSelector((state: RootState) => state.currentDraggedElement.element);
-  
-  const [wrapperHeight, setWrapperHeight] = useState<number>(100);
-  const [wrapperWidth, setWrapperWidth] = useState<number>(100);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (wrapperRef.current) {
-      const resizeObserver = new ResizeObserver(() => {
-        setWrapperWidth(wrapperRef.current!.clientWidth);
-        setWrapperHeight(wrapperRef.current!.clientHeight);
-      });
-      resizeObserver.observe(wrapperRef.current);
-      return () => resizeObserver.disconnect();
-    }
-  }, []);
+  const [wrapperWidth, wrapperHeight] = useResizableDimensions(wrapperRef);
 
   useEffect(() => {
     EditorView.draw(getContext());
   }, [wrapperWidth, wrapperHeight]);
-
-  // useEffect(() => {
-  //   EditorController.draw(getContext());
-  // }, [wrapperRef]);
 
   const getContext = (): CanvasRenderingContext2D => {
     return canvasRef.current!.getContext("2d")!;
@@ -72,7 +56,7 @@ const Canvas = () => {
 
     clearCanvas();
 
-    if (event.altKey && event.button === 0 || event.button === 1) { // Middle mouse (alt+left on trackpad)
+    if (event.altKey && event.button === 0 || event.button === 1) { // Middle mouse (or alt+left)
       EditorController.handleMiddleMouseClick(getContext());
     } else if (event.button === 0) { // Left click
       EditorController.handleLeftClick(getContext());
