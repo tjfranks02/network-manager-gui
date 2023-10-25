@@ -41,7 +41,7 @@ const Canvas = () => {
         setWrapperHeight(wrapperRef.current!.clientHeight);
       });
       resizeObserver.observe(wrapperRef.current);
-      return () => resizeObserver.disconnect();
+      return () => resizeObserver.disconnect(); // clean up 
     }
   }, []);
 

@@ -36,23 +36,17 @@ const Dashboard = () => {
   return (
     <div>
       <NavBar width={window.innerWidth} height={DEFAULT_NAVBAR_HEIGHT} />
-      <div style={{ width: window.innerWidth, height: containerHeight, backgroundColor: "lightblue" }}>
-        <ResizableContainer direction="column">
-          <ResizableBox>
-            <ElementSelectorPanel />
-          </ResizableBox>
-          {/* <ResizableBox>
-            <ResizableContainer direction="row"> */}
-              <ResizableBox>
-                <Canvas />
-              </ResizableBox>
-            {/* </ResizableContainer>
-          </ResizableBox> */}
-          <ResizableBox>
-            <ActiveElementPanel activeElement={activeElement} />
-          </ResizableBox>     
-        </ResizableContainer>
-      </div>
+      <ResizableContainer direction="column" height={containerHeight} width={window.innerWidth}>
+        <ResizableBox>
+          <ElementSelectorPanel />
+        </ResizableBox>
+        <ResizableBox>
+          <Canvas />
+        </ResizableBox>
+        <ResizableBox>
+          <ActiveElementPanel activeElement={activeElement} />
+        </ResizableBox>     
+      </ResizableContainer>
     </div>
   );
 };
