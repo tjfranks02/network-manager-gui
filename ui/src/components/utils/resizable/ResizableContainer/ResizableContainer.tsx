@@ -1,7 +1,19 @@
-import { ReactNode, Children, cloneElement, ReactElement, MouseEvent, useState } from "react";
+import { 
+  ReactNode,
+  Children, 
+  cloneElement, 
+  ReactElement, 
+  MouseEvent, 
+  useState, 
+  useEffect,
+  useRef
+} from "react";
 import { ResizeHandles } from "../../../../constants/dashboardConstants";
 import CanvasUtils from "../../../../editor/utils/canvasUtils";
 import Point from "../../../../editor/utils/Point";
+
+import css from "./styles.module.css";
+import useResizableDimensions from "../../../hooks/useResizableDimensions";
 
 /**
  * A resizable 2D container for ReziableBox components. Acts similar to a flexbox where you can
@@ -16,34 +28,36 @@ import Point from "../../../../editor/utils/Point";
  *   width: The total width of this ResizableContainer
  *   height: The total fixed height of this ResizableContainer component.
  */
-const ResizableContainer = ({ children, width, height, direction }: { 
-  children: ReactNode, 
-  width: number,
-  height: number,
-  direction: string }) => {
-  
+const ResizableContainer = ({ children, direction }: { children: ReactNode, direction: string }) => {
   const getMainAxisSize = () => {
     if (direction === "row") {
-      return height;
+      return wrapperHeight;
     } else {
-      return width;
+      return wrapperWidth;
     }
   };
 
-  const getDefaultChildElemSizes = (): number[] => {
-    let defaultChildSizes = [];
-
+  const getChildElemSizes = (): number[] => {
+    let childSizes = [];
+  
     for (let i = 0; i < Children.count(children); i++) {
-      defaultChildSizes.push((1 / Children.count(children)) * getMainAxisSize());
+      childSizes.push((1 / Children.count(children)) * getMainAxisSize());
     }
-
-    return defaultChildSizes;
+  
+    return childSizes;
   };
 
-  const [childElemSizes, setChildElemSizes] = useState<number[]>(getDefaultChildElemSizes());
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [wrapperWidth, wrapperHeight] = useResizableDimensions(wrapperRef);
+
+  const [childElemSizes, setChildElemSizes] = useState<number[]>(getChildElemSizes());
   const [mousePos, setMousePos] = useState<Point>(new Point(0, 0));
   const [activeChildElement, setActiveChildElement] = useState<number | null>(null);
   const [cursor, setCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
+
+  useEffect(() => {
+    setChildElemSizes(getChildElemSizes());
+  }, [wrapperWidth, wrapperHeight]);
 
   const getChildElementSize = (index: number) => {
     if (index < 0 || index >= childElemSizes.length) {
@@ -112,7 +126,7 @@ const ResizableContainer = ({ children, width, height, direction }: {
     if (direction === "column") {
       return childElemSizes.map((size: number) => `${size}px`).join(" ");
     } else {
-      return `${width}px`;
+      return `${wrapperWidth}px`;
     }
   };
 
@@ -120,14 +134,13 @@ const ResizableContainer = ({ children, width, height, direction }: {
     if (direction === "row") {
       return childElemSizes.map((size: number) => `${size}px`).join(" ");
     } else {
-      return `${height}px`;
+      return `${wrapperHeight}px`;
     }
   };
 
   const renderChildren = () => {
     return Children.toArray(children).map((child, index) => {
       return cloneElement(child as ReactElement<any>, { 
-        index: index, 
         onResizeHandleClick: (handle: ResizeHandles) => handleResizeHandleClick(handle, index),
         enabledHandles: getEnabledResizeHandles(index),
         onResizeHandleHover: (handle: ResizeHandles) => handleResizeHandleHover(handle)
@@ -141,10 +154,13 @@ const ResizableContainer = ({ children, width, height, direction }: {
         display: "grid",
         gridTemplateColumns: getGridTemplateColumns(),
         gridTemplateRows: getGridTemplateRows(),
-        cursor: cursor
+        cursor: cursor,
+        width: "100%",
+        height: "100%"
       }}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
+      ref={wrapperRef}
     > 
       {renderChildren()}
     </div>
