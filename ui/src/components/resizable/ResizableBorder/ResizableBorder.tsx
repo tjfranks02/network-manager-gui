@@ -33,7 +33,7 @@ const ResizableBorder = ({ children, enabledHandles, onResizeHandleClick, onResi
     if (mousePos.y < delta && isHandleEnabled(ResizeHandles.UP)) {
       newCursor = ResizeHandles.UP;
     } else if (mousePos.y > height - delta && isHandleEnabled(ResizeHandles.DOWN)) {
-      newCursor = ResizeHandles.DOWN; 
+      newCursor = ResizeHandles.DOWN;
     }
     
     if (mousePos.x < delta && isHandleEnabled(ResizeHandles.LEFT)) {
@@ -46,12 +46,14 @@ const ResizableBorder = ({ children, enabledHandles, onResizeHandleClick, onResi
   };
 
   const getBorders = () => {
-    return {
+    let borders = {
       borderTop: isHandleEnabled(ResizeHandles.UP) ? "1px solid #adb5bd" : "none",
       borderRight: isHandleEnabled(ResizeHandles.RIGHT) ? "1px solid #adb5bd" : "none",
       borderBottom: isHandleEnabled(ResizeHandles.DOWN) ? "1px solid #adb5bd" : "none",
       borderLeft: isHandleEnabled(ResizeHandles.LEFT) ? "1px solid #adb5bd" : "none"
     };
+
+    return borders; 
   };
 
   const handleMouseDown = (e: MouseEvent) => {

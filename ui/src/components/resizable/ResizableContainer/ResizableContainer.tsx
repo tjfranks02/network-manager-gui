@@ -92,9 +92,9 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
   const getEnabledResizeHandles = (index: number): ResizeHandles[] => {
     let enabledHandles: ResizeHandles[] = [];
 
-    if (direction === "row" && index != Children.count(children)) {
+    if (direction === "row" && index != Children.count(children) - 1) {
       enabledHandles = [ResizeHandles.DOWN];
-    } else if (direction === "column" && index != Children.count(children)) {
+    } else if (direction === "column" && index != Children.count(children) - 1) {
       enabledHandles = [ResizeHandles.RIGHT];
     }
 
@@ -164,7 +164,8 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
         gridTemplateColumns: getGridTemplateColumns(),
         gridTemplateRows: getGridTemplateRows(),
         width: "100%",
-        height: "100%"
+        height: "100%",
+        backgroundColor: "white"
       };
   
       if (cursor != ResizeHandles.DEFAULT) {
