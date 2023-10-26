@@ -35,7 +35,14 @@ const Dashboard = () => {
   return (
     <div>
       <NavBar width={window.innerWidth} height={DEFAULT_NAVBAR_HEIGHT} />
-      <div style={{ width: window.innerWidth, height: containerHeight, backgroundColor: "lightblue" }}>
+      <div 
+        style={{ 
+          width: window.innerWidth, 
+          height: containerHeight, 
+          backgroundColor: "lightblue",
+          border: "1px solid #adb5bd"
+        }}
+      >
         <ResizableContainer direction="column">
           <ResizableBox>
             <ElementSelectorPanel />

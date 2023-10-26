@@ -3,10 +3,7 @@ import {
   MouseEvent, 
   WheelEvent, 
   DragEvent, 
-  useEffect, 
-  useState, 
-  useCallback, 
-  ElementRef 
+  useEffect
 } from "react";
 import Point from "../../../editor/utils/Point";
 import EditorController from "../../../editor/controller/EditorController";

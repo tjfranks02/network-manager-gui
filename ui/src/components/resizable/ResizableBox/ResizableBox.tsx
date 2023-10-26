@@ -44,7 +44,7 @@ const ResizableBox = ({ children, onResizeHandleClick, enabledHandles, onResizeH
     let width: number = rect.right - rect.left;
     let height: number = rect.bottom - rect.top;
 
-    let delta = 10;
+    let delta = 15;
     
     let newCursor: ResizeHandles = ResizeHandles.DEFAULT;
 
@@ -77,13 +77,19 @@ const ResizableBox = ({ children, onResizeHandleClick, enabledHandles, onResizeH
     }
   };
 
+  const getBorders = () => {
+    return {
+      borderTop: isHandleEnabled(ResizeHandles.UP) ? "1px solid #adb5bd" : "none",
+      borderRight: isHandleEnabled(ResizeHandles.RIGHT) ? "1px solid #adb5bd" : "none",
+      borderBottom: isHandleEnabled(ResizeHandles.DOWN) ? "1px solid #adb5bd" : "none",
+      borderLeft: isHandleEnabled(ResizeHandles.LEFT) ? "1px solid #adb5bd" : "none"
+    };
+  };
+
   return (
     <div 
       style={{ 
-        borderTop: "1px solid #adb5bd",
-        borderRight: "1px solid #adb5bd",
-        borderBottom: "1px solid #adb5bd",
-        borderLeft: "1px solid #adb5bd",
+        ...getBorders(),
         backgroundColor: "white"
       }}
       onMouseDown={handleMouseDown}
