@@ -1,33 +1,15 @@
-import { ReactNode, MouseEvent, useState } from "react";
+import { ReactNode, useState, MouseEvent } from "react";
 
-import Point from "../../../editor/utils/Point";
 import { ResizeHandles } from "../../../constants/dashboardConstants";
+import CanvasUtils from "../../../editor/utils/canvasUtils";
+import Point from "../../../editor/utils/Point";
 
-import css from "./styles.module.css";
-
-/**
- * This component is a wrapper around any component that needs to be resizable. When it detects that
- * it is being re-sized, it triggers the onResize function to be handled by its parent component.
- * 
- * Params:
- *   children: The child component that needs to be resizable
- *   onResize: The function that is called when the child component is resized
- */
-const ResizableBox = ({ children, onResizeHandleClick, enabledHandles, onResizeHandleHover }: 
-{ 
+const ResizableBorder = ({ children, enabledHandles, onResizeHandleClick, onResizeHandleHover }: { 
   children: ReactNode, 
-  onResizeHandleClick?: (handle: ResizeHandles) => void,
-  onResizeHandleHover?: (handle: ResizeHandles) => void
-  enabledHandles?: ResizeHandles[]
+  enabledHandles: ResizeHandles[],
+  onResizeHandleClick: (handle: ResizeHandles) => void,
+  onResizeHandleHover: (handle: ResizeHandles) => void
 }) => {
-
-  const mapClientCoordsToMouse = (event: MouseEvent): Point => {
-    const bounds = event.currentTarget.getBoundingClientRect();
-
-    const mouseX = event.clientX - bounds.left;
-    const mouseY = event.clientY - bounds.top;
-    return new Point(mouseX, mouseY);
-  };
 
   const isHandleEnabled = (handle: ResizeHandles): boolean => {
     if (!enabledHandles) {
@@ -40,11 +22,11 @@ const ResizableBox = ({ children, onResizeHandleClick, enabledHandles, onResizeH
   const determineHandle = (e: MouseEvent): ResizeHandles => {  
     let rect = e.currentTarget.getBoundingClientRect();
 
-    let mousePos: Point = mapClientCoordsToMouse(e);
+    let mousePos: Point = CanvasUtils.mapClientCoordsToMouse(e);
     let width: number = rect.right - rect.left;
     let height: number = rect.bottom - rect.top;
 
-    let delta = 15;
+    let delta = 25;
     
     let newCursor: ResizeHandles = ResizeHandles.DEFAULT;
 
@@ -63,6 +45,15 @@ const ResizableBox = ({ children, onResizeHandleClick, enabledHandles, onResizeH
     return newCursor;
   };
 
+  const getBorders = () => {
+    return {
+      borderTop: isHandleEnabled(ResizeHandles.UP) ? "1px solid #adb5bd" : "none",
+      borderRight: isHandleEnabled(ResizeHandles.RIGHT) ? "1px solid #adb5bd" : "none",
+      borderBottom: isHandleEnabled(ResizeHandles.DOWN) ? "1px solid #adb5bd" : "none",
+      borderLeft: isHandleEnabled(ResizeHandles.LEFT) ? "1px solid #adb5bd" : "none"
+    };
+  };
+
   const handleMouseDown = (e: MouseEvent) => {
     let newCursor: ResizeHandles = determineHandle(e);
 
@@ -77,28 +68,18 @@ const ResizableBox = ({ children, onResizeHandleClick, enabledHandles, onResizeH
     }
   };
 
-  const getBorders = () => {
-    return {
-      borderTop: isHandleEnabled(ResizeHandles.UP) ? "1px solid #adb5bd" : "none",
-      borderRight: isHandleEnabled(ResizeHandles.RIGHT) ? "1px solid #adb5bd" : "none",
-      borderBottom: isHandleEnabled(ResizeHandles.DOWN) ? "1px solid #adb5bd" : "none",
-      borderLeft: isHandleEnabled(ResizeHandles.LEFT) ? "1px solid #adb5bd" : "none"
-    };
-  };
-
   return (
     <div 
-      style={{ 
+      style={{
         ...getBorders(),
         backgroundColor: "white"
       }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
-      className={css.border}
     >
       {children}
     </div>
-  );
+  )
 };
 
-export default ResizableBox;
+export default ResizableBorder;

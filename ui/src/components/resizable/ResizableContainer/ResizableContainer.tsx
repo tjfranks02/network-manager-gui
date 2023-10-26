@@ -11,7 +11,7 @@ import {
 import { ResizeHandles } from "../../../constants/dashboardConstants";
 import CanvasUtils from "../../../editor/utils/canvasUtils";
 import Point from "../../../editor/utils/Point";
-
+import ResizableBorder from "../ResizableBorder/ResizableBorder";
 import css from "./styles.module.css";
 import useResizableDimensions from "../../hooks/useResizableDimensions";
 
@@ -135,26 +135,48 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
     }
   };
 
+
   const renderChildren = () => {
     return Children.toArray(children).map((child, index) => {
-      return cloneElement(child as ReactElement<any>, { 
-        onResizeHandleClick: (handle: ResizeHandles) => handleResizeHandleClick(handle, index),
-        enabledHandles: getEnabledResizeHandles(index),
-        onResizeHandleHover: (handle: ResizeHandles) => handleResizeHandleHover(handle)
-      });
+      return (
+        <ResizableBorder
+          key={index}
+          enabledHandles={getEnabledResizeHandles(index)}
+          onResizeHandleClick={(handle: ResizeHandles) => handleResizeHandleClick(handle, index)}
+          onResizeHandleHover={(handle: ResizeHandles) => handleResizeHandleHover(handle, index)}
+        >
+          {child}
+        </ResizableBorder>
+      );
     });
   }
 
-  return (
-    <div 
-      style={{
+  /**
+   * This is silly but it solves the issue of the cursor being overriden when we have nested
+   * ResizableContainers.
+   * 
+   * Returns:
+   *   The style for this component. With cursor if not default.
+   */
+    const getStyle = (): any => {
+      let style: any = {
         display: "grid",
         gridTemplateColumns: getGridTemplateColumns(),
         gridTemplateRows: getGridTemplateRows(),
-        cursor: cursor,
         width: "100%",
         height: "100%"
-      }}
+      };
+  
+      if (cursor != ResizeHandles.DEFAULT) {
+        style = { ...style, cursor: cursor };
+      }
+      
+      return style;
+    };
+
+  return (
+    <div 
+      style={getStyle()}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       ref={wrapperRef}
