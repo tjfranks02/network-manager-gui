@@ -143,7 +143,7 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
           key={index}
           enabledHandles={getEnabledResizeHandles(index)}
           onResizeHandleClick={(handle: ResizeHandles) => handleResizeHandleClick(handle, index)}
-          onResizeHandleHover={(handle: ResizeHandles) => handleResizeHandleHover(handle, index)}
+          onResizeHandleHover={(handle: ResizeHandles) => handleResizeHandleHover(handle)}
         >
           {child}
         </ResizableBorder>
