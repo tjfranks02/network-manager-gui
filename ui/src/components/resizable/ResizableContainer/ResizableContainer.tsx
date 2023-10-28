@@ -1,8 +1,6 @@
 import { 
   ReactNode,
   Children, 
-  cloneElement, 
-  ReactElement, 
   MouseEvent, 
   useState, 
   useEffect,
@@ -12,7 +10,6 @@ import { ResizeHandles } from "../../../constants/dashboardConstants";
 import CanvasUtils from "../../../editor/utils/canvasUtils";
 import Point from "../../../editor/utils/Point";
 import ResizableBorder from "../ResizableBorder/ResizableBorder";
-import css from "./styles.module.css";
 import useResizableDimensions from "../../hooks/useResizableDimensions";
 
 /**
@@ -109,7 +106,7 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
     }
   };
 
-  const handleMouseUp = (e: MouseEvent) => {
+  const handleMouseUp = (_: MouseEvent) => {
     setActiveChildElement(null);
   };
 
@@ -134,7 +131,6 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
       return `${wrapperHeight}px`;
     }
   };
-
 
   const renderChildren = () => {
     return Children.toArray(children).map((child, index) => {
@@ -165,7 +161,7 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
         gridTemplateRows: getGridTemplateRows(),
         width: "100%",
         height: "100%",
-        backgroundColor: "white"
+        backgroundColor: "white",
       };
   
       if (cursor != ResizeHandles.DEFAULT) {

@@ -78,7 +78,7 @@ const Canvas = () => {
     }
   };
 
-  const onDraggedElementDrop = (event: DragEvent<HTMLCanvasElement>) => {
+  const onDraggedElementDrop = (_: DragEvent<HTMLCanvasElement>) => {
     EditorController.createElement(currDraggedElem);
   };
 

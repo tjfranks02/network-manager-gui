@@ -1,4 +1,4 @@
-import { ReactNode, useState, MouseEvent } from "react";
+import { ReactNode, MouseEvent } from "react";
 
 import { ResizeHandles } from "../../../constants/dashboardConstants";
 import CanvasUtils from "../../../editor/utils/canvasUtils";
@@ -74,7 +74,8 @@ const ResizableBorder = ({ children, enabledHandles, onResizeHandleClick, onResi
     <div 
       style={{
         ...getBorders(),
-        backgroundColor: "white"
+        backgroundColor: "white",
+        zIndex: 20
       }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}

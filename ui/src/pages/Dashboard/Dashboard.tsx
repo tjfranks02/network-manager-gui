@@ -9,8 +9,6 @@ import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
 import NavBar from "../../components/NavBar/NavBar";
 import ResizableContainer from "../../components/resizable/ResizableContainer/ResizableContainer.tsx";
 
-import css from "./styles.module.css";
-
 const Dashboard = () => {
   const activeElement = useSelector((state: RootState) => state.activeElement.element);
 
@@ -46,7 +44,7 @@ const Dashboard = () => {
           <ElementSelectorPanel />
           <ResizableContainer direction="row">
             <Canvas />
-            <div style={{ backgroundColor: "lightblue", padding: 1 }}>
+            <div style={{ backgroundColor: "lightblue" }}>
               This is a div
             </div>
           </ResizableContainer>
