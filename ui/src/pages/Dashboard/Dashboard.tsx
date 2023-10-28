@@ -42,12 +42,12 @@ const Dashboard = () => {
       >
         <ResizableContainer direction="column">
           <ElementSelectorPanel />
-          <ResizableContainer direction="row">
-            <Canvas />
-            <div style={{ backgroundColor: "lightblue" }}>
-              This is a div
-            </div>
-          </ResizableContainer>
+            <ResizableContainer direction="row">
+              <Canvas />
+              <div style={{ backgroundColor: "lightblue", zIndex: 1000000, width: "100%" }}>
+                This is a div
+              </div>
+            </ResizableContainer> 
           <ActiveElementPanel activeElement={activeElement} /> 
         </ResizableContainer>
       </div>

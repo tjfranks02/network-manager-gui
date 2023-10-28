@@ -4,6 +4,8 @@ import { ResizeHandles } from "../../../constants/dashboardConstants";
 import CanvasUtils from "../../../editor/utils/canvasUtils";
 import Point from "../../../editor/utils/Point";
 
+import css from "./styles.module.css";
+
 const ResizableBorder = ({ children, enabledHandles, onResizeHandleClick, onResizeHandleHover }: { 
   children: ReactNode, 
   enabledHandles: ResizeHandles[],
@@ -75,11 +77,13 @@ const ResizableBorder = ({ children, enabledHandles, onResizeHandleClick, onResi
       style={{
         ...getBorders(),
         backgroundColor: "white",
-        zIndex: 20
+        zIndex: 20,
+        position: "relative"
       }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
     >
+      {/* <div className={css.verticalLine}></div> */}
       {children}
     </div>
   )

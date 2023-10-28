@@ -1,10 +1,12 @@
 import { 
   ReactNode,
+  ReactElement,
   Children, 
   MouseEvent, 
   useState, 
   useEffect,
-  useRef
+  useRef,
+  cloneElement
 } from "react";
 import { ResizeHandles } from "../../../constants/dashboardConstants";
 import CanvasUtils from "../../../editor/utils/canvasUtils";
@@ -22,15 +24,22 @@ import useResizableDimensions from "../../hooks/useResizableDimensions";
  * Props:
  *   children: Children to make resizable. Child components of this component must be a ResizableBox
  *   component.
- *   width: The total width of this ResizableContainer
- *   height: The total fixed height of this ResizableContainer component.
+ *   width: The total width of this ResizableContainer. Optionally provided by a parent 
+ *   ResizableContainer component.
+ *   height: The total fixed height of this ResizableContainer component. Optionally provided by a 
+ *   parent ResizableContainer component.
  */
-const ResizableContainer = ({ children, direction }: { children: ReactNode, direction: string }) => {
+const ResizableContainer = ({ children, direction, width, height }: { 
+  children: ReactNode, 
+  direction: string,
+  width?: number,
+  height?: number
+}) => {
   const getMainAxisSize = () => {
     if (direction === "row") {
-      return wrapperHeight;
+      return height ? height : wrapperHeight;
     } else {
-      return wrapperWidth;
+      return width ? width : wrapperWidth;
     }
   };
 
@@ -120,7 +129,23 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
     if (direction === "column") {
       return childElemSizes.map((size: number) => `${size}px`).join(" ");
     } else {
-      return `${wrapperWidth}px`;
+      return width ? `${width}px` : `${wrapperWidth}px`;
+    }
+  };
+
+  const getChildElemHeight = (index: number) => {
+    if (direction === "row") {
+      return getChildElementSize(index) - 1;
+    } else {
+      return height ? height : wrapperHeight - 1;
+    }
+  };
+
+  const getChildElemWidth = (index: number) => {
+    if (direction === "column") {
+      return getChildElementSize(index) - 1;
+    } else {
+      return width ? width : wrapperWidth - 1;
     }
   };
 
@@ -128,12 +153,21 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
     if (direction === "row") {
       return childElemSizes.map((size: number) => `${size}px`).join(" ");
     } else {
-      return `${wrapperHeight}px`;
+      return height ? `${height}px` : `${wrapperHeight}px`;
     }
   };
 
   const renderChildren = () => {
     return Children.toArray(children).map((child, index) => {
+      let childElem = child;
+
+      if ((child as any).type.name === "ResizableContainer") {
+        childElem = cloneElement(child as ReactElement, { 
+          width: getChildElemWidth(index),
+          height: getChildElemHeight(index)
+        });
+      }
+
       return (
         <ResizableBorder
           key={index}
@@ -141,7 +175,7 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
           onResizeHandleClick={(handle: ResizeHandles) => handleResizeHandleClick(handle, index)}
           onResizeHandleHover={(handle: ResizeHandles) => handleResizeHandleHover(handle)}
         >
-          {child}
+          {childElem}
         </ResizableBorder>
       );
     });
@@ -161,7 +195,7 @@ const ResizableContainer = ({ children, direction }: { children: ReactNode, dire
         gridTemplateRows: getGridTemplateRows(),
         width: "100%",
         height: "100%",
-        backgroundColor: "white",
+        backgroundColor: direction === "row" ? "white" : "white",
       };
   
       if (cursor != ResizeHandles.DEFAULT) {

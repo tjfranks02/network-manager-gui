@@ -106,10 +106,14 @@ const Canvas = () => {
         width: "100%", 
         height: "100%", 
         zIndex: -9,
-        padding: 1
+        padding: 1,
       }} 
       ref={wrapperRef}>
-      <canvas 
+      <canvas
+        style={{
+          width: wrapperWidth,
+          height: wrapperHeight
+        }}
         className={css.canvas}
         ref={canvasRef} 
         width={wrapperWidth}
