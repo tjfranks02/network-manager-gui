@@ -83,8 +83,8 @@ const ResizableBorder = ({ children, enabledHandles, onResizeHandleClick, onResi
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
     >
+      {children}  
       {/* <div className={css.verticalLine}></div> */}
-      {children}
     </div>
   )
 };

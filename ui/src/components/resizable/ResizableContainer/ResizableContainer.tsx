@@ -195,7 +195,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
         gridTemplateRows: getGridTemplateRows(),
         width: "100%",
         height: "100%",
-        backgroundColor: direction === "row" ? "white" : "white",
+        backgroundColor: direction === "white"
       };
   
       if (cursor != ResizeHandles.DEFAULT) {
