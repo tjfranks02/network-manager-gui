@@ -159,6 +159,14 @@ const ResizableContainer = ({ children, direction, width, height }: {
     }
   };
 
+  /**
+   * Renders each child element underneath this container. If the child is a ResizableContainer,
+   * we give it its own width and height props. This is to ensure there is no delay in resizing when
+   * the parent width and height changes.
+   * 
+   * Returns:
+   *   The rendered child elements.
+   */
   const renderChildren = () => {
     return Children.toArray(children).map((child, index) => {
       let childElem = child;
