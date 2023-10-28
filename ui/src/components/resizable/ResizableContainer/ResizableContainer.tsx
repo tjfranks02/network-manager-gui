@@ -62,7 +62,9 @@ const ResizableContainer = ({ children, direction, width, height }: {
   const [cursor, setCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
 
   useEffect(() => {
-    setChildElemSizes(getChildElemSizes());
+    if (!width && !height) {
+      setChildElemSizes(getChildElemSizes());
+    }
   }, [wrapperWidth, wrapperHeight]);
 
   const getChildElementSize = (index: number) => {
