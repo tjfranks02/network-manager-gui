@@ -158,7 +158,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
     return gridTemplateColumns;
   };
 
-  const handleResizeHandleClick = (handle: ResizeHandles, childIndex: number) => {
+  const handleResizeHandleClick = (_: ResizeHandles, childIndex: number) => {
     setActiveChildElement(childIndex);
   };
 
