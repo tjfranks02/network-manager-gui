@@ -44,7 +44,7 @@ const Dashboard = () => {
           <ElementSelectorPanel />
             <ResizableContainer direction="row">
               <Canvas />
-              <div style={{ backgroundColor: "lightblue", zIndex: 1000000, width: "100%" }}>
+              <div style={{ backgroundColor: "white", zIndex: 10, width: "100%" }}>
                 This is a div
               </div>
             </ResizableContainer> 
