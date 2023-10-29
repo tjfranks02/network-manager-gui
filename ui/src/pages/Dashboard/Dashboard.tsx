@@ -36,18 +36,18 @@ const Dashboard = () => {
         style={{ 
           width: window.innerWidth, 
           height: containerHeight, 
-          backgroundColor: "lightblue",
+          backgroundColor: "white",
           border: "1px solid #adb5bd"
         }}
       >
         <ResizableContainer direction="column">
           <ElementSelectorPanel />
-            <ResizableContainer direction="row">
-              <Canvas />
-              <div style={{ backgroundColor: "white", zIndex: 10, width: "100%" }}>
-                This is a div
-              </div>
-            </ResizableContainer> 
+          <ResizableContainer direction="row">
+            <Canvas />
+            <div style={{ backgroundColor: "white", zIndex: 10, width: "100%" }}>
+              This is a div
+            </div>
+          </ResizableContainer> 
           <ActiveElementPanel activeElement={activeElement} /> 
         </ResizableContainer>
       </div>

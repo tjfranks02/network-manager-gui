@@ -11,3 +11,5 @@ export enum ResizeHandles {
   DEFAULT = "default"
 };
 
+export const RESIZE_HANDLE_SIZE: number = 3;
+

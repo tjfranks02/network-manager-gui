@@ -2,4 +2,5 @@
   background-color: white;
   -webkit-user-select: none; /* Safari */
   user-select: none;
+  z-index: 100000;
 }

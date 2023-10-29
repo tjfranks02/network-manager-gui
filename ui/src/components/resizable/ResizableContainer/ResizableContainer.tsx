@@ -6,13 +6,15 @@ import {
   useState, 
   useEffect,
   useRef,
-  cloneElement
+  cloneElement,
+  Fragment
 } from "react";
 import { ResizeHandles } from "../../../constants/dashboardConstants";
 import CanvasUtils from "../../../editor/utils/canvasUtils";
 import Point from "../../../editor/utils/Point";
-import ResizableBorder from "../ResizableBorder/ResizableBorder";
+import ResizeHandle from "../ResizeHandle/ResizeHandle";
 import useResizableDimensions from "../../hooks/useResizableDimensions";
+import { RESIZE_HANDLE_SIZE } from "../../../constants/dashboardConstants";
 
 /**
  * A resizable 2D container for ReziableBox components. Acts similar to a flexbox where you can
@@ -36,11 +38,16 @@ const ResizableContainer = ({ children, direction, width, height }: {
   height?: number
 }) => {
   const getMainAxisSize = () => {
+    let axisSize: number = 0;
+    let handlesSize: number = (Children.count(children) - 1) * RESIZE_HANDLE_SIZE;
+
     if (direction === "row") {
-      return height ? height : wrapperHeight;
+      axisSize = height ? height : wrapperHeight;
     } else {
-      return width ? width : wrapperWidth;
+      axisSize = width ? width : wrapperWidth;
     }
+
+    return axisSize - handlesSize;
   };
 
   const getChildElemSizes = (): number[] => {
@@ -59,7 +66,6 @@ const ResizableContainer = ({ children, direction, width, height }: {
   const [childElemSizes, setChildElemSizes] = useState<number[]>(getChildElemSizes());
   const [mousePos, setMousePos] = useState<Point>(new Point(0, 0));
   const [activeChildElement, setActiveChildElement] = useState<number | null>(null);
-  const [cursor, setCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
 
   useEffect(() => {
     if (!width && !height) {
@@ -80,7 +86,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
     let elemOffset: number = 0;
 
     for (let i = 0; i < index; i++) {
-      elemOffset += getChildElementSize(i);
+      elemOffset += getChildElementSize(i) + RESIZE_HANDLE_SIZE;
     }
 
     let mainAxisMouseCoord: number = direction === "column" ? mousePos.x : mousePos.y;
@@ -90,23 +96,6 @@ const ResizableContainer = ({ children, direction, width, height }: {
     newChildElemSizes[index] = getChildElementSize(index) + delta;
     newChildElemSizes[index + 1] = getChildElementSize(index + 1) - delta;
     setChildElemSizes(newChildElemSizes);
-  };
-
-  const handleResizeHandleClick = (handle: ResizeHandles, childIndex: number) => {
-    setActiveChildElement(childIndex);
-    setCursor(handle);
-  };  
-
-  const getEnabledResizeHandles = (index: number): ResizeHandles[] => {
-    let enabledHandles: ResizeHandles[] = [];
-
-    if (direction === "row" && index != Children.count(children) - 1) {
-      enabledHandles = [ResizeHandles.DOWN];
-    } else if (direction === "column" && index != Children.count(children) - 1) {
-      enabledHandles = [ResizeHandles.RIGHT];
-    }
-
-    return enabledHandles;
   };
 
   const handleMouseMove = (e: MouseEvent) => {
@@ -121,42 +110,56 @@ const ResizableContainer = ({ children, direction, width, height }: {
     setActiveChildElement(null);
   };
 
-  const handleResizeHandleHover = (handle: ResizeHandles) => {
-    if (activeChildElement === null) {
-      setCursor(handle);
-    }
-  };
-  
-  const getGridTemplateColumns = () => {
-    if (direction === "column") {
-      return childElemSizes.map((size: number) => `${size}px`).join(" ");
-    } else {
-      return width ? `${width}px` : `${wrapperWidth}px`;
-    }
-  };
-
   const getChildElemHeight = (index: number) => {
     if (direction === "row") {
-      return getChildElementSize(index) - 1;
+      return getChildElementSize(index);
     } else {
-      return height ? height : wrapperHeight - 1;
+      return height ? height : wrapperHeight;
     }
   };
 
   const getChildElemWidth = (index: number) => {
     if (direction === "column") {
-      return getChildElementSize(index) - 1;
+      return getChildElementSize(index);
     } else {
-      return width ? width : wrapperWidth - 1;
+      return width ? width : wrapperWidth;
     }
   };
 
   const getGridTemplateRows = () => {
+    let gridTemplateRows: string = "";
+
     if (direction === "row") {
-      return childElemSizes.map((size: number) => `${size}px`).join(" ");
+      gridTemplateRows = childElemSizes.map((size: number, index: number) => {
+        return index !== childElemSizes.length - 1 ? 
+          `${size}px ${RESIZE_HANDLE_SIZE}px` : 
+          `${size}px`;
+      }).join(" ");
     } else {
-      return height ? `${height}px` : `${wrapperHeight}px`;
+      gridTemplateRows = height ? `${height}px` : `${wrapperHeight}px`;
     }
+    
+    return gridTemplateRows;
+  };
+
+  const getGridTemplateColumns = () => {
+    let gridTemplateColumns: string = "";
+
+    if (direction === "column") {
+      gridTemplateColumns = childElemSizes.map((size: number, index: number) => {
+        return index !== childElemSizes.length - 1 ? 
+          `${size}px ${RESIZE_HANDLE_SIZE}px` : 
+          `${size}px`;
+      }).join(" ");
+    } else {
+      gridTemplateColumns = width ? `${width}px` : `${wrapperWidth}px`;
+    }
+
+    return gridTemplateColumns;
+  };
+
+  const handleResizeHandleClick = (handle: ResizeHandles, childIndex: number) => {
+    setActiveChildElement(childIndex);
   };
 
   /**
@@ -179,41 +182,30 @@ const ResizableContainer = ({ children, direction, width, height }: {
       }
 
       return (
-        <ResizableBorder
-          key={index}
-          enabledHandles={getEnabledResizeHandles(index)}
-          onResizeHandleClick={(handle: ResizeHandles) => handleResizeHandleClick(handle, index)}
-          onResizeHandleHover={(handle: ResizeHandles) => handleResizeHandleHover(handle)}
-        >
+        <Fragment key={index}>
           {childElem}
-        </ResizableBorder>
+          {index !== Children.count(children) - 1 && <ResizeHandle 
+            handleSide={direction === "row" ? ResizeHandles.DOWN : ResizeHandles.RIGHT}
+            direction={direction}
+            onResizeHandleClick={(handle: ResizeHandles) => handleResizeHandleClick(handle, index)} 
+          />}
+        </Fragment>
       );
     });
   }
 
-  /**
-   * This is silly but it solves the issue of the cursor being overriden when we have nested
-   * ResizableContainers.
-   * 
-   * Returns:
-   *   The style for this component. With cursor if not default.
-   */
-    const getStyle = (): any => {
-      let style: any = {
-        display: "grid",
-        gridTemplateColumns: getGridTemplateColumns(),
-        gridTemplateRows: getGridTemplateRows(),
-        width: "100%",
-        height: "100%",
-        backgroundColor: direction === "white"
-      };
-  
-      if (cursor != ResizeHandles.DEFAULT) {
-        style = { ...style, cursor: cursor };
-      }
-      
-      return style;
+  const getStyle = (): any => {
+    let style: any = {
+      display: "grid",
+      gridTemplateColumns: getGridTemplateColumns(),
+      gridTemplateRows: getGridTemplateRows(),
+      width: "100%",
+      height: "100%",
+      backgroundColor: "white"
     };
+    
+    return style;
+  };
 
   return (
     <div 
