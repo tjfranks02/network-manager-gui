@@ -12,10 +12,11 @@ import store from "./redux/store";
 // React components
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Counter from "./pages/Counter";
+import GridTutorial from "./pages/GridTutorial";
+import SignIn from "./pages/SignIn";
 
 // CSS stylings
 import "./styles/index.module.css";
-import GridTutorial from "./pages/GridTutorial";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/counter",
     element: <Counter />
+  },
+  {
+    path: "/signin",
+    element: <SignIn />
   },
   {
     path: "/gridtut",
