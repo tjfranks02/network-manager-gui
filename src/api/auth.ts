@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { APIError } from "../types";
+
 /**
  * Call the sign in API endpoint.
  * 
@@ -11,7 +13,7 @@ import axios from "axios";
  *   A promise that resolves to the response from the API. 
  */
 export const signIn = async (email: string, password: string) => {
-  let url: string = process.env.NM_USERS_API_URL + "/users/signin";
+  let url: string = import.meta.env.VITE_NM_USERS_API_URL + "/users/signin";
   return await axios.post(url, { email, password });
 };
 
@@ -26,6 +28,6 @@ export const signIn = async (email: string, password: string) => {
  *   A promise that resolves to the response from the API.
  */
 export const signUp = async (email: string, password: string) => {
-  let url: string = process.env.NM_USERS_API_URL + "/users/signup";
+  let url: string = import.meta.env.VITE_NM_USERS_API_URL + "/users/signup";
   return await axios.post(url, { email, password });
 };  

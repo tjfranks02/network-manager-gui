@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Counter from "./pages/Counter";
 import GridTutorial from "./pages/GridTutorial";
 import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 
 // CSS stylings
 import "./styles/index.module.css";
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/signin",
     element: <SignIn />
+  },
+  {
+    path: "/signup",
+    element: <SignUp />
   },
   {
     path: "/gridtut",

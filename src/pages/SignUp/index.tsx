@@ -1,33 +1,11 @@
 import { useState, FormEvent } from "react";
-import { signIn } from "../../api/auth";
+import { signUp } from "../../api/auth";
 
-/**
- * Component for signing in a user with the users microservice.
- */
-const SignIn = () => {
+const SignUp = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const [error, setError] = useState<string>("");
-
-  const handleSignInError = (e: any) => {
-    let status = e.response.status;
-
-    switch (status) {
-      case 401:
-      case 409:
-        setError("Incorrect email or password");
-        break;
-      
-      case 422:
-        setError("Both email and password are required");
-        break;
-      
-      default:
-        setError("An unknown error occurred");
-        break;
-    }
-  };  
 
   const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -37,18 +15,12 @@ const SignIn = () => {
       return;
     }
 
-    try {
-      let signInRes = signIn(email, password);
-
-
-    } catch(e) {
-      handleSignInError(e);
-    }
+    let signUpRes = signUp(email, password);
   };
 
   return (
   <div>
-    <h1>Sign In</h1>
+    <h1>Sign Up</h1>
     <form onSubmit={handleFormSubmit}>
       <div>
         <label htmlFor="email">Email</label>
@@ -68,11 +40,11 @@ const SignIn = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button type="submit">Sign In</button>
+      <button type="submit">Sign Up</button>
     </form>
     <h1>{error}</h1>
   </div>
   );
 };
 
-export default SignIn;
+export default SignUp;
