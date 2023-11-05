@@ -29,8 +29,10 @@ const SignIn = () => {
     }
   };  
 
-  const handleFormSubmit = (e: FormEvent) => {
+  const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    setError("");
 
     if (!email || !password) {
       setError("Please enter an email and password");
@@ -38,10 +40,10 @@ const SignIn = () => {
     }
 
     try {
-      let signInRes = signIn(email, password);
-
-
-    } catch(e) {
+      let signInRes = await signIn(email, password);
+      console.log("SUCCESSFUL")
+      // Handle successful sign in
+    } catch (e) {
       handleSignInError(e);
     }
   };

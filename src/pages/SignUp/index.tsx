@@ -1,21 +1,50 @@
 import { useState, FormEvent } from "react";
 import { signUp } from "../../api/auth";
 
+/**
+ * Component for creating a user in the users microservice.
+ */
 const SignUp = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const [error, setError] = useState<string>("");
 
-  const handleFormSubmit = (e: FormEvent) => {
+  const handleSignUpError = (e: any) => {
+    let status = e.response.status;
+
+    switch (status) {
+      case 409:
+        setError("Email already in use");
+        break;
+      
+      case 422:
+        setError("Both email and password are required");
+        break;
+      
+      default:
+        setError("An unknown error occurred");
+        break;
+    }
+  };  
+
+  const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    setError("");
 
     if (!email || !password) {
       setError("Please enter an email and password");
       return;
     }
 
-    let signUpRes = signUp(email, password);
+    try {
+      let signUpRes = await signUp(email, password);
+
+      // Now handle a successful signup
+    } catch (e) {
+      handleSignUpError(e);
+    }
   };
 
   return (

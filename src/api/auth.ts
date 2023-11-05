@@ -1,6 +1,17 @@
 import axios from "axios";
 
-import { APIError } from "../types";
+/**
+ * Response types
+ */
+type SignUpResponse = {
+  refreshToken: string,
+  accessToken: string
+};  
+
+type SignInResponse = {
+  refreshToken: string,
+  accessToken: string
+};  
 
 /**
  * Call the sign in API endpoint.
@@ -14,7 +25,7 @@ import { APIError } from "../types";
  */
 export const signIn = async (email: string, password: string) => {
   let url: string = import.meta.env.VITE_NM_USERS_API_URL + "/users/signin";
-  return await axios.post(url, { email, password });
+  return (await axios.post(url, { email, password })).data as SignInResponse;
 };
 
 /**
@@ -27,7 +38,7 @@ export const signIn = async (email: string, password: string) => {
  * Returns:
  *   A promise that resolves to the response from the API.
  */
-export const signUp = async (email: string, password: string) => {
+export const signUp = async (email: string, password: string): Promise<SignUpResponse> => {
   let url: string = import.meta.env.VITE_NM_USERS_API_URL + "/users/signup";
-  return await axios.post(url, { email, password });
+  return (await axios.post(url, { email, password })).data as SignUpResponse;
 };  
