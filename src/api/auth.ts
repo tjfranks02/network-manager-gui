@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "./axiosInstance";
 
 /**
  * Response types
@@ -25,8 +25,7 @@ type SignInResponse = {
  */
 export const signIn = async (email: string, password: string) => {
   let url: string = import.meta.env.VITE_NM_USERS_API_URL + "/users/signin";
-  console.log(await axios.post(url, { email, password }, { withCredentials: true }));
-  return (await axios.post(url, { email, password }, { withCredentials: true })).data as SignInResponse;
+  return (await axios.post(url, { email, password })).data as SignInResponse;
 };
 
 /**
@@ -41,5 +40,5 @@ export const signIn = async (email: string, password: string) => {
  */
 export const signUp = async (email: string, password: string): Promise<SignUpResponse> => {
   let url: string = import.meta.env.VITE_NM_USERS_API_URL + "/users/signup";
-  return (await axios.post(url, { email, password }, { withCredentials: true })).data as SignUpResponse;
+  return (await axios.post(url, { email, password })).data as SignUpResponse;
 };  
