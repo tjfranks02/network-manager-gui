@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import { signIn } from "../../api/auth";
 
+import Cookies from 'universal-cookie';
+
 /**
  * Component for signing in a user with the users microservice.
  */
@@ -48,6 +50,10 @@ const SignIn = () => {
 
       // Handle successful sign in
       navigate("/");
+
+      const cookies = new Cookies();
+      console.log(cookies.getAll());
+      console.log(document.cookie);
     } catch (e) {
       handleSignInError(e);
     }
