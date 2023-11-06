@@ -1,4 +1,6 @@
 import { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { signIn } from "../../api/auth";
 
 /**
@@ -9,6 +11,8 @@ const SignIn = () => {
   const [password, setPassword] = useState<string>("");
 
   const [error, setError] = useState<string>("");
+
+  const navigate = useNavigate();
 
   const handleSignInError = (e: any) => {
     let status = e.response.status;
@@ -41,8 +45,9 @@ const SignIn = () => {
 
     try {
       let signInRes = await signIn(email, password);
-      console.log("SUCCESSFUL")
+
       // Handle successful sign in
+      navigate("/");
     } catch (e) {
       handleSignInError(e);
     }
