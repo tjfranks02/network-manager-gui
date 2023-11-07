@@ -42,9 +42,9 @@ const SignUp = () => {
     }
 
     try {
-      let signUpRes = await signUp(email, password);
+      await signUp(email, password);
 
-      // Now handle a successful signup
+      // Navigate on successful signup
       navigate("/");
     } catch (e) {
       handleSignUpError(e);
