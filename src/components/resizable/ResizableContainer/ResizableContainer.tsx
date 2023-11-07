@@ -66,6 +66,8 @@ const ResizableContainer = ({ children, direction, width, height }: {
   const [childElemSizes, setChildElemSizes] = useState<number[]>(getChildElemSizes());
   const [mousePos, setMousePos] = useState<Point>(new Point(0, 0));
   const [activeChildElement, setActiveChildElement] = useState<number | null>(null);
+  
+  const [cursor, setCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
 
   useEffect(() => {
     if (!width && !height) {
@@ -201,7 +203,8 @@ const ResizableContainer = ({ children, direction, width, height }: {
       gridTemplateRows: getGridTemplateRows(),
       width: "100%",
       height: "100%",
-      backgroundColor: "white"
+      backgroundColor: "white",
+      cursor: cursor
     };
     
     return style;

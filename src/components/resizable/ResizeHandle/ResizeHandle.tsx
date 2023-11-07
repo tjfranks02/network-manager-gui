@@ -1,7 +1,9 @@
 import { MouseEvent, useState } from "react";
 import { ResizeHandles } from "../../../constants/dashboardConstants";
 import { RESIZE_HANDLE_SIZE } from "../../../constants/dashboardConstants";
+import CanvasUtils from "../../../editor/utils/canvasUtils";
 import useMousePosition from "../../hooks/useMousePosition";
+import Point from "../../../editor/utils/Point";
 
 // Different ways to render this border based on where the mouse is
 const IDLE_COLOUR = "#adb5bd";
@@ -22,8 +24,33 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleClick }: {
   onResizeHandleClick: (handle: ResizeHandles) => void
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
-
   const [mouseX, mouseY] = useMousePosition();
+
+  const determineHandle = (e: MouseEvent): ResizeHandles => {  
+    let rect = e.currentTarget.getBoundingClientRect();
+
+    let mousePos: Point = CanvasUtils.mapClientCoordsToMouse(e);
+    let width: number = rect.right - rect.left;
+    let height: number = rect.bottom - rect.top;
+
+    let delta = 10;
+    
+    let newCursor: ResizeHandles = ResizeHandles.DEFAULT;
+
+    if (mousePos.y < delta && handleSide === ResizeHandles.UP) {
+      newCursor = ResizeHandles.UP;
+    } else if (mousePos.y > height - delta && handleSide === ResizeHandles.DOWN) {
+      newCursor = ResizeHandles.DOWN; 
+    }
+    
+    if (mousePos.x < delta && handleSide === ResizeHandles.LEFT) {
+      newCursor = ResizeHandles.LEFT;
+    } else if (mousePos.x > width - delta && handleSide === ResizeHandles.RIGHT) {
+      newCursor = ResizeHandles.RIGHT;
+    }
+
+    return newCursor;
+  };
 
   const handleMouseDown = (_: MouseEvent) => {
     onResizeHandleClick(handleSide);
@@ -31,14 +58,6 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleClick }: {
 
   const handleMouseMove = (_: MouseEvent) => {
   };
-
-  // const handleMouseEnter = () => {
-  //   setIsActive(true);
-  // };
-
-  // const handleMouseLeave = () => {
-  //   setIsActive(false);
-  // };
 
   const getHeight = () => {
     return direction === "column" ? "100%" : RESIZE_HANDLE_SIZE;
@@ -54,13 +73,10 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleClick }: {
         backgroundColor: isActive ? HOVER_COLOUR : IDLE_COLOUR,
         height: getHeight(),
         width: getWidth(),
-        cursor: isActive ? handleSide : ResizeHandles.DEFAULT,
         zIndex: 100
       }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
-      // onMouseEnter={handleMouseEnter}
-      // onMouseLeave={handleMouseLeave}
     >
     </div>
   )
