@@ -1,24 +1,28 @@
 import { useState, useEffect } from "react";
 
 /**
- * Hook for getting the width and height of the document.
+ * Hook for getting the x and y coordinates of the mouse.
  * 
  * Returns:
- *   width - the width of the document
- *   height - the height of the document
+ *   x - the x coord of the mouse in the document.
+ *   y - the y coord of the mouse in the document.
  */
 const useMousePosition = () => {
-  const [width, setWidth] = useState<number>(0);
-  const [height, setHeight] = useState<number>(0);
+  const [x, setX] = useState<number>(0);
+  const [y, setY] = useState<number>(0);
 
   useEffect(() => {
-    document.addEventListener('mousemove', (e) => {
-      setWidth(e.pageX);
-      setHeight(e.pageY);
-    });
-  }, []);
+    const updateMousePos = (e: MouseEvent) => {
+      setX(e.pageX);
+      setY(e.pageY);
+    };
 
-  return [width, height];
+    document.addEventListener("mousemove", updateMousePos);
+
+    return () => document.removeEventListener("click", updateMousePos);
+  }, [x, y]);
+
+  return [x, y];
 };
 
 export default useMousePosition;

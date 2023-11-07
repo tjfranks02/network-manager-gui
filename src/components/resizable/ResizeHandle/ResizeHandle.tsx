@@ -30,7 +30,6 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleClick }: {
   };
 
   const handleMouseMove = (_: MouseEvent) => {
-    console.log(mouseX, mouseY)
   };
 
   // const handleMouseEnter = () => {
