@@ -37,7 +37,7 @@ const Dashboard = () => {
           width: window.innerWidth, 
           height: containerHeight, 
           backgroundColor: "white",
-          border: "1px solid #adb5bd"
+          border: "2px solid #adb5bd"
         }}
       >
         <ResizableContainer direction="column">

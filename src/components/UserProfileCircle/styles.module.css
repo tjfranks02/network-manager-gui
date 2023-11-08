@@ -1,0 +1,9 @@
+.container {
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.icon {
+  height: 40px;
+  width: auto;
+}

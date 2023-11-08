@@ -1,4 +1,6 @@
 import DogPhoto from "../../assets/dogWithSunnies.png";
+import UserProfileCircle from "../UserProfileCircle";
+
 import css from "./styles.module.css";
 import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
 
@@ -15,6 +17,7 @@ const Header = ({ width, height }: { width: number, height: number }) => {
         className={css.logo}
         src={DogPhoto} 
       />
+      <UserProfileCircle />
     </div>
   );
 };
