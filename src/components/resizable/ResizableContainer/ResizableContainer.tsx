@@ -103,13 +103,17 @@ const ResizableContainer = ({ children, direction, width, height }: {
   const handleMouseMove = (e: MouseEvent) => {
     setMousePos(CanvasUtils.mapClientCoordsToMouse(e));
 
-    if (activeChildElement !== null) {
-      resizeChildElement(activeChildElement);
-    }
+    // if (activeChildElement !== null) {
+    //   resizeChildElement(activeChildElement);
+    // }
   };
 
   const handleMouseUp = (_: MouseEvent) => {
     setActiveChildElement(null);
+  };
+
+  const handleMouseDown = (_: MouseEvent) => {
+    console.log("HANDLING MOUSE DOWN IN RESIZABLE CONTAINER")
   };
 
   const getChildElemHeight = (index: number) => {
@@ -160,8 +164,9 @@ const ResizableContainer = ({ children, direction, width, height }: {
     return gridTemplateColumns;
   };
 
-  const handleResizeHandleClick = (_: ResizeHandles, childIndex: number) => {
-    setActiveChildElement(childIndex);
+  const handleResizeHandleChange = (handle: ResizeHandles, index: number) => {
+    setCursor(handle);
+    // setActiveChildElement(index);
   };
 
   /**
@@ -189,7 +194,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
           {index !== Children.count(children) - 1 && <ResizeHandle 
             handleSide={direction === "row" ? ResizeHandles.DOWN : ResizeHandles.RIGHT}
             direction={direction}
-            onResizeHandleClick={(handle: ResizeHandles) => handleResizeHandleClick(handle, index)} 
+            onResizeHandleChange={(handle: ResizeHandles) => handleResizeHandleChange(handle, index)} 
           />}
         </Fragment>
       );
@@ -215,6 +220,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
       style={getStyle()}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
+      onMouseDown={handleMouseDown}
       ref={wrapperRef}
     > 
       {renderChildren()}

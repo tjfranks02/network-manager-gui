@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState, useRef } from "react";
 import { ResizeHandles } from "../../../constants/dashboardConstants";
 import { RESIZE_HANDLE_SIZE } from "../../../constants/dashboardConstants";
 import CanvasUtils from "../../../editor/utils/canvasUtils";
@@ -10,26 +10,55 @@ const IDLE_COLOUR = "#adb5bd";
 const HOVER_COLOUR = "#212529";
 
 /**
+ * Helper to determine if a number is between two bounds.
+ * 
+ * Params:
+ *   x: The number to check.
+ *   min: The minimum bound.
+ *   max: The maximum bound.
+ */
+const between = (x: number, min: number, max: number) => {
+  return x >= min && x <= max;
+};
+
+/**
  * A draggable handle that allows the user to resize a component within a ResizableContainer.
  * 
  * Props:
  *   handleSide: The side of the component that this handle is attached to.
  *   direction: The direction that the parent ResizableContainer is stacked.
- *   onResizeHandleClick: Callback function for when the user clicks on this handle. Handled by
+ *   onResizeHandleChange: Callback function to be called when a user either enters or leaves this
+ *   handle within a certain delta.
  *   ResizableContainer component.
  */
-const ResizeHandle = ({ handleSide, direction, onResizeHandleClick }: { 
+const ResizeHandle = ({ handleSide, direction, onResizeHandleChange }: { 
   handleSide: ResizeHandles,
   direction: string,
-  onResizeHandleClick: (handle: ResizeHandles) => void
+  onResizeHandleChange: (handle: ResizeHandles) => void
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [mouseX, mouseY] = useMousePosition();
 
-  const determineHandle = (e: MouseEvent): ResizeHandles => {  
-    let rect = e.currentTarget.getBoundingClientRect();
+  const [prevCursor, setPrevCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
 
-    let mousePos: Point = CanvasUtils.mapClientCoordsToMouse(e);
+  const handleRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let cursor: ResizeHandles = determineHandle();
+    
+    if (cursor !== prevCursor) {
+      setPrevCursor(cursor);
+      onResizeHandleChange(cursor);
+    }
+    // If mouse is not default, then it is hovering over a handle
+    // If we click and 
+  }, [mouseX, mouseY]);
+
+  const determineHandle = (): ResizeHandles => {  
+    let rect = handleRef.current!.getBoundingClientRect();
+
+
+    let mousePos: Point = new Point(mouseX, mouseY);
     let width: number = rect.right - rect.left;
     let height: number = rect.bottom - rect.top;
 
@@ -37,26 +66,27 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleClick }: {
     
     let newCursor: ResizeHandles = ResizeHandles.DEFAULT;
 
-    if (mousePos.y < delta && handleSide === ResizeHandles.UP) {
+    if (handleSide === ResizeHandles.UP 
+        && Math.abs(mousePos.y - rect.top) < delta 
+        && between(mousePos.x, rect.left, rect.right)) {
       newCursor = ResizeHandles.UP;
-    } else if (mousePos.y > height - delta && handleSide === ResizeHandles.DOWN) {
+    } else if (handleSide === ResizeHandles.DOWN
+        && Math.abs(mousePos.y - rect.bottom) < delta
+        && between(mousePos.x, rect.left, rect.right)) {
       newCursor = ResizeHandles.DOWN; 
     }
     
-    if (mousePos.x < delta && handleSide === ResizeHandles.LEFT) {
+    if (handleSide === ResizeHandles.LEFT 
+        && Math.abs(mousePos.x - rect.left) < delta
+        && between(mousePos.y, rect.top, rect.bottom)) {
       newCursor = ResizeHandles.LEFT;
-    } else if (mousePos.x > width - delta && handleSide === ResizeHandles.RIGHT) {
+    } else if (handleSide === ResizeHandles.RIGHT 
+        && Math.abs(mousePos.x - rect.right) < delta
+        && between(mousePos.y, rect.top, rect.bottom)) {
       newCursor = ResizeHandles.RIGHT;
     }
 
     return newCursor;
-  };
-
-  const handleMouseDown = (_: MouseEvent) => {
-    onResizeHandleClick(handleSide);
-  };
-
-  const handleMouseMove = (_: MouseEvent) => {
   };
 
   const getHeight = () => {
@@ -75,8 +105,7 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleClick }: {
         width: getWidth(),
         zIndex: 100
       }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
+      ref={handleRef}
     >
     </div>
   )
