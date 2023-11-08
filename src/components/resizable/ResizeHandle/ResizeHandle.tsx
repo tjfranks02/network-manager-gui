@@ -52,6 +52,8 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleChange }: {
       setPrevCursor(cursor);
       onResizeHandleChange(cursor);
     }
+
+    setIsActive(cursor !== ResizeHandles.DEFAULT);
   }, [mouseX, mouseY]);
 
   const determineHandle = (): ResizeHandles => {  
