@@ -15,7 +15,7 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const handleSignInError = (e: any) => {
-    let status = e.response.status;
+    let status = e.response ? e.response.status : null;
 
     switch (status) {
       case 401:

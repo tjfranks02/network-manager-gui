@@ -14,7 +14,7 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const handleSignUpError = (e: any) => {
-    let status = e.response.status;
+    let status = e.response ? e.response.status : null;
 
     switch (status) {
       case 409:
