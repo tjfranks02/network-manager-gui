@@ -1,13 +1,15 @@
-import { MouseEvent, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ResizeHandles } from "../../../constants/dashboardConstants";
 import { RESIZE_HANDLE_SIZE } from "../../../constants/dashboardConstants";
-import CanvasUtils from "../../../editor/utils/canvasUtils";
 import useMousePosition from "../../hooks/useMousePosition";
 import Point from "../../../editor/utils/Point";
 
 // Different ways to render this border based on where the mouse is
 const IDLE_COLOUR = "#adb5bd";
 const HOVER_COLOUR = "#212529";
+
+// The distance from the edge of the component that the mouse must be within to trigger a resize
+const RESIZE_HANDLE_DELTA = 5;
 
 /**
  * Helper to determine if a number is between two bounds.
@@ -45,43 +47,35 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleChange }: {
 
   useEffect(() => {
     let cursor: ResizeHandles = determineHandle();
-    
+
     if (cursor !== prevCursor) {
       setPrevCursor(cursor);
       onResizeHandleChange(cursor);
     }
-    // If mouse is not default, then it is hovering over a handle
-    // If we click and 
   }, [mouseX, mouseY]);
 
   const determineHandle = (): ResizeHandles => {  
     let rect = handleRef.current!.getBoundingClientRect();
-
-
     let mousePos: Point = new Point(mouseX, mouseY);
-    let width: number = rect.right - rect.left;
-    let height: number = rect.bottom - rect.top;
-
-    let delta = 10;
     
     let newCursor: ResizeHandles = ResizeHandles.DEFAULT;
 
     if (handleSide === ResizeHandles.UP 
-        && Math.abs(mousePos.y - rect.top) < delta 
+        && Math.abs(mousePos.y - rect.top) < RESIZE_HANDLE_DELTA 
         && between(mousePos.x, rect.left, rect.right)) {
       newCursor = ResizeHandles.UP;
     } else if (handleSide === ResizeHandles.DOWN
-        && Math.abs(mousePos.y - rect.bottom) < delta
+        && Math.abs(mousePos.y - rect.bottom) < RESIZE_HANDLE_DELTA
         && between(mousePos.x, rect.left, rect.right)) {
       newCursor = ResizeHandles.DOWN; 
     }
     
     if (handleSide === ResizeHandles.LEFT 
-        && Math.abs(mousePos.x - rect.left) < delta
+        && Math.abs(mousePos.x - rect.left) < RESIZE_HANDLE_DELTA
         && between(mousePos.y, rect.top, rect.bottom)) {
       newCursor = ResizeHandles.LEFT;
     } else if (handleSide === ResizeHandles.RIGHT 
-        && Math.abs(mousePos.x - rect.right) < delta
+        && Math.abs(mousePos.x - rect.right) < RESIZE_HANDLE_DELTA
         && between(mousePos.y, rect.top, rect.bottom)) {
       newCursor = ResizeHandles.RIGHT;
     }

@@ -65,8 +65,9 @@ const ResizableContainer = ({ children, direction, width, height }: {
 
   const [childElemSizes, setChildElemSizes] = useState<number[]>(getChildElemSizes());
   const [mousePos, setMousePos] = useState<Point>(new Point(0, 0));
+
+  const [hoveredChildElement, setHoveredChildElement] = useState<number | null>(null);
   const [activeChildElement, setActiveChildElement] = useState<number | null>(null);
-  
   const [cursor, setCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
 
   useEffect(() => {
@@ -103,9 +104,9 @@ const ResizableContainer = ({ children, direction, width, height }: {
   const handleMouseMove = (e: MouseEvent) => {
     setMousePos(CanvasUtils.mapClientCoordsToMouse(e));
 
-    // if (activeChildElement !== null) {
-    //   resizeChildElement(activeChildElement);
-    // }
+    if (activeChildElement !== null) {
+      resizeChildElement(activeChildElement);
+    }
   };
 
   const handleMouseUp = (_: MouseEvent) => {
@@ -113,7 +114,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
   };
 
   const handleMouseDown = (_: MouseEvent) => {
-    console.log("HANDLING MOUSE DOWN IN RESIZABLE CONTAINER")
+    setActiveChildElement(hoveredChildElement);
   };
 
   const getChildElemHeight = (index: number) => {
@@ -165,9 +166,12 @@ const ResizableContainer = ({ children, direction, width, height }: {
   };
 
   const handleResizeHandleChange = (handle: ResizeHandles, index: number) => {
-    setCursor(handle);
-    // setActiveChildElement(index);
-  };
+    if (activeChildElement === null) {
+      setCursor(handle);
+    }
+
+    setHoveredChildElement(handle === ResizeHandles.DEFAULT ? null : index);
+  }; 
 
   /**
    * Renders each child element underneath this container. If the child is a ResizableContainer,
@@ -209,10 +213,9 @@ const ResizableContainer = ({ children, direction, width, height }: {
       width: "100%",
       height: "100%",
       backgroundColor: "white",
-      cursor: cursor
     };
     
-    return style;
+    return cursor !== ResizeHandles.DEFAULT ? {...style, cursor} : style;
   };
 
   return (
