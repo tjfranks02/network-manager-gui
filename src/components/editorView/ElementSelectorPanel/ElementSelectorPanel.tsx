@@ -15,6 +15,10 @@ const ELEMENTS = [
   {
     displayName: "Connection",
     className: "Connection"
+  },
+  {
+    displayName: "VM",
+    className: "VM"
   }
 ];
 

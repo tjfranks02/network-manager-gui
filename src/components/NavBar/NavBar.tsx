@@ -1,4 +1,4 @@
-import DogPhoto from "../../assets/dogWithSunnies.png";
+import Logo from "../../assets/logo.png";
 import UserProfileCircle from "../UserProfileCircle";
 
 import css from "./styles.module.css";
@@ -15,7 +15,7 @@ const Header = ({ width, height }: { width: number, height: number }) => {
     >
       <img
         className={css.logo}
-        src={DogPhoto} 
+        src={Logo} 
       />
       <UserProfileCircle />
     </div>
