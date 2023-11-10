@@ -122,6 +122,7 @@ const Canvas = () => {
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
+        onDragStart={() => false}
         onDragOver={(e) => handleDragOver(e)}
         onDrop={(e) => onDraggedElementDrop(e)}
         onWheel={(e) => handleMouseWheelMove(e)}

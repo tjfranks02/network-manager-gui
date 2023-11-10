@@ -9,7 +9,7 @@ const IDLE_COLOUR = "#adb5bd";
 const HOVER_COLOUR = "#212529";
 
 // The distance from the edge of the component that the mouse must be within to trigger a resize
-const RESIZE_HANDLE_DELTA = 5;
+const RESIZE_HANDLE_DELTA = 3;
 
 /**
  * Helper to determine if a number is between two bounds.
@@ -102,6 +102,7 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleChange }: {
         zIndex: 100
       }}
       ref={handleRef}
+      onDragStart={() => false}
     >
     </div>
   )
