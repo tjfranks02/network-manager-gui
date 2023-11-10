@@ -99,11 +99,23 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleChange }: {
         backgroundColor: isActive ? HOVER_COLOUR : IDLE_COLOUR,
         height: getHeight(),
         width: getWidth(),
-        zIndex: 100
+        zIndex: 1000000000,
+        position: "relative"
       }}
       ref={handleRef}
       onDragStart={() => false}
     >
+      {prevCursor !== ResizeHandles.DEFAULT && <div 
+        style={{
+          position: "absolute",
+          height: getHeight(),
+          width: 3,
+          top: 0,
+          left: 0,
+          backgroundColor: "red"
+        }}
+      >
+      </div>}
     </div>
   )
 };
