@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Canvas from "../../components/editorView/Canvas/Canvas.tsx";
 import ActiveElementPanel from "../../components/editorView/ActiveElementPanel/ActiveElementPanel";
-import ElementSelectorPanel from "../../components/editorView/ElementSelectorPanel/ElementSelectorPanel";
+import ElementSelectorPanel from "../../components/elementSelectorPanel/ElementSelectorPanel/ElementSelectorPanel.tsx";
 import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
 
 import NavBar from "../../components/NavBar/NavBar";
 import ResizableContainer from "../../components/resizable/ResizableContainer/ResizableContainer.tsx";
+
+import type { DragEvent } from "react";
 
 const Dashboard = () => {
   const activeElement = useSelector((state: RootState) => state.activeElement.element);
@@ -44,7 +46,11 @@ const Dashboard = () => {
           <ElementSelectorPanel />
           <ResizableContainer direction="row">
             <Canvas />
-            <div style={{ backgroundColor: "white", zIndex: 10, width: "100%" }}>
+            <div 
+              style={{ backgroundColor: "white", zIndex: 10, width: "100%", userSelect: "none" }}
+              onDragStart={(e: DragEvent) => e.preventDefault()}
+              draggable={false}
+            >
               This is a div
             </div>
           </ResizableContainer> 

@@ -110,7 +110,7 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleChange, isActive }:
         position: "relative"
       }}
       ref={handleRef}
-      onDragStart={() => false}
+      onDragStart={(e) => e.preventDefault()}
     >
       {isActive && <div 
         style={{
