@@ -6,7 +6,7 @@ import Point from "../../../editor/utils/Point";
 
 // Different ways to render this border based on where the mouse is
 const IDLE_COLOUR = "#adb5bd";
-const HOVER_COLOUR = "#266cae";
+const HOVER_COLOUR = "#6eabe4";
 
 // The distance from the edge of the component that the mouse must be within to trigger a resize
 const RESIZE_HANDLE_DELTA: number = 3;
