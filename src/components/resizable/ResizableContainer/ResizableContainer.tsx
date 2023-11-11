@@ -199,6 +199,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
             handleSide={direction === "row" ? ResizeHandles.DOWN : ResizeHandles.RIGHT}
             direction={direction}
             onResizeHandleChange={(handle: ResizeHandles) => handleResizeHandleChange(handle, index)} 
+            isActive={hoveredChildElement === index || activeChildElement === index}
           />}
         </Fragment>
       );
@@ -212,7 +213,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
       gridTemplateRows: getGridTemplateRows(),
       width: "100%",
       height: "100%",
-      backgroundColor: "white",
+      backgroundColor: "white"
     };
     
     return cursor !== ResizeHandles.DEFAULT ? {...style, cursor} : style;

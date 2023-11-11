@@ -6,10 +6,11 @@ import Point from "../../../editor/utils/Point";
 
 // Different ways to render this border based on where the mouse is
 const IDLE_COLOUR = "#adb5bd";
-const HOVER_COLOUR = "#212529";
+const HOVER_COLOUR = "#266cae";
 
 // The distance from the edge of the component that the mouse must be within to trigger a resize
-const RESIZE_HANDLE_DELTA = 3;
+const RESIZE_HANDLE_DELTA: number = 3;
+const RESIZE_HANDLE_HOVER_SIZE: number = 3;
 
 /**
  * Helper to determine if a number is between two bounds.
@@ -32,13 +33,14 @@ const between = (x: number, min: number, max: number) => {
  *   onResizeHandleChange: Callback function to be called when a user either enters or leaves this
  *   handle within a certain delta.
  *   ResizableContainer component.
+ *   isActive: Whether or not this handle is currently active.
  */
-const ResizeHandle = ({ handleSide, direction, onResizeHandleChange }: { 
+const ResizeHandle = ({ handleSide, direction, onResizeHandleChange, isActive }: { 
   handleSide: ResizeHandles,
   direction: string,
-  onResizeHandleChange: (handle: ResizeHandles) => void
+  onResizeHandleChange: (handle: ResizeHandles) => void,
+  isActive: boolean
 }) => {
-  const [isActive, setIsActive] = useState<boolean>(false);
   const [mouseX, mouseY] = useMousePosition();
 
   const [prevCursor, setPrevCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
@@ -52,8 +54,6 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleChange }: {
       setPrevCursor(cursor);
       onResizeHandleChange(cursor);
     }
-
-    setIsActive(cursor !== ResizeHandles.DEFAULT);
   }, [mouseX, mouseY]);
 
   const determineHandle = (): ResizeHandles => {  
@@ -92,27 +92,35 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleChange }: {
   const getWidth = () => {
     return direction === "row" ? "100%" : RESIZE_HANDLE_SIZE;
   };
+  
+  const getHoverHandleHeight = () => {
+    return direction === "column" ? "100%" : RESIZE_HANDLE_HOVER_SIZE;
+  }; 
+
+  const getHoverHandleWidth = () => {
+    return direction === "row" ? "100%": RESIZE_HANDLE_HOVER_SIZE;
+  };
 
   return (
     <div 
       style={{
-        backgroundColor: isActive ? HOVER_COLOUR : IDLE_COLOUR,
+        backgroundColor: IDLE_COLOUR,
         height: getHeight(),
         width: getWidth(),
-        zIndex: 1000000000,
         position: "relative"
       }}
       ref={handleRef}
       onDragStart={() => false}
     >
-      {prevCursor !== ResizeHandles.DEFAULT && <div 
+      {isActive && <div 
         style={{
           position: "absolute",
-          height: getHeight(),
-          width: 3,
+          height: getHoverHandleHeight(),
+          width: getHoverHandleWidth(),
           top: 0,
           left: 0,
-          backgroundColor: "red"
+          backgroundColor: HOVER_COLOUR,
+          zIndex: 999999999999999
         }}
       >
       </div>}
