@@ -44,9 +44,9 @@ const ElementSelectorPanel = () => {
   };
 
   return (
-    <div>
+    <div className={css.container}>
       <h3>Element selector panel</h3>
-      <div>
+      <div className={css.elementsContainer}>
         {renderElements()}
       </div>
     </div>

@@ -1,3 +1,20 @@
-.element:hover {
-  background-color: green;
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f1f3f5;
+  border-radius: 40;
+  font-size: 10px;
+  
+  text-align: center;
+
+  min-width: 50px;
+}
+
+.container:hover {
+  cursor: pointer;
+  background-color: #dee2e6;
+}
+
+.image {
+  align-self: center;
 }
