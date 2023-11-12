@@ -4,7 +4,7 @@ import UserProfileCircle from "../UserProfileCircle";
 import css from "./styles.module.css";
 import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
 
-const Header = ({ width, height }: { width: number, height: number }) => {
+const Header = ({ width }: { width: number, height: number }) => {
   return (
     <div 
       className={css.container}
@@ -13,7 +13,7 @@ const Header = ({ width, height }: { width: number, height: number }) => {
         height: `${DEFAULT_NAVBAR_HEIGHT}px`,
         boxShadow: "rgba(100, 100, 111, 0.2) 0px 0px 8px 0px",
         position: "relative",
-        zIndex: 1000
+        zIndex: 1
       }}
     >
       <img

@@ -1,8 +1,10 @@
+import { useState } from "react";
 import store from "../../../redux/store";
 import { setCurrentDraggedElement } from "../../../redux/reducers/currentDraggedElement";
 import { ReactElement } from "react";
 import css from "./styles.module.css";
 import ElementPreviewBox from "../DraggableElementPreviewBox";
+import SearchBar from "../../SearchBar";
 
 const ELEMENTS = [
   {
@@ -28,6 +30,14 @@ const ELEMENTS = [
 ];
 
 const ElementSelectorPanel = () => {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const handleSearchTermChange = (searchTerm: string) => {
+    setSearchTerm(searchTerm);
+    console.log(searchTerm);
+    // I guess we should then make a call to an API to get search results
+  };
+
   const renderElements = (): Array<ReactElement> => {
     return ELEMENTS.map((element, index) => {
       return(
@@ -45,7 +55,8 @@ const ElementSelectorPanel = () => {
 
   return (
     <div className={css.container}>
-      <h3>Element selector panel</h3>
+      <SearchBar onSearchTermChange={handleSearchTermChange} />
+      <h3>Components</h3>
       <div className={css.elementsContainer}>
         {renderElements()}
       </div>
