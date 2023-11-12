@@ -101,22 +101,6 @@ const ResizableContainer = ({ children, direction, width, height }: {
     setChildElemSizes(newChildElemSizes);
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    setMousePos(CanvasUtils.mapClientCoordsToMouse(e));
-
-    if (activeChildElement !== null) {
-      resizeChildElement(activeChildElement);
-    }
-  };
-
-  const handleMouseUp = (_: MouseEvent) => {
-    setActiveChildElement(null);
-  };
-
-  const handleMouseDown = (_: MouseEvent) => {
-    setActiveChildElement(hoveredChildElement);
-  };
-
   const getChildElemHeight = (index: number) => {
     if (direction === "row") {
       return getChildElementSize(index);
@@ -171,7 +155,24 @@ const ResizableContainer = ({ children, direction, width, height }: {
     }
 
     setHoveredChildElement(handle === ResizeHandles.DEFAULT ? null : index);
-  }; 
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    setMousePos(CanvasUtils.mapClientCoordsToMouse(e));
+
+    if (activeChildElement !== null) {
+      resizeChildElement(activeChildElement);
+    }
+  };
+
+  const handleMouseUp = (_: MouseEvent) => {
+    setActiveChildElement(null);
+    setCursor(ResizeHandles.DEFAULT);
+  };
+
+  const handleMouseDown = (_: MouseEvent) => {
+    setActiveChildElement(hoveredChildElement);
+  };
 
   /**
    * Renders each child element underneath this container. If the child is a ResizableContainer,
