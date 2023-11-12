@@ -11,6 +11,9 @@ const Header = ({ width, height }: { width: number, height: number }) => {
       style={{
         width: `${width}px`,
         height: `${DEFAULT_NAVBAR_HEIGHT}px`,
+        boxShadow: "rgba(100, 100, 111, 0.2) 0px 0px 8px 0px",
+        position: "relative",
+        zIndex: 1000
       }}
     >
       <img

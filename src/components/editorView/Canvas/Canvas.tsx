@@ -104,12 +104,12 @@ const Canvas = () => {
     <div 
       style={{ 
         width: "100%", 
-        height: "100%", 
-        zIndex: 10,
+        height: "100%",
         padding: 1,
         backgroundColor: "white"
       }} 
-      ref={wrapperRef}>
+      ref={wrapperRef}
+    >
       <canvas
         style={{
           width: wrapperWidth,

@@ -5,7 +5,7 @@ import useMousePosition from "../../hooks/useMousePosition";
 import Point from "../../../editor/utils/Point";
 
 // Different ways to render this border based on where the mouse is
-const IDLE_COLOUR = "#adb5bd";
+const IDLE_COLOUR = "#ced4da";
 const HOVER_COLOUR = "#6eabe4";
 
 // The distance from the edge of the component that the mouse must be within to trigger a resize
@@ -119,8 +119,7 @@ const ResizeHandle = ({ handleSide, direction, onResizeHandleChange, isActive }:
           width: getHoverHandleWidth(),
           top: 0,
           left: 0,
-          backgroundColor: HOVER_COLOUR,
-          zIndex: 999999999999999
+          backgroundColor: HOVER_COLOUR
         }}
       >
       </div>}
