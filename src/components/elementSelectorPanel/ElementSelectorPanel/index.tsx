@@ -4,7 +4,7 @@ import { setCurrentDraggedElement } from "../../../redux/reducers/currentDragged
 import { ReactElement } from "react";
 import css from "./styles.module.css";
 import ElementPreviewBox from "../DraggableElementPreviewBox";
-import SearchBar from "../../SearchBar";
+import SearchBar from "../../inputs/SearchBar";
 
 const ELEMENTS = [
   {

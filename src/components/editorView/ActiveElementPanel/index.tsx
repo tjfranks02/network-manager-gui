@@ -3,8 +3,8 @@ import css from "./styles.module.css";
 const ActiveElementPanel = ({ activeElement }: { activeElement: string }) => {
   return (
     <div className={css.container}>
-      <h3>Active element panel</h3>
-      {activeElement}
+      <h3>{activeElement}</h3>
+      {activeElement ? <p>This is the active element</p> : <p>No active element</p>}
     </div>
   );
 };
