@@ -34,7 +34,6 @@ const ElementSelectorPanel = () => {
 
   const handleSearchTermChange = (searchTerm: string) => {
     setSearchTerm(searchTerm);
-    console.log(searchTerm);
     // I guess we should then make a call to an API to get search results
   };
 

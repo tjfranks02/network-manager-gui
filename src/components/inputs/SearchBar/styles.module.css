@@ -15,7 +15,7 @@
   width: 100%;
   height: 30px;
   border-radius: 5px;
-  border: 1px solid #ced4da;
+  border: 1px solid var(--grey-4);
   margin-bottom: 7px;
 }
 
@@ -23,4 +23,9 @@
   outline: none;
   border: 1px solid #80bdff;
   box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 4px #9ecaed;
+}
+
+.input:hover {
+  border: 1px solid var(--grey-5);
 }
