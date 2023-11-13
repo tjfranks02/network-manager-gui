@@ -20,7 +20,7 @@ const ELEMENTS = [
   {
     displayName: "Connection",
     className: "Connection",
-    imageURL: "vm.png"
+    imageURL: "connection.png"
   },
   {
     displayName: "VM",
