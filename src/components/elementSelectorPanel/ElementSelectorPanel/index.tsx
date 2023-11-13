@@ -32,8 +32,9 @@ const ELEMENTS = [
 const ElementSelectorPanel = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const handleSearchTermChange = (searchTerm: string) => {
-    setSearchTerm(searchTerm);
+  const handleSearchTermChange = (newSearchTerm: string) => {
+    setSearchTerm(newSearchTerm);
+    console.log(searchTerm);
     // I guess we should then make a call to an API to get search results
   };
 

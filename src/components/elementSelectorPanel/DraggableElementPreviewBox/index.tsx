@@ -26,8 +26,8 @@ const DraggableElementPreviewBox = ({ handleDragStart, imageURL, displayName }: 
       <img 
         className={css.image}
         src={getAssetSrc(imageURL)}
-        height="auto"
-        width={40}
+        height={40}
+        width="auto"
       />
       <span>{displayName}</span>
     </div>
