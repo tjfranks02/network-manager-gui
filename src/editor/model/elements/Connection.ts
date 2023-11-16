@@ -29,7 +29,7 @@ class Connection extends Element {
   mapElementToTopology(): any {
     return {
       id: this.id,
-      type: "connection",
+      type: "Connection",
       origin: {
         id: this.origin.id,
         pos: {

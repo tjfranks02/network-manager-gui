@@ -30,7 +30,7 @@ class NodeGroup extends Element {
   mapElementToTopology(): any {
     return {
       id: this.id,
-      type: "nodeGroup",
+      type: "NodeGroup",
       pos: {
         x: this.renderer.pos.x,
         y: this.renderer.pos.y

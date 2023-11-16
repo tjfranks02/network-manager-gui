@@ -34,7 +34,7 @@ class Node extends Element {
   mapElementToTopology(): any {
     return {
       id: this.id,
-      type: "node",
+      type: "Node",
       pos: {
         x: this.renderer.pos.x,
         y: this.renderer.pos.y
