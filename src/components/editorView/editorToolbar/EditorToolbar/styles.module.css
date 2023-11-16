@@ -4,13 +4,21 @@
   border-bottom: 1px solid var(--grey-4);
 }
 
-.saveIcon {
-  font-size: 1.25rem;
-  margin-left: auto;
-  stroke-width: 2px;
+.undoOptionsBox {
+  display: flex;
+  gap: 4px;
+  align-content: center;
 }
 
-.saveIcon:hover {
+.icon {
+  font-size: 1.25rem;
+  margin-left: auto;
+  stroke-width: 1.75px;
+  color: var(--grey-7);
+}
+
+.icon:hover {
   cursor: pointer;
   color: var(--blue-4);
+  stroke-width: 2px;
 }
