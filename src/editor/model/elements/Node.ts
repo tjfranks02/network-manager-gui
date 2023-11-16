@@ -15,6 +15,33 @@ class Node extends Element {
     // Connections from this node to others
     this.connections = [];
   }
+
+  /**
+   * Maps node to object that can be written to a network topology json file.
+
+   * Schema for a node in a topology file:
+   * id: string,
+   * type: string,
+   * pos: { 
+   *   x: number, 
+   *   y: number 
+   * }
+   * connections: Array<Connection>,
+   * 
+   * Returns:
+   *   Schema for a node in a network topology json file.
+   */
+  mapElementToTopology(): any {
+    return {
+      id: this.id,
+      type: "node",
+      pos: {
+        x: this.renderer.pos.x,
+        y: this.renderer.pos.y
+      },
+      connections: this.connections.map((connection) => connection.mapElementToTopology())
+    };
+  }
 }
 
 export default Node;

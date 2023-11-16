@@ -146,6 +146,10 @@ class EditorController {
   draw(ctx: CanvasRenderingContext2D): void {
     EditorView.draw(ctx);
   }
+
+  mapElementsToTopology(): any {
+    return EditorModel.elements.map((element) => element.mapElementToTopology());
+  }
 }
 
 const singletonInstance: EditorController = new EditorController();
