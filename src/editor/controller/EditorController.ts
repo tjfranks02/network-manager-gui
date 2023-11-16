@@ -37,16 +37,6 @@ class EditorController {
     EditorView.draw(ctx);
   }
 
-  handleRightClick(ctx: CanvasRenderingContext2D): void {
-    EditorView.draw(ctx);
-  }
-
-  resetElementStates() {
-    for (let element of EditorModel.elements) {
-      element.renderer.state = ElementStates.IDLE;
-    }
-  }
-
   handleMiddleMouseUp(ctx: CanvasRenderingContext2D): void {
     EditorView.viewState.state = ViewStates.IDLE;
     EditorView.draw(ctx);
@@ -101,8 +91,18 @@ class EditorController {
     EditorView.draw(ctx);
   }
 
+  handleRightClick(ctx: CanvasRenderingContext2D): void {
+    EditorView.draw(ctx);
+  }
+
   handleMouseWheelScroll(ctx: CanvasRenderingContext2D, deltaY: number) {
     EditorView.scaleCanvas(ctx, deltaY);    
+  }
+
+  resetElementStates() {
+    for (let element of EditorModel.elements) {
+      element.renderer.state = ElementStates.IDLE;
+    }
   }
 
   /**

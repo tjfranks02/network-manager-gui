@@ -53,3 +53,42 @@ export interface BaseElementViewData {
 
   // [key: string]: any
 };
+
+/**
+ * Topology info that will be written to a JSON network topology file.
+ */
+// Network topology file schema
+export type NetworkTopologyInfo = {
+  nodes: Array<NodeTopologyInfo>,
+  connections: Array<any>,
+  nodeGroups: Array<any>
+};
+
+// Node group topology file schema
+export type NodeGroupTopologyInfo = {
+  id: string,
+  type: string,
+  pos: {
+    x: number,
+    y: number
+  },
+  nodes: Array<NodeTopologyInfo>
+};
+
+// Node topology file schema
+export type NodeTopologyInfo = {
+  id: string,
+  type: string,
+  pos: {
+    x: number,
+    y: number
+  }
+};
+
+// Connection topology file schema
+export type ConnectionTopologyInfo = {
+  id: string,
+  type: string,
+  origin: { id: string },
+  dest: { id: string }
+}; 

@@ -91,7 +91,10 @@ class EditorView {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    ctx.translate(this.viewState.panVector.x + this.viewState.scaleOffset.x, this.viewState.panVector.y + this.viewState.scaleOffset.y);
+    ctx.translate(
+      this.viewState.panVector.x + this.viewState.scaleOffset.x, 
+      this.viewState.panVector.y + this.viewState.scaleOffset.y
+    );
     ctx.scale(this.viewState.scale, this.viewState.scale);
 
     for (let element of EditorModel.elements) {

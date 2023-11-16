@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from "uuid";
 import { 
   DEFAULT_ORIGIN, 
   ElementStates, 
-  NODE_HOVER_COLOUR, 
   NODE_IDLE_COLOUR,
   DEFAULT_FONT,
   NodeViewConstants as Constants
@@ -41,14 +40,6 @@ class NodeRenderer extends ElementRenderer {
     // Check if mouse is over any sub-elements
     for (let connPoint of this.node.connectionPoints) {
       let subElement = connPoint.renderer.elementUnderMouse(mousePos);
-
-      if (subElement) {
-        return subElement;
-      }
-    }
-
-    for (let connection of this.node.connections) {
-      let subElement = connection.renderer.elementUnderMouse(mousePos);
 
       if (subElement) {
         return subElement;
@@ -92,9 +83,6 @@ class NodeRenderer extends ElementRenderer {
     );
 
     ctx.closePath();
-
-    // Draw connections
-    this.node.connections.forEach((connection) => connection.renderer.draw(ctx));
 
     // Draw connection points
     this.node.connectionPoints.forEach(

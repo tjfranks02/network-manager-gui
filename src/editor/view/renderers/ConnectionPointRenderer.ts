@@ -3,6 +3,7 @@ import ElementRenderer from "./ElementRenderer";
 import Element from "../../model/elements/Element";
 import ConnectionPoint from "../../model/elements/ConnectionPoint";
 import EditorView from "../EditorView";
+import EditorModel from "../../model/Model";
 import Connection from "../../model/elements/Connection";
 import { 
   ElementStates,
@@ -68,7 +69,7 @@ class ConnectionPointRenderer extends ElementRenderer {
         }
       );
 
-      this.connectionPoint.owner.connections.push(newConnection);
+      EditorModel.elements.push(newConnection);
       EditorView.assignNewActiveElement(newConnection);
     }
   }
