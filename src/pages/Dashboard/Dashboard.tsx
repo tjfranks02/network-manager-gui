@@ -1,15 +1,17 @@
 import type { RootState } from "../../redux/store";
 import { useState, useEffect } from "react";
+import type { DragEvent } from "react";
 import { useSelector } from "react-redux";
+
+// Custom components
 import Canvas from "../../components/editorView/Canvas/Canvas.tsx";
 import ActiveElementPanel from "../../components/editorView/ActiveElementPanel";
 import ElementSelectorPanel from "../../components/elementSelectorPanel/ElementSelectorPanel";
-import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
-
+import EditorToolbar from "../../components/editorView/editorToolbar/EditorToolbar";
 import NavBar from "../../components/NavBar/NavBar";
 import ResizableContainer from "../../components/resizable/ResizableContainer/ResizableContainer.tsx";
 
-import type { DragEvent } from "react";
+import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
 
 const Dashboard = () => {
   const activeElement = useSelector((state: RootState) => state.activeElement.element);
@@ -44,7 +46,10 @@ const Dashboard = () => {
         <ResizableContainer direction="column">
           <ElementSelectorPanel />
           <ResizableContainer direction="row">
-            <Canvas />
+            <div>
+              <EditorToolbar />
+              <Canvas />
+            </div>
             <div
               style={{ backgroundColor: "white", width: "100%", userSelect: "none" }}
               onDragStart={(e: DragEvent) => e.preventDefault()}

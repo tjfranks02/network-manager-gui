@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  padding: 9px;
+  border-bottom: 1px solid var(--grey-4);
+}
+
+.saveIcon {
+  font-size: 1.25rem;
+  margin-left: auto;
+  stroke-width: 1.75px;
+}
+
+.saveIcon:hover {
+  cursor: pointer;
+  color: var(--blue-7);
+}
