@@ -7,10 +7,10 @@
 .saveIcon {
   font-size: 1.25rem;
   margin-left: auto;
-  stroke-width: 1.75px;
+  stroke-width: 2px;
 }
 
 .saveIcon:hover {
   cursor: pointer;
-  color: var(--blue-7);
+  color: var(--blue-4);
 }
