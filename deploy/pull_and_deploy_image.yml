@@ -1,0 +1,16 @@
+- name: Pull new Docker image from registry and deploy
+  hosts: all
+
+  tasks:
+    - name: Pull new Docker image from registry
+      shell:
+        cmd: docker pull spheredrex/crazy-people-who-code-after-work:network-manager-gui
+
+    - name: Stop the running instance of the Docker image
+      shell:
+        cmd: docker stop $(docker ps -q --filter ancestor=spheredrex/crazy-people-who-code-after-work:network-manager-gui)
+      ignore_errors: yes
+
+    - name: Run the new image
+      shell:
+        cmd: docker run -p 5173:5173 -d spheredrex/crazy-people-who-code-after-work:network-manager-gui

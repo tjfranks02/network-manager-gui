@@ -32,3 +32,21 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: spheredrex/crazy-people-who-code-after-work:network-manager-gui
+  
+  run_deploy_playbook:
+    name: Run Ansible playbook to pull and deploy new image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: deploy.yml
+          directory: ./deploy
+          # Optional, SSH private key
+          key: ${{ secrets.ANSIBLE_PRIVATE_KEY }}
+          # Optional, additional flags to pass to ansible-playbook
+          options: |
+            --inventory ./deploy/hosts
