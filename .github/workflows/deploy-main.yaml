@@ -33,9 +33,6 @@ jobs:
           push: true
           tags: spheredrex/crazy-people-who-code-after-work:network-manager-gui
 
-      - name: Check out the repo
-        uses: actions/checkout@v4
-
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
@@ -45,4 +42,4 @@ jobs:
           key: ${{ secrets.ANSIBLE_PRIVATE_KEY }}
           # Optional, additional flags to pass to ansible-playbook
           options: |
-            --inventory ./deploy/hosts
+            --inventory ./hosts
