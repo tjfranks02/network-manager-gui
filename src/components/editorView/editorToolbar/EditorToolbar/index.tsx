@@ -3,9 +3,6 @@ import { IoMdUndo, IoMdRedo } from "react-icons/io";
 
 import css from "./styles.module.css"
 
-const TOOLBAR_ITEMS = {
-};  
-
 const EditorToolbar = () => {
   const handleTopologySave = () => {
 

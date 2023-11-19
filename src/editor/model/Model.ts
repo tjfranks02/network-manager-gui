@@ -25,7 +25,7 @@ class Model {
     
     let node1 = new Node(uuidv4(), { pos: new Point(0, 0), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
     let node2 = new Node(uuidv4(), { pos: new Point(75, 75), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
-    let node3 = new Node(uuidv4(), { pos: new Point(50, 240), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
+    // let node3 = new Node(uuidv4(), { pos: new Point(50, 240), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
     let node4 = new Node(uuidv4(), { pos: new Point(850, 325), state: ElementStates.IDLE, zIndex: 1, margin: 12, padding: 0 });
 
     this.elements.push(node1);

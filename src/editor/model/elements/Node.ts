@@ -1,4 +1,3 @@
-import Connection from "./Connection";
 import ConnectionPoint from "./ConnectionPoint";
 import Element from "./Element";
 import { BaseElementViewData } from "../../types";
