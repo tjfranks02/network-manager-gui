@@ -55,7 +55,7 @@ const Dashboard = () => {
               onDragStart={(e: DragEvent) => e.preventDefault()}
               draggable={false}
             >
-              This is a div
+              This is a div! That's pretty much it.
             </div>
           </ResizableContainer> 
           <ActiveElementPanel activeElement={activeElement} /> 
