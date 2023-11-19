@@ -37,5 +37,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: crazy-people-who-code-after-work/network-manager-gui:latest
           labels: ${{ steps.meta.outputs.labels }}
