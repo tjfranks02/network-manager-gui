@@ -2,6 +2,11 @@
   hosts: all
 
   tasks:
+    - name: Sign in to Docker Hub
+      docker_login:
+        username: "{{ docker_username }}"
+        password: "{{ docker_password }}"
+
     - name: Pull new Docker image from registry
       shell:
         cmd: docker pull spheredrex/crazy-people-who-code-after-work:network-manager-gui
