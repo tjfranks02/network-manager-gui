@@ -7,20 +7,20 @@
         username: "{{ docker_username }}"
         password: "{{ docker_password }}"
 
-    - name: Remove existing image
-      shell:
-        cmd: docker image rm -f spheredrex/crazy-people-who-code-after-work:network-manager-gui
-      ignore_errors: yes
-
     - name: Pull new Docker image from registry
       shell:
         cmd: docker pull spheredrex/crazy-people-who-code-after-work:network-manager-gui
 
     - name: Stop the running instance of the Docker image
       shell:
-        cmd: docker stop $(docker ps -q --filter ancestor=spheredrex/crazy-people-who-code-after-work:network-manager-gui)
+        cmd: docker stop network-manager-gui
+      ignore_errors: yes
+
+    - name: Remove existing image
+      shell:
+        cmd: docker image rm -f spheredrex/crazy-people-who-code-after-work:network-manager-gui
       ignore_errors: yes
 
     - name: Run the new image
       shell:
-        cmd: docker run -p 5173:5173 -d spheredrex/crazy-people-who-code-after-work:network-manager-gui
+        cmd: docker run --name network-manager-gui -p 5173:5173 -d spheredrex/crazy-people-who-code-after-work:network-manager-gui
