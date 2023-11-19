@@ -7,6 +7,11 @@
         username: "{{ docker_username }}"
         password: "{{ docker_password }}"
 
+    - name: Remove existing image
+      shell:
+        cmd: docker image rm -f spheredrex/crazy-people-who-code-after-work:network-manager-gui
+      ignore_errors: yes
+
     - name: Pull new Docker image from registry
       shell:
         cmd: docker pull spheredrex/crazy-people-who-code-after-work:network-manager-gui
