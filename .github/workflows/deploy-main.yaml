@@ -31,11 +31,16 @@ jobs:
         with:
           images: spheredrex/crazy-people-who-code-after-work
       
+      - name: Print tags
+        env:
+          GITHUB_CONTEXT: ${{ steps.meta.outputs.tags }}
+        run: echo "$GITHUB_CONTEXT"
+
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: crazy-people-who-code-after-work/network-manager-gui:latest
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
