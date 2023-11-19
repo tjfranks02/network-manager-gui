@@ -2,7 +2,7 @@ import Element from "../model/elements/Element";
 import EditorModel from "../model/Model";
 import { ViewStates } from "../types";
 import EditorView from "../view/EditorView";
-import { ElementStates } from "../../constants/editorConstants";
+import { ElementStates, ElementTypes } from "../../constants/editorConstants";
 import ModelUtils from "../model/utils/modelUtils";
 import NodeGroupRenderer from "../view/renderers/NodeGroupRenderer";
 
@@ -117,7 +117,7 @@ class EditorController {
     let id: string = ModelUtils.generateUUID();
 
     switch (elementClassName) {
-      case Node.name:
+      case ElementTypes.NODE:
         newElement = new Node(id, { 
           pos: EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos),
           state: ElementStates.IDLE, 
@@ -127,7 +127,7 @@ class EditorController {
         });
         break;
 
-      case NodeGroup.name:
+      case ElementTypes.NODE_GROUP:
         newElement = new NodeGroup(id, { 
           pos: EditorView.mapViewPosToWorldPos(EditorView.viewState.mousePos),
           state: ElementStates.IDLE, 

@@ -5,21 +5,22 @@ import { ReactElement } from "react";
 import css from "./styles.module.css";
 import ElementPreviewBox from "../DraggableElementPreviewBox";
 import SearchBar from "../../inputs/SearchBar";
+import { ElementTypes } from "../../../constants/editorConstants";
 
 const ELEMENTS = [
   {
     displayName: "Node",
-    className: "Node",
+    className: ElementTypes.NODE,
     imageURL: "vm.png"
   },
   {
     displayName: "Node Group",
-    className: "NodeGroup",
+    className: ElementTypes.NODE_GROUP,
     imageURL: "vm.png"
   },
   {
     displayName: "Connection",
-    className: "Connection",
+    className: ElementTypes.CONNECTION,
     imageURL: "connection.png"
   },
   {

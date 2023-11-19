@@ -13,7 +13,8 @@ export enum ConnectionStates {
 
 export enum ElementTypes {
   NODE = "node",
-  Connection = "connection",
+  CONNECTION = "connection",
+  NODE_GROUP = "nodeGroup",
 };
 
 export const DEFAULT_ORIGIN = new Point(0, 0);
