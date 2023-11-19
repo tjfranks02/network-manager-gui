@@ -35,7 +35,8 @@ const ResizableContainer = ({ children, direction, width, height }: {
   children: ReactNode, 
   direction: string,
   width?: number,
-  height?: number
+  height?: number,
+  isContainer: Boolean
 }) => {
   const getMainAxisSize = () => {
     let axisSize: number = 0;
@@ -186,7 +187,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
     return Children.toArray(children).map((child, index) => {
       let childElem = child;
 
-      if ((child as any).type.name === "ResizableContainer") {
+      if ((child as any).props.isContainer) {
         childElem = cloneElement(child as ReactElement, { 
           width: getChildElemWidth(index),
           height: getChildElemHeight(index)
@@ -231,6 +232,10 @@ const ResizableContainer = ({ children, direction, width, height }: {
       {renderChildren()}
     </div>
   )
+};
+
+ResizableContainer.defaultProps = {
+  isContainer: true
 };
 
 export default ResizableContainer;
