@@ -23,4 +23,4 @@
 
     - name: Run the new image
       shell:
-        cmd: docker run --name network-manager-gui -p 5173:5173 -d spheredrex/crazy-people-who-code-after-work:network-manager-gui
+        cmd: docker run --name network-manager-gui -p 80:80 -d spheredrex/crazy-people-who-code-after-work:network-manager-gui
