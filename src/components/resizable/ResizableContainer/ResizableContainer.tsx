@@ -30,6 +30,8 @@ import { RESIZE_HANDLE_SIZE } from "../../../constants/dashboardConstants";
  *   ResizableContainer component.
  *   height: The total fixed height of this ResizableContainer component. Optionally provided by a 
  *   parent ResizableContainer component.
+ *   isResizeContainer: Whether or not this ResizableContainer is the child of another
+ *   ResizableContainer. If it is, then we don't need to set the default child element sizes.
  */
 const ResizableContainer = ({ children, direction, width, height }: { 
   children: ReactNode, 
