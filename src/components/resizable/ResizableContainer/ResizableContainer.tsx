@@ -36,7 +36,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
   direction: string,
   width?: number,
   height?: number,
-  isContainer: Boolean
+  isResizeContainer: Boolean
 }) => {
   const getMainAxisSize = () => {
     let axisSize: number = 0;
@@ -51,7 +51,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
     return axisSize - handlesSize;
   };
 
-  const getChildElemSizes = (): number[] => {
+  const getDefaultChildElemSizes = (): number[] => {
     let childSizes = [];
   
     for (let i = 0; i < Children.count(children); i++) {
@@ -64,7 +64,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [wrapperWidth, wrapperHeight] = useResizableDimensions(wrapperRef);
 
-  const [childElemSizes, setChildElemSizes] = useState<number[]>(getChildElemSizes());
+  const [childElemSizes, setChildElemSizes] = useState<number[]>(getDefaultChildElemSizes());
   const [mousePos, setMousePos] = useState<Point>(new Point(0, 0));
 
   const [hoveredChildElement, setHoveredChildElement] = useState<number | null>(null);
@@ -72,7 +72,10 @@ const ResizableContainer = ({ children, direction, width, height }: {
   const [cursor, setCursor] = useState<ResizeHandles>(ResizeHandles.DEFAULT);
 
   useEffect(() => {
-    setChildElemSizes(getChildElemSizes());
+    // If this ResizableContainer isn't the child of a another ResizableContainer.
+    if (!width && !height) {
+      setChildElemSizes(getDefaultChildElemSizes());
+    }
   }, [wrapperWidth, wrapperHeight]);
 
   const getChildElementSize = (index: number) => {
@@ -122,8 +125,8 @@ const ResizableContainer = ({ children, direction, width, height }: {
     if (direction === "row") {
       gridTemplateRows = childElemSizes.map((size: number, index: number) => {
         return index !== childElemSizes.length - 1 ? 
-          `${size}px ${RESIZE_HANDLE_SIZE}px` : 
-          `${size}px`;
+          `${size}fr ${RESIZE_HANDLE_SIZE}fr` : 
+          `${size}fr`;
       }).join(" ");
     } else {
       gridTemplateRows = height ? `${height}px` : `${wrapperHeight}px`;
@@ -138,8 +141,8 @@ const ResizableContainer = ({ children, direction, width, height }: {
     if (direction === "column") {
       gridTemplateColumns = childElemSizes.map((size: number, index: number) => {
         return index !== childElemSizes.length - 1 ? 
-          `${size}px ${RESIZE_HANDLE_SIZE}px` : 
-          `${size}px`;
+          `${size}fr ${RESIZE_HANDLE_SIZE}fr` : 
+          `${size}fr`;
       }).join(" ");
     } else {
       gridTemplateColumns = width ? `${width}px` : `${wrapperWidth}px`;
@@ -185,7 +188,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
     return Children.toArray(children).map((child, index) => {
       let childElem = child;
 
-      if ((child as any).props.isContainer) {
+      if ((child as any).props.isResizeContainer) {
         childElem = cloneElement(child as ReactElement, { 
           width: getChildElemWidth(index),
           height: getChildElemHeight(index)
@@ -233,7 +236,7 @@ const ResizableContainer = ({ children, direction, width, height }: {
 };
 
 ResizableContainer.defaultProps = {
-  isContainer: true
+  isResizeContainer: true
 };
 
 export default ResizableContainer;

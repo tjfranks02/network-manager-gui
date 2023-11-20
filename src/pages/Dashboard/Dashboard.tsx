@@ -46,7 +46,7 @@ const Dashboard = () => {
         <ResizableContainer direction="column">
           <ElementSelectorPanel />
           <ResizableContainer direction="row">
-            <div>
+            <div style={{ overflow: "hidden"}}>
               <EditorToolbar />
               <Canvas />
             </div>
