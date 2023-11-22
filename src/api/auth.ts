@@ -24,7 +24,7 @@ type SignInResponse = {
  *   A promise that resolves to the response from the API. 
  */
 export const signIn = async (email: string, password: string) => {
-  let url: string = import.meta.env.VITE_NM_USERS_API_URL + "/users/signin";
+  let url: string = import.meta.env.VITE_NM_API_URL + "/signin";
   return (await axios.post(url, { email, password })).data as SignInResponse;
 };
 
@@ -39,6 +39,6 @@ export const signIn = async (email: string, password: string) => {
  *   A promise that resolves to the response from the API.
  */
 export const signUp = async (email: string, password: string): Promise<SignUpResponse> => {
-  let url: string = import.meta.env.VITE_NM_USERS_API_URL + "/users/signup";
+  let url: string = import.meta.env.VITE_NM_API_URL + "/users/signup";
   return (await axios.post(url, { email, password })).data as SignUpResponse;
 };  
