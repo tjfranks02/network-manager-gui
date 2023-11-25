@@ -24,7 +24,7 @@ type SignInResponse = {
  *   A promise that resolves to the response from the API. 
  */
 export const signIn = async (email: string, password: string) => {
-  let url: string = import.meta.env.VITE_NM_API_URL + "/signin";
+  let url: string = import.meta.env.VITE_NM_API_URL + "/users/signin";
   return (await axios.post(url, { email, password })).data as SignInResponse;
 };
 
