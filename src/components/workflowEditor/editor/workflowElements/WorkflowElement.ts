@@ -1,13 +1,20 @@
 import Point from "../../../../editor/utils/Point";
 
 class WorkflowElement {
-  pos: Point;
+
+  // Model properties
+  name: string;
+  description: string;
 
   // View properties
+  pos: Point;
   width: number;
   height: number;
 
-  constructor(pos: Point, width: number, height: number) {
+  constructor(name: string, description: string, pos: Point, width: number, height: number) {
+    this.name = name;
+    this.description = description;
+
     this.pos = pos;
     this.width = width;
     this.height = height;

@@ -12,11 +12,17 @@ import { RootState } from "../../../redux/store";
 import useResizableDimensions from "../../hooks/useResizableDimensions";
 
 import css from "./styles.module.css";
+import Action from "../editor/workflowElements/Action.ts";
 
 // const setNewMousePos = (newMousePos: Point): void => {
 //   EditorView.viewState.oldMousePos = EditorView.viewState.mousePos;
 //   EditorView.viewState.mousePos = newMousePos;
 // };
+
+const step1 = new Action("Name", "Descriptioon", new Point(100, 100), 50, 50);
+
+const sampleWorkflow = new Workflow("Sample Workflow", "Description");
+sampleWorkflow.addStep(step1);
 
 /**
  * The network editor canvas. This is where the user can draw and interact with the network.
@@ -29,6 +35,7 @@ const WorkflowEditorCanvas = () => {
   const [wrapperWidth, wrapperHeight] = useResizableDimensions(wrapperRef);
 
   useEffect(() => {
+    sampleWorkflow.draw(getContext());
   }, [wrapperWidth, wrapperHeight]);
 
   const getContext = (): CanvasRenderingContext2D => {
