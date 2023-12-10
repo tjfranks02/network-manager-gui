@@ -1,7 +1,10 @@
 import Point from "../../../../editor/utils/Point";
 
+/**
+ * Generic parent class for a step within a workflow.
+ */
 class WorkflowElement {
-
+  
   // Model properties
   name: string;
   description: string;
@@ -20,7 +23,7 @@ class WorkflowElement {
     this.height = height;
   }
 
-  draw(ctx: CanvasRenderingContext2D): void {
+  draw(_: CanvasRenderingContext2D): void {
     throw new Error("Method should be implemented by sub-class.");
   }
 }

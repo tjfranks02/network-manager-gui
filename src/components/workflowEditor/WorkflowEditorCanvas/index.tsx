@@ -19,7 +19,7 @@ import Action from "../editor/workflowElements/Action.ts";
 //   EditorView.viewState.mousePos = newMousePos;
 // };
 
-const step1 = new Action("Name", "Descriptioon", new Point(100, 100), 50, 50);
+const step1 = new Action("Step 1", "Descriptioon", new Point(100, 150), 50, 50);
 
 const sampleWorkflow = new Workflow("Sample Workflow", "Description");
 sampleWorkflow.addStep(step1);

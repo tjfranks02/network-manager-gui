@@ -19,9 +19,9 @@ class Action extends WorkflowElement {
 
     ctx.font = DEFAULT_FONT;
     ctx.fillText(
-      "HELLO!", 
+      this.name, 
       this.pos.x, 
-      this.pos.y + this.height + 10
+      this.pos.y + this.height + 12
     );
 
     ctx.closePath();

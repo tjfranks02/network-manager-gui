@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 // Custom components
 import WorkflowEditorCanvas from "../../components/workflowEditor/WorkflowEditorCanvas/index.tsx";
-import ActiveElementPanel from "../../components/editorView/ActiveElementPanel";
+import ActiveWorkflowStep from "../../components/workflowEditor/ActiveWorkflowStep/index.tsx";
 import ElementSelectorPanel from "../../components/elementSelectorPanel/ElementSelectorPanel";
 import NavBar from "../../components/NavBar/NavBar";
 import ResizableContainer from "../../components/resizable/ResizableContainer/ResizableContainer.tsx";
@@ -46,7 +46,7 @@ const WorkflowEditor = () => {
           <ResizableContainer direction="row">
             <WorkflowEditorCanvas />
           </ResizableContainer>
-          <ActiveElementPanel activeElement={activeElement} /> 
+          <ActiveWorkflowStep />
         </ResizableContainer>
       </div>
     </div>
