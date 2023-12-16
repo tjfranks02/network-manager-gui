@@ -24,6 +24,18 @@ class Workflow extends WorkflowElement {
     this.steps = [];
   }
 
+  elementUnderMouse(mousePos: Point): WorkflowElement | null {
+    for (let step of this.steps) {
+      let subElement = step.elementUnderMouse(mousePos);
+
+      if (subElement) {
+        return subElement;
+      }
+    }
+
+    return null;
+  }
+
   addStep(step: WorkflowElement): void {
     this.steps.push(step);
   }

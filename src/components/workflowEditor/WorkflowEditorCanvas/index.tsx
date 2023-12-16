@@ -1,15 +1,18 @@
 import { 
-  useRef, 
+  useRef,
+  useState,
   MouseEvent, 
   WheelEvent, 
   DragEvent, 
   useEffect
 } from "react";
+import { mapClientCoordsToMouse } from "../../../utils/canvasUtils.ts";
 import Point from "../../../editor/utils/Point";
 import Workflow from "../editor/workflowElements/Workflow.ts";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 import useResizableDimensions from "../../hooks/useResizableDimensions";
+
+import store from "../../../redux/store";
+import { setActiveWorkflowStep } from "../../../redux/reducers/activeWorkflowStep";
 
 import css from "./styles.module.css";
 import Action from "../editor/workflowElements/Action.ts";
@@ -29,12 +32,13 @@ sampleWorkflow.addStep(step1);
  */
 const WorkflowEditorCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const currDraggedElem = useSelector((state: RootState) => state.currentDraggedElement.element);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [wrapperWidth, wrapperHeight] = useResizableDimensions(wrapperRef);
+  const [mousePos, setMousePos] = useState<Point>(new Point(0, 0));
 
   useEffect(() => {
+    clearCanvas();
     sampleWorkflow.draw(getContext());
   }, [wrapperWidth, wrapperHeight]);
 
@@ -43,12 +47,19 @@ const WorkflowEditorCanvas = () => {
   };
 
   const handleMouseMove = (event: MouseEvent<HTMLCanvasElement>): void => {
+    let mousePos = mapClientCoordsToMouse(event);
+    setMousePos(mousePos);
   };
 
-  const handleMouseDown = (event: MouseEvent<HTMLCanvasElement>): void => {
+  const handleMouseDown = (_: MouseEvent<HTMLCanvasElement>): void => {
+    let elemUnderMouse = sampleWorkflow.elementUnderMouse(mousePos);
+
+    store.dispatch(setActiveWorkflowStep(elemUnderMouse ? elemUnderMouse.name : null));
+
+    console.log(elemUnderMouse);
   };
 
-  const handleMouseUp = (event: MouseEvent<HTMLCanvasElement>): void => {
+  const handleMouseUp = (_: MouseEvent<HTMLCanvasElement>): void => {
   };
 
   const onDraggedElementDrop = (_: DragEvent<HTMLCanvasElement>) => {
@@ -60,10 +71,10 @@ const WorkflowEditorCanvas = () => {
     ctx.beginPath();
   };
 
-  const handleDragOver = (event: DragEvent<HTMLCanvasElement>) => {
+  const handleDragOver = (_: DragEvent<HTMLCanvasElement>) => {
   };
 
-  const handleMouseWheelMove = (event: WheelEvent<HTMLCanvasElement>): void => {
+  const handleMouseWheelMove = (_: WheelEvent<HTMLCanvasElement>): void => {
   };
 
   return (

@@ -1,6 +1,4 @@
-import type { RootState } from "../../redux/store";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 
 // Custom components
 import WorkflowEditorCanvas from "../../components/workflowEditor/WorkflowEditorCanvas/index.tsx";
@@ -12,12 +10,6 @@ import ResizableContainer from "../../components/resizable/ResizableContainer/Re
 import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
 
 const WorkflowEditor = () => {
-  const activeElement = useSelector((state: RootState) => state.activeElement.element);
-
-  /**
-   * Just gonna hardcode all these values for now. Surely there's a more generic way to do this
-   * though that doesn't rely on our exact layout.
-   */
   const [containerHeight, setContainerHeight] = useState<number>(0);
 
   useEffect(() => {

@@ -4,12 +4,14 @@ import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import counterReducer from "./reducers/counter";
 import activeElementReducer from "./reducers/activeElement";
 import currentDraggedElementReducer from "./reducers/currentDraggedElement";
+import activeWorkflowStepReducer from "./reducers/activeWorkflowStep";
 
 // Redux initialisation
 const store: ToolkitStore = configureStore({
   reducer: {
     counter: counterReducer,
     activeElement: activeElementReducer,
+    activeWorkflowStep: activeWorkflowStepReducer,
     currentDraggedElement: currentDraggedElementReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })

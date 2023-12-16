@@ -11,6 +11,30 @@ class Action extends WorkflowElement {
     super(name, description, pos, width, height);
   }
 
+  elementUnderMouse(mousePos: Point): WorkflowElement | null {
+    if (this.isMouseOverElement(mousePos)) {
+      return this;
+    }
+
+    return null;
+  }
+
+  isMouseOverElement(mousePos : Point): boolean {
+    let mouseX = mousePos.x;
+    let mouseY = mousePos.y; 
+    let bbTopLeftX = this.pos.x;
+    let bbTopLeftY = this.pos.y;
+    let bbBottomRightX = this.pos.x + this.width;
+    let bbBottomRightY = this.pos.y + this.height;
+
+    if (bbTopLeftX <= mouseX && mouseX <= bbBottomRightX
+        && bbTopLeftY <= mouseY && mouseY <= bbBottomRightY) {
+      return true;
+    }
+
+    return false;
+  }
+
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.beginPath();
     ctx.fillStyle = ACTION_IDLE_COLOUR;

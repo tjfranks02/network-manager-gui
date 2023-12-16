@@ -23,6 +23,10 @@ class WorkflowElement {
     this.height = height;
   }
 
+  elementUnderMouse(_: Point): WorkflowElement | null {
+    throw new Error("Method should be implemented by sub-class.");
+  }
+
   draw(_: CanvasRenderingContext2D): void {
     throw new Error("Method should be implemented by sub-class.");
   }
