@@ -7,8 +7,8 @@ import {
 } from "../../../../constants/workflowEditorConstants";
 
 class Action extends WorkflowElement {
-  constructor(pos: Point, width: number, height: number) {
-    super(pos, width, height);
+  constructor(name: string, description: string, pos: Point, width: number, height: number) {
+    super(name, description, pos, width, height);
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
@@ -19,9 +19,9 @@ class Action extends WorkflowElement {
 
     ctx.font = DEFAULT_FONT;
     ctx.fillText(
-      "action",
+      this.name, 
       this.pos.x, 
-      this.pos.y + this.height + 10
+      this.pos.y + this.height + 12
     );
 
     ctx.closePath();

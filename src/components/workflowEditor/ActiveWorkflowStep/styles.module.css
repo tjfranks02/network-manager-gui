@@ -1,0 +1,7 @@
+.container {
+  background-color: white;
+  -webkit-user-select: none; /* Safari */
+  user-select: none;
+  padding: 10px;
+  padding-top: 8px;
+}

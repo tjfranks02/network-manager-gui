@@ -22,4 +22,4 @@ export const activeElementSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { setActiveElement } = activeElementSlice.actions
 
-export default activeElementSlice.reducer
+export default activeElementSlice.reducer;

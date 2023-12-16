@@ -1,2 +1,0 @@
-import WorkflowElement from "./WorkflowElement";
-
