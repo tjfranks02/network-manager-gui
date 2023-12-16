@@ -29,6 +29,7 @@ const WorkflowEditorCanvas = () => {
   const [wrapperWidth, wrapperHeight] = useResizableDimensions(wrapperRef);
 
   useEffect(() => {
+    
   }, [wrapperWidth, wrapperHeight]);
 
   const getContext = (): CanvasRenderingContext2D => {

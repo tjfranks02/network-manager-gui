@@ -9,8 +9,10 @@ class Workflow extends WorkflowElement {
     super(new Point(0, 0), 0, 0);
   }
   
-  draw(): void {
-    throw new Error("Method not implemented.");
+  draw(ctx: CanvasRenderingContext2D): void {
+    for (let step of this.steps) {
+      step.draw(ctx);
+    }
   }
 }
 

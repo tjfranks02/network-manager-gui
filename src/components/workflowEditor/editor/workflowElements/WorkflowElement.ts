@@ -12,7 +12,7 @@ class WorkflowElement {
     this.width = width;
     this.height = height;
   }
-
+  
   draw(ctx: CanvasRenderingContext2D): void {
     throw new Error("Method should be implemented by sub-class.");
   }
