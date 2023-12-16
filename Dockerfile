@@ -8,7 +8,7 @@ RUN npm run build
 FROM nginx as PRODUCTION_IMAGE
 COPY --from=BUILD_IMAGE /app/dist /usr/share/nginx/html
 RUN rm -rf /etc/nginx/conf.d/default.conf
-COPY --from=BUILD_IMAGE ./deploy/nginx.conf /etc/nginx/conf.d/nginx.conf
+COPY --from=BUILD_IMAGE /app/deploy/nginx.conf /etc/nginx/conf.d/nginx.conf
 EXPOSE 5173
 EXPOSE 80
 
