@@ -17,11 +17,6 @@ import { setActiveWorkflowStep } from "../../../redux/reducers/activeWorkflowSte
 import css from "./styles.module.css";
 import Action from "../editor/workflowElements/Action.ts";
 
-// const setNewMousePos = (newMousePos: Point): void => {
-//   EditorView.viewState.oldMousePos = EditorView.viewState.mousePos;
-//   EditorView.viewState.mousePos = newMousePos;
-// };
-
 const step1 = new Action("Step 1", "Descriptioon", new Point(100, 150), 50, 50);
 
 const sampleWorkflow = new Workflow("Sample Workflow", "Description");
@@ -55,8 +50,6 @@ const WorkflowEditorCanvas = () => {
     let elemUnderMouse = sampleWorkflow.elementUnderMouse(mousePos);
 
     store.dispatch(setActiveWorkflowStep(elemUnderMouse ? elemUnderMouse.name : null));
-
-    console.log(elemUnderMouse);
   };
 
   const handleMouseUp = (_: MouseEvent<HTMLCanvasElement>): void => {
