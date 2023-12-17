@@ -19,7 +19,6 @@ const WorkflowEditor = () => {
   const fetchWorkflow = async (workflowId: string) => {
     try {
       let response = await getWorkflow(workflowId);
-      console.log(response);
     } catch (e) {
       // Should redirect to internal server error screen
     }
@@ -27,7 +26,6 @@ const WorkflowEditor = () => {
 
   useEffect(() => {
     setDefaultDimensions();
-    console.log(params);
     fetchWorkflow(params.workflowId);
   }, []);
 
