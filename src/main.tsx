@@ -11,31 +11,58 @@ import store from "./redux/store";
 
 // React components
 import Dashboard from "./pages/Dashboard";
-import WorkflowEditor from "./pages/WorkflowEditor";
+import Layout from "./components/layout/Layout";
+import WorkflowEditor from "./pages/workflows/WorkflowEditor";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 
 // CSS stylings
 import "./styles/index.module.css";
+import CreateWorkflow from "./pages/workflows/CreateWorkflow";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Dashboard />,
-  },
-  {
-    path: "/workflow",
-    element: <WorkflowEditor />
-  },
-  {
-    path: "/signin",
-    element: <SignIn />
-  },
-  {
-    path: "/signup",
-    element: <SignUp />
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <Dashboard />
+      },
+      {
+        path: "/workflow",
+        element: <WorkflowEditor />
+      },
+      {
+        path: "/workflow/create",
+        element: <CreateWorkflow />
+      },
+      {
+        path: "/signin",
+        element: <SignIn />
+      },
+      {
+        path: "/signup",
+        element: <SignUp />
+      }
+    ]
   }
 ]);
+
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <Root />,
+//     errorElement: <ErrorPage />,
+//     children: [
+//       {
+//         path: "contacts/:contactId",
+//         element: <Contact />,
+//       },
+//     ],
+//   },
+// ]);
+
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

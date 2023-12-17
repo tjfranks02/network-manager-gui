@@ -1,0 +1,17 @@
+.button {
+  align-self: flex-start;
+
+  padding: 5px 10px;
+  color: white;
+  background-color: var(--blue-4);
+  border-radius: 3px;
+  font-size: 0.9rem;
+  
+  border: 0;
+  outline: 0;
+}
+
+.button:hover {
+  background-color: var(--blue-5);
+  cursor: pointer;
+}

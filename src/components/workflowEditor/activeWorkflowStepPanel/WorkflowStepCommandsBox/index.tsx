@@ -1,5 +1,8 @@
 import { useState } from "react";
 import type { ChangeEvent } from "react";
+
+import Button from "../../../buttons/Button";
+
 import css from "./styles.module.css";
 
 const WorkflowStepCommandsEditor = () => {
@@ -11,19 +14,18 @@ const WorkflowStepCommandsEditor = () => {
   };
 
   const handleSaveClick = () => {
-    
   };
 
   return (
-    <div>
+    <div className={css.container}>
       <textarea
-        className={css.container}
+        className={css.textArea}
         value={commandsText}
         onChange={updateCommandsEditor}
         rows={4}
         cols={50}
       />
-      <button onClick={handleSaveClick}>Save</button>
+      <Button onClick={handleSaveClick}>Save</Button>
     </div>
   );
 };

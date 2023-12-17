@@ -1,8 +1,8 @@
-import Logo from "../../assets/logo.png";
-import UserProfileCircle from "../UserProfileCircle";
+import Logo from "../../../assets/logo.png";
+import UserProfileCircle from "../../UserProfileCircle";
 
 import css from "./styles.module.css";
-import { DEFAULT_NAVBAR_HEIGHT } from "../../constants/dashboardConstants";
+import { DEFAULT_NAVBAR_HEIGHT } from "../../../constants/dashboardConstants";
 
 const Header = ({ width }: { width: number, height: number }) => {
   return (

@@ -1,4 +1,11 @@
 .container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.textArea {
   display: block;
   width: 100%;
   padding: 5px;
@@ -9,8 +16,26 @@
   resize: vertical;
 }
 
-.container:hover, .container:focus {
+.textArea:hover, .textArea:focus {
   outline: 0;
   border: 1px solid var(--blue-6);
   cursor: text;
+}
+
+.saveButton {
+  align-self: flex-start;
+
+  padding: 5px 10px;
+  color: white;
+  background-color: var(--blue-4);
+  border-radius: 3px;
+  font-size: 0.9rem;
+  
+  border: 0;
+  outline: 0;
+}
+
+.saveButton:hover {
+  background-color: var(--blue-5);
+  cursor: pointer;
 }

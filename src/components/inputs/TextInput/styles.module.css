@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  max-width: 300px;
+}
+
+.label {
+  font-size: 0.8rem;
+  color: var(--grey-7);
+  text-transform: uppercase;
+}
+
+.input {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid var(--grey-4);
+  background-color: var(--grey-0);
+}
+
+.input:hover, .input:focus {
+  outline: 0;
+  border: 1px solid var(--blue-3);
+}
