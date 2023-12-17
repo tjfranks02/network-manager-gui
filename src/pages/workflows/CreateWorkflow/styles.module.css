@@ -11,3 +11,9 @@
   flex-direction: column;
   gap: 7px;
 }
+
+.errorMsg {
+  color: red;
+  font-size: 14px;
+  font-weight: 500;
+}
