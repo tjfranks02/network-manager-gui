@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 // Custom components
 import WorkflowEditorCanvas from "../../components/workflowEditor/WorkflowEditorCanvas/index.tsx";
-import ActiveWorkflowStep from "../../components/workflowEditor/ActiveWorkflowStep/index.tsx";
+import ActiveWorkflowStepPanel from "../../components/workflowEditor/activeWorkflowStepPanel/ActiveWorkflowStepPanel/index.tsx";
 import ElementSelectorPanel from "../../components/elementSelectorPanel/ElementSelectorPanel";
 import NavBar from "../../components/NavBar/NavBar";
 import ResizableContainer from "../../components/resizable/ResizableContainer/ResizableContainer.tsx";
@@ -38,7 +38,7 @@ const WorkflowEditor = () => {
           <ResizableContainer direction="row">
             <WorkflowEditorCanvas />
           </ResizableContainer>
-          <ActiveWorkflowStep />
+          <ActiveWorkflowStepPanel />
         </ResizableContainer>
       </div>
     </div>
